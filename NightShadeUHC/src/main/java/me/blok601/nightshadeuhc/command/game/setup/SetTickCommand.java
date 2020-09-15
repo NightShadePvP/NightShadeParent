@@ -44,7 +44,7 @@ public class SetTickCommand implements UHCCommand{
 
     @Override
     public Rank getRequiredRank() {
-        return Rank.COOWNER;
+        return Rank.ADMIN;
     }
 
     @Override
