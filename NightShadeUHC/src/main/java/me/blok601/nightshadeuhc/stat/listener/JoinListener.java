@@ -14,7 +14,7 @@ import me.blok601.nightshadeuhc.manager.LoggerManager;
 import me.blok601.nightshadeuhc.manager.TeamManager;
 import me.blok601.nightshadeuhc.scenario.Scenario;
 import me.blok601.nightshadeuhc.scenario.ScenarioManager;
-import me.blok601.nightshadeuhc.scoreboard.ScoreboardManager;
+import me.blok601.nightshadeuhc.scoreboard.ScoreboardHandler;
 import me.blok601.nightshadeuhc.util.ChatUtils;
 import me.blok601.nightshadeuhc.util.ItemBuilder;
 import me.blok601.nightshadeuhc.util.PlayerUtils;
@@ -63,25 +63,25 @@ public class JoinListener implements Listener {
         gamePlayer.setSpectator(false);
         gamePlayer.setReceiveHelpop(true);
         player.sendMessage(ChatUtils.message("&5Welcome &5back to the NightShadePvP Network!"));
-        ScoreboardManager scoreboardManager = UHC.get().getScoreboardManager();
-        scoreboardManager.addToPlayerCache(player);
 
-        Scoreboard scoreboard = scoreboardManager.getPlayerScoreboard(player).getBukkitScoreboard();
         Scenario scen = scenarioManager.getScen("Secret Teams");
         if(scen != null && !scen.isEnabled()){
             new BukkitRunnable(){
                 @Override
                 public void run() {
                     for (me.blok601.nightshadeuhc.entity.object.Team team : TeamManager.getInstance().getTeams()){
-                        if (scoreboard.getTeam(team.getName()) != null) {
-                            scoreboard.getTeam(team.getName()).unregister();
-                        }
+                        UHC.getScoreboardManager().getPlayerBoards().forEach((uuid, playerBoard) -> {
+                            Scoreboard scoreboard = playerBoard.getScoreboard();
+                            if (scoreboard.getTeam(team.getName()) != null) {
+                                scoreboard.getTeam(team.getName()).unregister();
+                            }
 
-                        org.bukkit.scoreboard.Team t = scoreboard.registerNewTeam(team.getName());
-                        t.setPrefix(team.getColor());
-                        for (String mem : team.getMembers()) {
-                            t.addEntry(mem);
-                        }
+                            org.bukkit.scoreboard.Team t = scoreboard.registerNewTeam(team.getName());
+                            t.setPrefix(team.getColor());
+                            for (String mem : team.getMembers()) {
+                                t.addEntry(mem);
+                            }
+                        });
                     }
 
 
@@ -90,8 +90,7 @@ public class JoinListener implements Listener {
             }.runTaskAsynchronously(uhc);
         }
 
-        
-        if (gamePlayer.isSpectator()) return;
+
         if (GameState.getState() == GameState.INGAME || GameState.getState() == GameState.MEETUP) {
             if (LoggerManager.getInstance().hasLogger(player.getUniqueId())) {
                 LoggerManager.getInstance().getLogger(player.getUniqueId()).remove(false);
@@ -165,7 +164,7 @@ public class JoinListener implements Listener {
             } else {
                 gamePlayer.setPlayerStatus(PlayerStatus.LOBBY);
             }
-            UHC.getScoreboardManager().updateCache();
+
             StringBuilder builder = new StringBuilder();
             scenarioManager.getEnabledScenarios().forEach(scenario -> builder.append(scenario.getName()).append(", "));
             player.sendMessage(ChatUtils.format("&f&m-----------------------------------"));
@@ -192,16 +191,14 @@ public class JoinListener implements Listener {
         } else {
             player.getEnderChest().clear();
             gamePlayer.setPlayerStatus(PlayerStatus.LOBBY);
+            UHC.getScoreboardManager().applyBoard(player).addUpdates(Bukkit.getOnlinePlayers());
             //UHC.get().getScoreboardManager().getPlayerScoreboards().put(player, new PlayerScoreboard(new LobbyProvider(uhc, gameManager, scenarioManager), player));
-            scoreboardManager.updateCache();
         }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onLeave(PlayerQuitEvent e) {
         //UHC.get().getScoreboardManager().removeFromPlayerCache(e.getPlayer());
-        UHC.get().getScoreboardManager().getPlayerScoreboards().remove(e.getPlayer());
-
         Player p = e.getPlayer();
         UHCPlayer gamePlayer = UHCPlayer.get(p.getUniqueId());
         FakePlayerManager.getInstance().getNpcs().forEach(fakePlayer -> fakePlayer.despawnFor(p));
@@ -256,7 +253,6 @@ public class JoinListener implements Listener {
     @EventHandler
     public void onKick(PlayerKickEvent e) {
         //UHC.get().getScoreboardManager().removeFromPlayerCache(e.getPlayer());
-        UHC.get().getScoreboardManager().getPlayerScoreboards().remove(e.getPlayer());
         Player p = e.getPlayer();
         UHCPlayer gamePlayer = UHCPlayer.get(p.getUniqueId());
         FakePlayerManager.getInstance().getNpcs().forEach(fakePlayer -> fakePlayer.despawnFor(p));

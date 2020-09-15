@@ -69,7 +69,8 @@ public class GameCountdownTask extends BukkitRunnable {
                 validPlayers.add(uhcPlayer.getPlayer());
 
             }
-            UHC.getScoreboardManager().updateCache();
+//            UHC.getScoreboardManager().updateCache();
+            Bukkit.getOnlinePlayers().forEach(player -> UHC.getScoreboardManager().applyBoard(player));
 
             gameManager.getWorld().setTime(20);
 

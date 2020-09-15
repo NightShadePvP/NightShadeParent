@@ -485,7 +485,8 @@ public class UHCPlayer extends SenderEntity<UHCPlayer> {
         if (!isSpectator()) return;
         setSpectator(false);
         this.playerStatus = PlayerStatus.LOBBY;
-        UHC.getScoreboardManager().updateCache();
+//        UHC.getScoreboardManager().updateCache();
+        UHC.getScoreboardManager().applyBoard(getPlayer());
         Player p = getPlayer();
 
         for (Player pl : Bukkit.getOnlinePlayers()) {
@@ -587,7 +588,8 @@ public class UHCPlayer extends SenderEntity<UHCPlayer> {
         p.setGameMode(GameMode.SURVIVAL);
 
         this.playerStatus = PlayerStatus.ARENA;
-        UHC.getScoreboardManager().updateCache();
+        //UHC.getScoreboardManager().updateCache();
+        UHC.getScoreboardManager().applyBoard(getPlayer());
 
         ItemBuilder sword = new ItemBuilder(Material.IRON_SWORD).enchantment(Enchantment.DAMAGE_ALL, 2);
         ItemStack rod = new ItemStack(Material.FISHING_ROD);
@@ -624,7 +626,8 @@ public class UHCPlayer extends SenderEntity<UHCPlayer> {
         updateStats(session);
         this.playerStatus = PlayerStatus.LOBBY;
         //UHC.get().getScoreboardManager().getPlayerScoreboards().put(p, new PlayerScoreboard(new UHCProvider(), p));
-        UHC.getScoreboardManager().updateCache();
+        //UHC.getScoreboardManager().updateCache();
+        UHC.getScoreboardManager().applyBoard(getPlayer());
         p.getInventory().clear();
         p.getInventory().setArmorContents(null);
         p.teleport(MConf.get().getSpawnLocation().asBukkitLocation(true));

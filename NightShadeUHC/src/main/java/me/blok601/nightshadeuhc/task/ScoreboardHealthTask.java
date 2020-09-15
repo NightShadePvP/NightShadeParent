@@ -2,26 +2,26 @@ package me.blok601.nightshadeuhc.task;
 
 import me.blok601.nightshadeuhc.entity.UHCPlayer;
 import me.blok601.nightshadeuhc.entity.UHCPlayerColl;
-import me.blok601.nightshadeuhc.scoreboard.PlayerScoreboard;
-import me.blok601.nightshadeuhc.scoreboard.ScoreboardManager;
+import me.blok601.nightshadeuhc.scoreboard.PlayerBoard;
+import me.blok601.nightshadeuhc.scoreboard.ScoreboardHandler;
 import me.blok601.nightshadeuhc.util.MathUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Blok on 8/19/2018.
  */
 public class ScoreboardHealthTask extends BukkitRunnable {
 
-    private ScoreboardManager scoreboardManager;
+    private ScoreboardHandler scoreboardManager;
 
-    public ScoreboardHealthTask(ScoreboardManager scoreboardManager) {
+    public ScoreboardHealthTask(ScoreboardHandler scoreboardManager) {
         this.scoreboardManager = scoreboardManager;
     }
 
@@ -32,11 +32,11 @@ public class ScoreboardHealthTask extends BukkitRunnable {
         Objective tab;
         Objective belowNameHealthObjective;
 
-        for (Map.Entry<Player, PlayerScoreboard> playerPlayerScoreboardEntry : scoreboardManager.getPlayerScoreboards().entrySet()) {
+        for (Map.Entry<UUID, PlayerBoard> playerPlayerScoreboardEntry : scoreboardManager.getPlayerBoards().entrySet()) {
 
             if (playerPlayerScoreboardEntry.getValue() == null) continue;
 
-            scoreboard = playerPlayerScoreboardEntry.getValue().getBukkitScoreboard();
+            scoreboard = playerPlayerScoreboardEntry.getValue().getScoreboard();
 
             if (scoreboard.getObjective("tabHealth") == null) {
                 scoreboard.registerNewObjective("tabHealth", "dummy");
@@ -56,7 +56,7 @@ public class ScoreboardHealthTask extends BukkitRunnable {
             // Below Name Health
             // ----------------------
 
-            scoreboard = playerPlayerScoreboardEntry.getValue().getBukkitScoreboard();
+            scoreboard = playerPlayerScoreboardEntry.getValue().getScoreboard();
 
             if (scoreboard.getObjective("health") != null) continue; //Don't worry about it, already registered
 

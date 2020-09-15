@@ -20,9 +20,7 @@ import me.blok601.nightshadeuhc.listener.gui.EnchantHider;
 import me.blok601.nightshadeuhc.manager.*;
 import me.blok601.nightshadeuhc.packet.OldEnchanting;
 import me.blok601.nightshadeuhc.scenario.ScenarioManager;
-import me.blok601.nightshadeuhc.scoreboard.PlayerScoreboard;
-import me.blok601.nightshadeuhc.scoreboard.ScoreboardManager;
-import me.blok601.nightshadeuhc.scoreboard.provider.DefaultProvider;
+import me.blok601.nightshadeuhc.scoreboard.ScoreboardHandler;
 import me.blok601.nightshadeuhc.stat.handler.StatsHandler;
 import me.blok601.nightshadeuhc.task.*;
 import me.blok601.nightshadeuhc.util.ChatUtils;
@@ -56,7 +54,7 @@ public class UHC extends MassivePlugin implements PluginMessageListener {
     private MultiverseCore multiverseCore;
 
     private ScenarioManager scenarioManager;
-    private static ScoreboardManager scoreboardManager;
+    private static ScoreboardHandler scoreboardManager;
     private ListenerHandler listenerHandler;
     private CommandHandler commandHandler;
     private ComponentHandler componentHandler;
@@ -115,8 +113,7 @@ public class UHC extends MassivePlugin implements PluginMessageListener {
         this.commandHandler = new CommandHandler(this, GameManager.get(), scenarioManager, componentHandler);
         this.listenerHandler = new ListenerHandler(this, Core.get(), scenarioManager, GameManager.get(), componentHandler);
         this.listenerHandler.complete();
-        scoreboardManager = new ScoreboardManager(this, gameManager, scenarioManager);
-        new DefaultProvider(this, gameManager, scenarioManager);
+        scoreboardManager = new ScoreboardHandler(this, gameManager, scenarioManager);
         TeamManager.getInstance().setup();
 
         setupTasks();
@@ -141,9 +138,9 @@ public class UHC extends MassivePlugin implements PluginMessageListener {
         new StaffTrackTask().runTaskTimer(this, 0, 100);
         new PregenTask().runTaskTimer(this, 0, 40);
 
-        Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
-            scoreboardManager.getPlayerScoreboards().values().forEach(PlayerScoreboard::update);
-        }, 0L, 35L);
+//        Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
+//            scoreboardManager.getPlayerScoreboards().values().forEach(PlayerScoreboard::update);
+//        }, 0L, 35L);
 
         new BukkitRunnable() {
             @Override
@@ -271,7 +268,7 @@ public class UHC extends MassivePlugin implements PluginMessageListener {
         return multiverseCore;
     }
 
-    public static ScoreboardManager getScoreboardManager() {
+    public static ScoreboardHandler getScoreboardManager() {
         return scoreboardManager;
     }
 

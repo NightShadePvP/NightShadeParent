@@ -12,11 +12,12 @@ import me.blok601.nightshadeuhc.entity.UHCPlayer;
 import me.blok601.nightshadeuhc.entity.UHCPlayerColl;
 import me.blok601.nightshadeuhc.entity.object.CachedColor;
 import me.blok601.nightshadeuhc.entity.object.Team;
+import me.blok601.nightshadeuhc.event.TeamColorEvent;
+import me.blok601.nightshadeuhc.manager.GameManager;
 import me.blok601.nightshadeuhc.manager.TeamManager;
 import me.blok601.nightshadeuhc.scenario.Scenario;
 import me.blok601.nightshadeuhc.scenario.ScenarioManager;
-import me.blok601.nightshadeuhc.scoreboard.PlayerScoreboard;
-import me.blok601.nightshadeuhc.scoreboard.ScoreboardManager;
+import me.blok601.nightshadeuhc.scoreboard.ScoreboardHandler;
 import me.blok601.nightshadeuhc.util.ChatUtils;
 import me.blok601.nightshadeuhc.util.MathUtils;
 import org.bukkit.Bukkit;
@@ -26,6 +27,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 import java.util.*;
 
@@ -159,7 +161,7 @@ public class TeamBaseCommand implements UHCCommand{
 
                         ChatUtils.sendAll("&bRecoloring all teams...");
                         //colors.clear();
-                        ScoreboardManager scoreboardManager = UHC.getScoreboardManager();
+                        ScoreboardHandler scoreboardManager = UHC.getScoreboardManager();
                         Scoreboard scoreboard;
                         TeamManager.getInstance().colorAllTeams();
 
@@ -168,13 +170,13 @@ public class TeamBaseCommand implements UHCCommand{
                         String name;
                         Predicate<UHCPlayer> IS_SPEC = UHCPlayer::isSpectator;
 
-
                         for (UHCPlayer uhcPlayer : Iterables.filter(UHCPlayerColl.get().getAllOnline(), Predicates.not(IS_SPEC))) {
+
 
                         }
 
                         TeamManager.getInstance().updateSpectatorTeam();
-
+                        Bukkit.getServer().getPluginManager().callEvent(new TeamColorEvent());
                         p.sendMessage(ChatUtils.message("&eColored all teams and solos!"));
 
                     }else{

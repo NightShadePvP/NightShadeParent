@@ -2,22 +2,17 @@ package me.blok601.nightshadeuhc.entity.object;
 
 import com.google.common.collect.Lists;
 import me.blok601.nightshadeuhc.UHC;
-import me.blok601.nightshadeuhc.entity.UHCPlayer;
-import me.blok601.nightshadeuhc.manager.TeamManager;
-import me.blok601.nightshadeuhc.scoreboard.PlayerScoreboard;
-import me.blok601.nightshadeuhc.scoreboard.ScoreboardManager;
+import me.blok601.nightshadeuhc.scoreboard.PlayerBoard;
+import me.blok601.nightshadeuhc.scoreboard.ScoreboardHandler;
 import me.blok601.nightshadeuhc.util.ChatUtils;
 import me.blok601.nightshadeuhc.util.PlayerUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -138,13 +133,13 @@ public class Team {
 
     public void color() {
         this.color = ChatUtils.generateTeamColor();
-        ScoreboardManager scoreboardManager = UHC.getScoreboardManager();
+        ScoreboardHandler scoreboardManager = UHC.getScoreboardManager();
         Scoreboard scoreboard;
-        for (Map.Entry<Player, PlayerScoreboard> playerPlayerScoreboardEntry : scoreboardManager.getPlayerScoreboards().entrySet()) {
+        for (Map.Entry<UUID, PlayerBoard> playerPlayerScoreboardEntry : scoreboardManager.getPlayerBoards().entrySet()) {
             if (playerPlayerScoreboardEntry.getValue() == null) continue;
             if (playerPlayerScoreboardEntry.getKey() == null) continue;
 
-            scoreboard = playerPlayerScoreboardEntry.getValue().getBukkitScoreboard();
+            scoreboard = playerPlayerScoreboardEntry.getValue().getScoreboard();
             if (scoreboard.getTeam(this.getName()) != null) {
                 scoreboard.getTeam(this.getName()).unregister();
             }
@@ -192,13 +187,13 @@ public class Team {
         }
     }
     public void removeColor(Player p) {
-        ScoreboardManager scoreboardManager = UHC.get().getScoreboardManager();
+        ScoreboardHandler scoreboardManager = UHC.getScoreboardManager();
         Scoreboard scoreboard;
 
-        for (Map.Entry<Player, PlayerScoreboard> playerPlayerScoreboardEntry : scoreboardManager.getPlayerScoreboards().entrySet()) {
+        for (Map.Entry<UUID, PlayerBoard> playerPlayerScoreboardEntry : scoreboardManager.getPlayerBoards().entrySet()) {
             if (playerPlayerScoreboardEntry.getKey() == null) continue;
             if (playerPlayerScoreboardEntry.getValue() == null) continue;
-            scoreboard = playerPlayerScoreboardEntry.getValue().getBukkitScoreboard();
+            scoreboard = playerPlayerScoreboardEntry.getValue().getScoreboard();
             org.bukkit.scoreboard.Team team = scoreboard.getPlayerTeam(p);
             if(team == null) continue;
             team.removePlayer(p);

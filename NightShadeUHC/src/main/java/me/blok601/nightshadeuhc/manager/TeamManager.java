@@ -7,8 +7,8 @@ import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.entity.UHCPlayerColl;
 import me.blok601.nightshadeuhc.entity.object.CachedColor;
 import me.blok601.nightshadeuhc.entity.object.Team;
-import me.blok601.nightshadeuhc.scoreboard.PlayerScoreboard;
-import me.blok601.nightshadeuhc.scoreboard.ScoreboardManager;
+import me.blok601.nightshadeuhc.scoreboard.PlayerBoard;
+import me.blok601.nightshadeuhc.scoreboard.ScoreboardHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -175,17 +175,17 @@ public class TeamManager {
     }
 
     public void resetTeams(){
-        ScoreboardManager scoreboardManager = UHC.get().getScoreboardManager();
+        ScoreboardHandler scoreboardManager = UHC.getScoreboardManager();
         for (Team t : TeamManager.getInstance().getTeams() ) {
             t.removeColor();
         }
         TeamManager.getInstance().getTeams().clear();
         Scoreboard scoreboard;
 
-        for (Map.Entry<Player, PlayerScoreboard> playerPlayerScoreboardEntry : scoreboardManager.getPlayerScoreboards().entrySet()) {
+        for (Map.Entry<UUID, PlayerBoard> playerPlayerScoreboardEntry : scoreboardManager.getPlayerBoards().entrySet()) {
             if (playerPlayerScoreboardEntry.getKey() == null) continue;
             if (playerPlayerScoreboardEntry.getValue() == null) continue;
-            scoreboard = playerPlayerScoreboardEntry.getValue().getBukkitScoreboard();
+            scoreboard = playerPlayerScoreboardEntry.getValue().getScoreboard();
             for (org.bukkit.scoreboard.Team team : scoreboard.getTeams()){
                 if(team == null) continue;
 
@@ -212,16 +212,16 @@ public class TeamManager {
     }
 
     public void updateSpectatorTeam() {
-        ScoreboardManager scoreboardManager = UHC.getScoreboardManager();
+        ScoreboardHandler scoreboardManager = UHC.getScoreboardManager();
         UHCPlayerColl.get().getAllOnline().forEach(uhcPlayer -> {
             Player player = uhcPlayer.getPlayer();
-            PlayerScoreboard playerScoreboard = scoreboardManager.getPlayerScoreboard(player);
-            if (playerScoreboard.getBukkitScoreboard().getTeam("spec") != null) {
-                playerScoreboard.getBukkitScoreboard().getTeam("spec").unregister(); //Removed all of those
+            PlayerBoard playerScoreboard = scoreboardManager.getPlayerBoard(player.getUniqueId());
+            if (playerScoreboard.getScoreboard().getTeam("spec") != null) {
+                playerScoreboard.getScoreboard().getTeam("spec").unregister(); //Removed all of those
             }
 
 
-            org.bukkit.scoreboard.Team specTeam = playerScoreboard.getBukkitScoreboard().registerNewTeam("spec");
+            org.bukkit.scoreboard.Team specTeam = playerScoreboard.getScoreboard().registerNewTeam("spec");
             specTeam.setPrefix(ChatColor.GRAY + "" + ChatColor.ITALIC);
 
             UHCPlayerColl.get().getSpectators().forEach(uhcPlayer1 -> {
@@ -229,7 +229,7 @@ public class TeamManager {
                 CachedColor cachedColor = new CachedColor(uhcPlayer1.getName());
                 cachedColor.setColor(ChatColor.GRAY + "" + ChatColor.ITALIC);
                 cachedColor.setPlayer(uhcPlayer1.getName());
-                this.getCachedColors().add(cachedColor);
+                getCachedColors().add(cachedColor);
             });
         });
     }
@@ -255,7 +255,7 @@ public class TeamManager {
 
     public Collection<CachedColor> getCachedColors(String id) {
         HashSet<CachedColor> temp = Sets.newHashSet();
-        for (CachedColor cachedColor : this.getCachedColors()) {
+        for (CachedColor cachedColor : getCachedColors()) {
             if (cachedColor.getId().equalsIgnoreCase(id)) {
                 temp.add(cachedColor);
             }
