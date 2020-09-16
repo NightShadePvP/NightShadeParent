@@ -3,6 +3,7 @@ package com.nightshadepvp.nightcheat.cheat.combat;
 import com.nightshadepvp.core.entity.NSPlayer;
 import com.nightshadepvp.nightcheat.cheat.Cheat;
 import com.nightshadepvp.nightcheat.cheat.CheatType;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,6 +32,8 @@ public class ReachCheat extends Cheat {
         }
 
         Player killer = (Player) damager;
+
+        if(killer.getGameMode() == GameMode.CREATIVE) return;
 
         double distance = killer.getLocation().distance(entity.getLocation());
 
