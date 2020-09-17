@@ -64,36 +64,35 @@ public class JoinListener implements Listener {
         gamePlayer.setReceiveHelpop(true);
         player.sendMessage(ChatUtils.message("&5Welcome &5back to the NightShadePvP Network!"));
 
-        Scenario scen = scenarioManager.getScen("Secret Teams");
-        if(scen != null && !scen.isEnabled()){
-            new BukkitRunnable(){
-                @Override
-                public void run() {
-                    for (me.blok601.nightshadeuhc.entity.object.Team team : TeamManager.getInstance().getTeams()){
-                        UHC.getScoreboardManager().getPlayerBoards().forEach((uuid, playerBoard) -> {
-                            Scoreboard scoreboard = playerBoard.getScoreboard();
-                            if (scoreboard.getTeam(team.getName()) != null) {
-                                scoreboard.getTeam(team.getName()).unregister();
-                            }
 
-                            org.bukkit.scoreboard.Team t = scoreboard.registerNewTeam(team.getName());
-                            t.setPrefix(team.getColor());
-                            for (String mem : team.getMembers()) {
-                                t.addEntry(mem);
-                            }
-                        });
-                    }
-
-
-
-                }
-            }.runTaskAsynchronously(uhc);
-        }
 
 
         if (GameState.getState() == GameState.INGAME || GameState.getState() == GameState.MEETUP) {
             if (LoggerManager.getInstance().hasLogger(player.getUniqueId())) {
                 LoggerManager.getInstance().getLogger(player.getUniqueId()).remove(false);
+            }
+
+            Scenario scen = scenarioManager.getScen("Secret Teams");
+            if(scen != null && !scen.isEnabled()){
+                new BukkitRunnable(){ //Recolor teams for the player when he joins
+                    @Override
+                    public void run() {
+                        for (me.blok601.nightshadeuhc.entity.object.Team team : TeamManager.getInstance().getTeams()){
+                            UHC.getScoreboardManager().getPlayerBoards().forEach((uuid, playerBoard) -> {
+                                Scoreboard scoreboard = playerBoard.getScoreboard();
+                                if (scoreboard.getTeam(team.getName()) != null) {
+                                    scoreboard.getTeam(team.getName()).unregister();
+                                }
+
+                                org.bukkit.scoreboard.Team t = scoreboard.registerNewTeam(team.getName());
+                                t.setPrefix(team.getColor());
+                                for (String mem : team.getMembers()) {
+                                    t.addPlayer(Bukkit.getOfflinePlayer(mem));
+                                }
+                            });
+                        }
+                    }
+                }.runTaskAsynchronously(uhc);
             }
         }
 
