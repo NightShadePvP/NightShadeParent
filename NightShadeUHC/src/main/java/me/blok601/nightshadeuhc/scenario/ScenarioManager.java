@@ -18,10 +18,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -217,7 +214,7 @@ public class ScenarioManager implements UHCCommand{
         return scenarios;
     }
 
-    public Collection<Scenario> getEnabledScenarios() {
+    public List<Scenario> getEnabledScenarios() {
         return scenarios.stream().filter(Scenario::isEnabled).collect(Collectors.toList());
     }
 

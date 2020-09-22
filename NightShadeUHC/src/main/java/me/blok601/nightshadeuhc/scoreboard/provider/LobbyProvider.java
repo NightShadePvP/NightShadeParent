@@ -1,5 +1,6 @@
 package me.blok601.nightshadeuhc.scoreboard.provider;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.manager.GameManager;
@@ -21,34 +22,13 @@ import java.util.List;
  * Created by Blok on 10/14/2019.
  */
 public class LobbyProvider implements SidebarProvider {
-    private ScenarioManager scenarioManager;
 
+    List<String> colorsForScenarios;
+    private ScenarioManager scenarioManager;
     public LobbyProvider(UHC uhc, GameManager gameManager, ScenarioManager scenarioManager) {
         this.scenarioManager = scenarioManager;
+        colorsForScenarios = ImmutableList.of(ChatColor.WHITE.toString(), ChatColor.DARK_BLUE.toString(), ChatColor.BLACK.toString(), ChatColor.RED.toString(), ChatColor.YELLOW.toString());
     }
-
-    /*
-    Layout:
-    TITLE
-    Host
-    Team Size:
-    SPACE
-    Scenarios:
-      - Scenario 1
-      - Scenario 2
-      - Scenario 3
-      - X more...
-    LINE
-    discord
-    twitter
-     */
-
-    /**
-     * Gets the current Sidebar lines of the Scoreboard
-     *
-     * @param p
-     * @return the Scoreboard Sidebar lines
-     */
     @Override
     public List<SidebarEntry> getLines(Player p) {
         List<SidebarEntry> lines = new ArrayList<>();
@@ -67,9 +47,7 @@ public class LobbyProvider implements SidebarProvider {
         lines.add(new SidebarEntry(ChatColor.BLUE.toString(), ChatUtils.format("&fPlayers: &b"), ChatColor.AQUA + "" + Bukkit.getServer().getOnlinePlayers().size()));
         lines.add(new SidebarEntry(""));
         lines.add(new SidebarEntry(ChatUtils.format("&fScenarios:")));
-        for (String s : scenNames()) {
-            lines.add(new SidebarEntry(ChatColor.WHITE.toString(), ChatUtils.format("  &f↣ &b"), ChatUtils.format("&b" + s)));
-        }
+        lines.addAll(scenNames());
         lines.add(new SidebarEntry(ChatUtils.format("&f&m--------------------")));
         lines.add(new SidebarEntry(ChatUtils.format("&bdiscord.nightshadepvp.com")));
         lines.add(new SidebarEntry(ChatUtils.format("&b@NightShadePvPMC")));
@@ -78,27 +56,30 @@ public class LobbyProvider implements SidebarProvider {
         return lines;
     }
 
-    private List<String> scenNames() {
+    private List<SidebarEntry> scenNames() {
         if (scenarioManager.getEnabledScenarios().size() == 0) return Lists.newArrayList();
         if (scenarioManager.getEnabledScenarios().contains(scenarioManager.getScen("Mystery Scenarios")))
-            return Collections.singletonList("Mystery Scenarios");
-        ArrayList<String> names = Lists.newArrayList();
+            return Collections.singletonList(new SidebarEntry(this.colorsForScenarios.get(0), ChatUtils.format("&bMystery Scenarios"), ""));
+        ArrayList<SidebarEntry> names = Lists.newArrayList();
         int i = 0;
         if (scenarioManager.getEnabledScenarios().size() <= 3) {
-            scenarioManager.getEnabledScenarios().forEach(scenario -> names.add(scenario.getName()));
-            return names;
+            //scenarioManager.getEnabledScenarios().forEach(scenario -> names.add(new SidebarEntry(ChatUtils.format("  &f↣ &b" + scenario.getName()))));
+            for (int count = 0; count < scenarioManager.getEnabledScenarios().size(); count++){
+                names.add(new SidebarEntry(this.colorsForScenarios.get(count), ChatUtils.format("  &f↣ &b"), ChatColor.AQUA + scenarioManager.getEnabledScenarios().get(count).getName()));
+                return names;
+            }
         }
 
         for (Scenario scen : scenarioManager.getEnabledScenarios()) {
             if (i < 3 && scen.getName().length() < 16) {
-                names.add(scen.getName());
+                names.add(new SidebarEntry(this.colorsForScenarios.get(i), ChatUtils.format("  &f↣ &b"), ChatColor.AQUA + scen.getName()));
                 i++;
             } else if (i >= 3) {
                 break;
             }
         }
 
-        names.add(ChatUtils.format("&o" + (scenarioManager.getEnabledScenarios().size() - i) + " more..."));
+        names.add(new SidebarEntry(ChatColor.DARK_AQUA.toString(), ChatUtils.format("&o" + (scenarioManager.getEnabledScenarios().size() - i) + " more..."), ChatColor.GOLD.toString()));
         return names;
     }
 }
