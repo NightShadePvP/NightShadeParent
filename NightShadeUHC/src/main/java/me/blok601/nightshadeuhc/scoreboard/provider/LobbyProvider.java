@@ -68,7 +68,7 @@ public class LobbyProvider implements SidebarProvider {
         lines.add(new SidebarEntry(""));
         lines.add(new SidebarEntry(ChatUtils.format("&fScenarios:")));
         for (String s : scenNames()) {
-            lines.add(new SidebarEntry(ChatUtils.format("  &f↣ &b" + s)));
+            lines.add(new SidebarEntry(ChatColor.WHITE.toString(), ChatUtils.format("  &f↣ &b"), ChatUtils.format("&b" + s)));
         }
         lines.add(new SidebarEntry(ChatUtils.format("&f&m--------------------")));
         lines.add(new SidebarEntry(ChatUtils.format("&bdiscord.nightshadepvp.com")));
@@ -80,7 +80,8 @@ public class LobbyProvider implements SidebarProvider {
 
     private List<String> scenNames() {
         if (scenarioManager.getEnabledScenarios().size() == 0) return Lists.newArrayList();
-        if(scenarioManager.getEnabledScenarios().contains(scenarioManager.getScen("Mystery Scenarios"))) return Collections.singletonList("Mystery Scenarios");
+        if (scenarioManager.getEnabledScenarios().contains(scenarioManager.getScen("Mystery Scenarios")))
+            return Collections.singletonList("Mystery Scenarios");
         ArrayList<String> names = Lists.newArrayList();
         int i = 0;
         if (scenarioManager.getEnabledScenarios().size() <= 3) {
