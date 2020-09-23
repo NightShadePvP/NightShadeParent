@@ -7,11 +7,15 @@ import com.nightshadepvp.tournament.entity.TPlayerColl;
 import com.nightshadepvp.tournament.entity.handler.GameHandler;
 import com.nightshadepvp.tournament.entity.handler.RoundHandler;
 import com.nightshadepvp.tournament.entity.objects.data.CachedGame;
+import com.nightshadepvp.tournament.entity.objects.game.iMatch;
+import com.nightshadepvp.tournament.event.MatchStartEvent;
 import com.nightshadepvp.tournament.event.TournamentEndEvent;
 import com.nightshadepvp.tournament.event.TournamentStartEvent;
 import org.bson.Document;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.stream.Collectors;
 
@@ -56,5 +60,21 @@ public class EngineServer extends Engine {
             document.append("rounds", cachedGame.getRounds());
             tournament.getTourneyCollection().insertOne(document);
         });
+    }
+
+    @EventHandler
+    public void onStart(MatchStartEvent event){
+        iMatch match = event.getMatch();
+        Player player;
+        for (TPlayer tPlayer : match.getPlayers()){
+            if(!tPlayer.isOnline()) continue;
+
+            player = tPlayer.getPlayer();
+            for (ItemStack itemStack : player.getInventory().getContents()){
+                if(itemStack != null && itemStack.getAmount() == 0){
+                    itemStack.setAmount(1);
+                }
+            }
+        }
     }
 }

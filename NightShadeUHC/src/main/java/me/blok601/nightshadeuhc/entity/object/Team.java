@@ -147,7 +147,7 @@ public class Team {
             org.bukkit.scoreboard.Team t = scoreboard.registerNewTeam(this.getName());
             t.setPrefix(color);
             for (String mem : getMembers()) {
-                t.addEntry(mem);
+                t.addPlayer(Bukkit.getOfflinePlayer(mem));
             }
         }
     }

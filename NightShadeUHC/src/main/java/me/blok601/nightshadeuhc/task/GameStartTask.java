@@ -57,16 +57,6 @@ public class GameStartTask extends BukkitRunnable {
         this.gameManager = gameManager;
         this.scenarioManager = scenarioManager;
         TeamManager.getInstance().setTeamManagement(false);
-        Scenario scenario = scenarioManager.getScen("Secret Teams");
-        if (scenario != null && !scenario.isEnabled()) {
-            if (gameManager.isIsTeam()) {
-                if (gameManager.getHost() == null) {
-                    NSPlayerColl.get().getAllOnline().stream().filter(nsPlayer -> nsPlayer.hasRank(Rank.TRIAL)).findFirst().ifPresent(nsPlayer -> nsPlayer.getPlayer().chat("/team color"));
-                } else {
-                    gameManager.getHost().chat("/team color");
-                }
-            }
-        }
     }
 
 

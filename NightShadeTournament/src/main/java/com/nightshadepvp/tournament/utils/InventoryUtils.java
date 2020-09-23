@@ -200,28 +200,28 @@ public class InventoryUtils {
             String s2 = itemAttribute[0];
             switch (s2) {
                 case "t": {
-                    item = new ItemStack(Material.getMaterial((int) Integer.valueOf(itemAttribute[1])));
+                    item = new ItemStack(Material.getMaterial((int) Integer.parseInt(itemAttribute[1])));
                     meta = item.getItemMeta();
                     break;
                 }
                 case "d": {
                     if (item != null) {
-                        item.setDurability((short) Short.valueOf(itemAttribute[1]));
+                        item.setDurability((short) Short.parseShort(itemAttribute[1]));
                         break;
                     }
                     break;
                 }
                 case "a": {
                     if (item != null) {
-                        item.setAmount((int) Integer.valueOf(itemAttribute[1]));
+                        item.setAmount(Integer.parseInt(itemAttribute[1]));
                         break;
                     }
                     break;
                 }
                 case "e": {
                     if (item != null) {
-                        item.addEnchantment(Enchantment.getById((int) Integer.valueOf(itemAttribute[1])),
-                                (int) Integer.valueOf(itemAttribute[2]));
+                        item.addEnchantment(Enchantment.getById(Integer.parseInt(itemAttribute[1])),
+                                Integer.parseInt(itemAttribute[2]));
                         break;
                     }
                     break;
