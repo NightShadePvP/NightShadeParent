@@ -116,6 +116,7 @@ public class GameHandler {
     }
 
     public void assignSeeds() {
+        seeded = false;
         HashMap<TPlayer, Double> wins = new HashMap<>();
         TPlayerColl.get().getAllOnline().stream().filter(TPlayer::isPlayer).filter(tPlayer -> !tPlayer.isSpectator())
                 .forEach(tPlayer -> wins.put(tPlayer, tPlayer.getWinPCT()));
@@ -127,6 +128,7 @@ public class GameHandler {
         int i = 1;
         TPlayer tPlayer;
         Challonge challonge = Tournament.get().getChallonge();
+        challonge.getParticipants().clear();
         for (Map.Entry<TPlayer, Double> entry : f.entrySet()) {
             tPlayer = entry.getKey();
             tPlayer.setSeed(i);
