@@ -150,7 +150,7 @@ public class EngineSpectator extends Engine {
             ItemStack stack = event.getCurrentItem();
             if(stack.getType() != Material.PAPER) return;
             if(!stack.hasItemMeta()) return;
-            String displayName = stack.getItemMeta().getDisplayName();
+            String displayName = ChatColor.stripColor(stack.getItemMeta().getDisplayName());
             String[] split = displayName.split("#");
             if(NumberUtils.isInt(split[0])){
                 int id = Integer.parseInt(split[0]);

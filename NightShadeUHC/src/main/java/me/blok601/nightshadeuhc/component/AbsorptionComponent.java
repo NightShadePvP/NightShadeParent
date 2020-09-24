@@ -12,9 +12,10 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public class AbsorptionComponent extends Component{
 
-
-    public AbsorptionComponent() {
-        super("Absorption", Material.GOLDEN_APPLE, true, "Toggle whether Golden Apples give absorption or not");
+    private UHC plugin;
+    public AbsorptionComponent(UHC plugin) {
+        super("Absorption", Material.GOLDEN_CARROT, true, "Toggle whether Golden Apples give absorption or not");
+        this.plugin = plugin;
     }
 
     @EventHandler
@@ -29,7 +30,7 @@ public class AbsorptionComponent extends Component{
                 public void run() {
                     e.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
                 }
-            }.runTaskLater(UHC.get(), 1);
+            }.runTaskLater(plugin, 1);
         }
     }
 }

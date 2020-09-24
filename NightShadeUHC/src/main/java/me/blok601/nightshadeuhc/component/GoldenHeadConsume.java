@@ -13,10 +13,15 @@ import org.bukkit.potion.PotionEffectType;
 /**
  * Created by Blok on 7/22/2017.
  */
-public class GoldenHeadConsume implements Listener {
+public class GoldenHeadConsume extends Component {
+
+    public GoldenHeadConsume() {
+        super("Golden Heads", Material.GOLDEN_APPLE, true, "Toggle whether Golden Heads should be enabled");
+    }
 
     @EventHandler
     public void onEat(PlayerItemConsumeEvent e){
+        if(!isEnabled()) return;
         Player p = e.getPlayer();
         ItemStack item = e.getItem();
         if(item.getType() == Material.GOLDEN_APPLE){

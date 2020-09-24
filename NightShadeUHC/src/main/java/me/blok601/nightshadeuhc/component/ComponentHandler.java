@@ -35,7 +35,7 @@ public class ComponentHandler {
         this.components = new ArrayList<>();
         this.gameManager = GameManager.get();
 
-        addComponent(new AbsorptionComponent());
+        addComponent(new AbsorptionComponent(plugin));
         addComponent(new CobbleComponent());
         addComponent(new DeathLightningComponent());
         addComponent(new EnderpearlDamageComponent());
@@ -55,6 +55,7 @@ public class ComponentHandler {
         addComponent(new RecordedRoundComponent(plugin, gameManager));
         addComponent(new SplitEnchantsComponent());
         addComponent(new SpectatorInfoComponent(plugin));
+        addComponent(new GoldenHeadConsume());
 
         this.components.sort(Comparator.comparing(Component::getName));
     }

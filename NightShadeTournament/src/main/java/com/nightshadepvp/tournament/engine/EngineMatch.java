@@ -96,9 +96,9 @@ public class EngineMatch extends Engine {
         iMatch soloMatch = MatchHandler.getInstance().getActiveMatch(tPlayer);
         if (soloMatch == null) return; //Not in game, not in spawn..where else are they ?
 
-        if (!GameHandler.getInstance().getKit().isBuild()) {
-            event.setCancelled(true);
-        }
+//        if (!GameHandler.getInstance().getKit().isBuild()) {
+//            event.setCancelled(true);
+//        }
 
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         Material type;
