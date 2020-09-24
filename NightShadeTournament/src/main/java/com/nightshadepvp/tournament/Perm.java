@@ -35,6 +35,7 @@ public enum Perm implements Identified
 	STATS,
 	POST,
 	FINISH,
+	FORCEWINNER,
 	VERSION;
 	
 	private final String id;

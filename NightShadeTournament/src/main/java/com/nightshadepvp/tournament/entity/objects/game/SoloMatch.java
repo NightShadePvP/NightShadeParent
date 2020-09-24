@@ -31,6 +31,7 @@ import com.nightshadepvp.tournament.scoreboard.type.Scoreboard;
 import com.nightshadepvp.tournament.scoreboard.type.ScoreboardHandler;
 import com.nightshadepvp.tournament.task.LogOutTimerTask;
 import com.nightshadepvp.tournament.utils.ChatUtils;
+import com.nightshadepvp.tournament.utils.PlayerUtils;
 import com.nightshadepvp.tournament.utils.TimeUtils;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
@@ -240,7 +241,7 @@ public class SoloMatch implements iMatch {
             e.setCancelled(true);
             if(loserPlayer.isOnline()){
                 loserPlayer.getWorld().strikeLightningEffect(loserPlayer.getLocation());
-
+                PlayerUtils.clearPlayer(loserPlayer, true);
                 addSpectator(loser);
                 loserPlayer.setAllowFlight(true);
                 loserPlayer.setFlying(true);
