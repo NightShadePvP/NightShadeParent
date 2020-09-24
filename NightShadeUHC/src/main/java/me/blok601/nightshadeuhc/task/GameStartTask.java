@@ -185,6 +185,7 @@ public class GameStartTask extends BukkitRunnable {
 
 
                     GameState.setState(GameState.INGAME);
+                    Bukkit.getOnlinePlayers().forEach(player -> UHC.getScoreboardManager().applyBoard(player));
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         for (Player p2 : Bukkit.getOnlinePlayers()) {
                             UHCPlayer gamePlayer = UHCPlayer.get(p2.getUniqueId());
