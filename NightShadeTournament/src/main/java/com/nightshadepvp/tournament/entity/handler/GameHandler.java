@@ -70,6 +70,7 @@ public class GameHandler {
         this.chatFrozen = false;
         this.whitelist = new HashSet<>();
         this.whitelistOn = false;
+        this.slots = 16;
         this.tournamentState = TournamentState.WAITING;
 
 

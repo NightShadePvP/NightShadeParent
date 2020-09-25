@@ -8,6 +8,7 @@ import com.massivecraft.massivecore.util.MUtil;
 import com.nightshadepvp.core.Core;
 import com.nightshadepvp.core.Logger;
 import com.nightshadepvp.core.fanciful.FancyMessage;
+import com.nightshadepvp.core.utils.PacketUtils;
 import com.nightshadepvp.tournament.Tournament;
 import com.nightshadepvp.tournament.challonge.Challonge;
 import com.nightshadepvp.tournament.entity.TPlayer;
@@ -168,7 +169,7 @@ public class SoloMatch implements iMatch {
     }
 
     public String getTimer() {
-       return this.getMatchState() == MatchState.STARTING ? "&bStarting..." : TimeUtils.formatElapsingNanoseconds(startTime);
+        return this.getMatchState() == MatchState.STARTING ? "&bStarting..." : TimeUtils.formatElapsingNanoseconds(startTime);
     }
 
     /**
@@ -192,7 +193,7 @@ public class SoloMatch implements iMatch {
         Player loserPlayer = loser.getPlayer();
         loser.setSeed(-1);
         try {
-            if(!this.challonge.updateMatch(this.getMatchID(), winner.getName()).get()){
+            if (!this.challonge.updateMatch(this.getMatchID(), winner.getName()).get()) {
                 Core.get().getLogManager().log(Logger.LogType.SEVERE, "The request failed!");
                 Core.get().getLogManager().log(Logger.LogType.SEVERE, winner.getName() + " could not be sent to challonge api!");
             }
@@ -239,7 +240,7 @@ public class SoloMatch implements iMatch {
 
             e.setDamage(0);
             e.setCancelled(true);
-            if(loserPlayer.isOnline()){
+            if (loserPlayer.isOnline()) {
                 loserPlayer.getWorld().strikeLightningEffect(loserPlayer.getLocation());
                 PlayerUtils.clearPlayer(loserPlayer, true);
                 addSpectator(loser);
@@ -435,20 +436,27 @@ public class SoloMatch implements iMatch {
         getPlayers().forEach(tPlayer -> {
             if (tPlayer.isOnline()) {
                 PlayerInv inv = tPlayer.getInv(kit);
+                if (inv == null) {
+                    inv = new PlayerInv(kit.getItems(), kit.getArmor());
+                    tPlayer.getPlayerKits().put(kit, inv);
+                }
                 tPlayer.getPlayer().getInventory().setArmorContents(inv.getArmorContents());
                 tPlayer.getPlayer().getInventory().setContents(inv.getContents());
                 tPlayer.getPlayer().sendMessage(ChatUtils.message("&bYou are fighting &f" + getOpponents(tPlayer).get(0).getName() + "&b using kit &f" + getGameHandler().getKit().getName()));
                 tPlayer.getPlayer().setCanPickupItems(true);
                 tPlayer.setStatus(PlayerStatus.PLAYING);
-            }else{
+            } else {
                 ArrayList<Consumer<UUID>> list = Core.get().getLoginTasks().getOrDefault(tPlayer.getUuid(), new ArrayList<>());
-                TPlayer offlinePlayer = TPlayer.get(tPlayer.getUuid());
-                PlayerInv inv = offlinePlayer.getInv(kit);
-                offlinePlayer.getPlayer().getInventory().setArmorContents(inv.getArmorContents());
-                offlinePlayer.getPlayer().getInventory().setContents(inv.getContents());
-                offlinePlayer.getPlayer().sendMessage(ChatUtils.message("&bYou are fighting &f" + getOpponents(offlinePlayer).get(0).getName() + "&b using kit &f" + getGameHandler().getKit().getName()));
-                offlinePlayer.getPlayer().setCanPickupItems(true);
-                offlinePlayer.setStatus(PlayerStatus.PLAYING);
+                list.add(uuid -> {
+                    TPlayer offlinePlayer = TPlayer.get(uuid);
+                    PlayerInv inv = offlinePlayer.getInv(kit);
+                    offlinePlayer.getPlayer().getInventory().setArmorContents(inv.getArmorContents());
+                    offlinePlayer.getPlayer().getInventory().setContents(inv.getContents());
+                    offlinePlayer.getPlayer().sendMessage(ChatUtils.message("&bYou are fighting &f" + getOpponents(offlinePlayer).get(0).getName() + "&b using kit &f" + getGameHandler().getKit().getName()));
+                    offlinePlayer.getPlayer().setCanPickupItems(true);
+                    offlinePlayer.setStatus(PlayerStatus.PLAYING);
+                    offlinePlayer.setFrozen(false);
+                });
                 Core.get().getLoginTasks().put(tPlayer.getUuid(), list);
             }
         });
@@ -460,35 +468,29 @@ public class SoloMatch implements iMatch {
                 if (counter == 0) {
                     counter = -10;
                     cancel();
+                    unfreezePlayers();
+                    setMatchState(MatchState.INGAME);
                     startTime = System.nanoTime();
-                    PacketPlayOutTitle packet = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE, IChatBaseComponent.ChatSerializer.a("{\"text\":\"Go!\",\"color\":\"dark_aqua\",\"bold\":true}"), 0, 10, 0);
                     for (TPlayer tPlayer : getPlayers()) {
                         if (tPlayer.isOnline()) {
                             if (tPlayer.isUsingOldVersion()) {
                                 tPlayer.msg(ChatUtils.message("&bGo!"));
                                 continue;
                             }
-                            ((CraftPlayer) tPlayer.getPlayer()).getHandle().playerConnection.sendPacket(packet);
+                            PacketUtils.sendTitle(tPlayer.getPlayer(), 10, 20, 10, ChatUtils.format("&aGo!"));
                         }
                     }
-                    unfreezePlayers();
-                    setMatchState(MatchState.INGAME);
-
-
                 } else {
-                    PacketPlayOutTitle packet = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE, IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + counter + "\",\"color\":\"dark_aqua\",\"bold\":true}"), 0, 10, 0);
                     for (TPlayer tPlayer : getPlayers()) {
                         if (tPlayer.isOnline()) {
                             if (tPlayer.isUsingOldVersion()) {
                                 tPlayer.msg("&b&oThe game will start in &f&o" + counter);
                                 continue;
                             }
-                            ((CraftPlayer) tPlayer.getPlayer()).getHandle().playerConnection.sendPacket(packet);
-
+                            PacketUtils.sendTitle(tPlayer.getPlayer(), 0, 20, 0, ChatUtils.format("&a" + counter));
                         }
                     }
                 }
-
                 counter--;
             }
         }.runTaskTimer(Tournament.get(), 0, 20);

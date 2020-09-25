@@ -10,9 +10,13 @@ import com.nightshadepvp.core.entity.NSPlayerColl;
 import com.nightshadepvp.tournament.cmd.NightShadeTournamentCommand;
 import com.nightshadepvp.tournament.entity.TPlayer;
 import com.nightshadepvp.tournament.entity.handler.MatchHandler;
+import com.nightshadepvp.tournament.entity.objects.game.SoloMatch;
 import com.nightshadepvp.tournament.entity.objects.game.iMatch;
 import com.nightshadepvp.tournament.utils.ChatUtils;
 import org.bukkit.entity.Player;
+
+import java.util.Collections;
+import java.util.List;
 
 public class CmdTournamentForceWinner extends NightShadeTournamentCommand {
 
@@ -30,17 +34,25 @@ public class CmdTournamentForceWinner extends NightShadeTournamentCommand {
             tPlayer.msg(ChatUtils.message("&cThat player couldn't be found!"));
             return;
         }
-        Player winnerPlayer = winner.getPlayer();
 
-        iMatch match = MatchHandler.getInstance().getActiveMatch(winnerPlayer);
+        TPlayer winnerTPlayer = TPlayer.get(winner.getUuid());
+
+        iMatch match = MatchHandler.getInstance().getActiveMatch(winnerTPlayer);
         if(match == null){
             tPlayer.msg(ChatUtils.message("&cThat player isn't in a match right now!"));
             return;
         }
 
-        match.getOpponents(tPlayer).stream().filter(SenderEntity::isOnline).forEach(tPlayer1 -> tPlayer1.getPlayer().setHealth(0));
-        //Should end the match
-
-
+        if(match instanceof SoloMatch){
+            SoloMatch soloMatch = (SoloMatch) match;
+            List<TPlayer> opponents = soloMatch.getOpponents(tPlayer);
+            TPlayer opponent = opponents.get(0);
+            if(opponent.isOnline()){
+                opponent.getPlayer().setHealth(0);
+            }else{
+                soloMatch.endMatch(Collections.singletonList(winnerTPlayer), null);
+            }
+        }
+        //match.getOpponents(tPlayer).stream().filter(SenderEntity::isOnline).forEach(tPlayer1 -> tPlayer1.getPlayer().setHealth(0));
     }
 }

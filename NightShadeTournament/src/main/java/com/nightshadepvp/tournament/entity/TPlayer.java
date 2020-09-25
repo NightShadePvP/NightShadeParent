@@ -334,6 +334,7 @@ public class TPlayer extends SenderEntity<TPlayer> {
         return playerKits.getOrDefault(kit, null);
     }
 
+
     public PlayerStatus getStatus() {
         return status;
     }
