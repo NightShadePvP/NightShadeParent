@@ -2,8 +2,10 @@ package com.nightshadepvp.tournament.task;
 
 import com.nightshadepvp.core.Core;
 import com.nightshadepvp.core.Logger;
+import com.nightshadepvp.core.utils.PacketUtils;
 import com.nightshadepvp.tournament.Tournament;
 import com.nightshadepvp.tournament.entity.TPlayer;
+import com.nightshadepvp.tournament.entity.TPlayerColl;
 import com.nightshadepvp.tournament.entity.handler.ArenaHandler;
 import com.nightshadepvp.tournament.entity.handler.GameHandler;
 import com.nightshadepvp.tournament.entity.handler.MatchHandler;
@@ -44,6 +46,19 @@ public class StartRoundTask extends BukkitRunnable {
             //Teleport now
             Arena arena;
             Core.get().getLogManager().log(Logger.LogType.DEBUG, "Number of Matches Per round: " + roundHandler.getMatchesByRoundNumber(round).size());
+            for (TPlayer tPlayer : TPlayerColl.get().getAllOnline()){
+
+                if(!tPlayer.isPlayer()) continue;
+                if(tPlayer.isSpectator() || tPlayer.getSeed() == -1){
+                    continue; //They're spectating or dead
+                }
+
+                if(MatchHandler.getInstance().getActiveMatch(tPlayer) != null){
+                    continue; //They have a match set
+                }
+
+                PacketUtils.sendTitle(tPlayer.getPlayer(), 20, 40, 20, ChatUtils.format("&bBye Round"), ChatUtils.format("&fYou have a bye this round"));
+            }
             for (iMatch match : roundHandler.getMatchesByRoundNumber(round)) {
                 if (match instanceof SoloMatch) {
                     SoloMatch soloMatch = (SoloMatch) match;

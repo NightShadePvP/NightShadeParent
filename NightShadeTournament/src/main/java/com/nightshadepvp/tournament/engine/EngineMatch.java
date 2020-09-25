@@ -203,8 +203,8 @@ public class EngineMatch extends Engine {
             }
 
             iMatch match = MatchHandler.getInstance().getActiveMatch(p);
-            if(match == null) return;
-            if(match.getMatchState() == MatchState.RESETTING) e.setCancelled(true);
+            if (match == null) return;
+            if (match.getMatchState() == MatchState.RESETTING) e.setCancelled(true);
         }
     }
 
@@ -221,16 +221,16 @@ public class EngineMatch extends Engine {
         }
 
         iMatch match = MatchHandler.getInstance().getActiveMatch(p);
-        if(match == null || match.getMatchState() != MatchState.INGAME) return;
-        if(!match.getArena().getSelection().contains(e.getTo())) e.setTo(e.getFrom());
+        if (match == null || match.getMatchState() != MatchState.INGAME) return;
+        if (!match.getArena().getSelection().contains(e.getTo())) e.setTo(e.getFrom());
     }
 
     @EventHandler
-    public void onPearl(PlayerTeleportEvent e){
-        if(e.getCause() != PlayerTeleportEvent.TeleportCause.ENDER_PEARL) return;
+    public void onPearl(PlayerTeleportEvent e) {
+        if (e.getCause() != PlayerTeleportEvent.TeleportCause.ENDER_PEARL) return;
         Player p = e.getPlayer();
         iMatch match = MatchHandler.getInstance().getActiveMatch(p);
-        if(match == null) return;
+        if (match == null) return;
         e.setCancelled(true);
     }
 
@@ -352,8 +352,9 @@ public class EngineMatch extends Engine {
         Block b = e.getToBlock();
 
         Arena arena = ArenaHandler.getInstance().getFromBlock(e.getBlock());
+        if (arena == null) return;
         iMatch match = MatchHandler.getInstance().getMatchFromArena(arena);
-        if (arena == null || match == null) return;
+        if (match == null) return;
 
         if (e.getToBlock().getType() == Material.COBBLESTONE || e.getToBlock().getType() == Material.OBSIDIAN) {
             new BukkitRunnable() {

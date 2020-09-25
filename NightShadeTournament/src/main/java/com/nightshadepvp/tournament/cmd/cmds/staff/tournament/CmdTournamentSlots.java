@@ -32,7 +32,7 @@ public class CmdTournamentSlots extends NightShadeTournamentCommand {
 
 
         int slots = this.readArg();
-        int max = ArenaHandler.getInstance().getArenas().size()/2;
+        int max = ArenaHandler.getInstance().getArenas().size()*2;
 
         if(slots > max){
             tPlayer.msg(ChatUtils.message("&cThere are not enough arenas for that amount of players! The max slots are &e" + max));
