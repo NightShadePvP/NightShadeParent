@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
@@ -22,7 +23,7 @@ public class CutCleanScenario extends Scenario{
         super("CutClean", "Everything is pre-smelted", new ItemBuilder(Material.COOKED_BEEF).name("CutClean").make());
     }
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.LOWEST)
     public void on(ItemSpawnEvent event) {
 
         if (!isEnabled()) return;
@@ -61,7 +62,7 @@ public class CutCleanScenario extends Scenario{
     XP fixes
      */
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.LOWEST)
     public void onBreak(BlockBreakEvent e){
 
         Player p = e.getPlayer();
@@ -107,7 +108,7 @@ public class CutCleanScenario extends Scenario{
 
     }
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.LOWEST)
     public void onDeath(EntityDeathEvent e) {
         if (!isEnabled()) {
             return;
@@ -116,25 +117,25 @@ public class CutCleanScenario extends Scenario{
         Entity en = e.getEntity();
         if (en.getType() == EntityType.PIG) {
             e.getDrops().clear();
-            en.getLocation().getWorld().dropItemNaturally(en.getLocation().add(1, 0, 0), new ItemStack(Material.GRILLED_PORK, 3));
+            e.getDrops().add(new ItemStack(Material.GRILLED_PORK, 3));
         } else if (en.getType() == EntityType.COW) {
             e.getDrops().clear();
-            en.getLocation().getWorld().dropItemNaturally(en.getLocation().add(1, 0, 0), new ItemStack(Material.COOKED_BEEF, 3));
-            en.getLocation().getWorld().dropItemNaturally(en.getLocation().add(1, 0, 0), new ItemStack(Material.LEATHER, 2));
+            e.getDrops().add(new ItemStack(Material.COOKED_BEEF, 3));
+            e.getDrops().add(new ItemStack(Material.LEATHER, 2));
         } else if (en.getType() == EntityType.SHEEP) {
             e.getDrops().clear();
-            en.getLocation().getWorld().dropItemNaturally(en.getLocation().add(1, 0, 0), new ItemStack(Material.GRILLED_PORK, 3));
+            e.getDrops().add(new ItemStack(Material.GRILLED_PORK, 3));
         } else if (en.getType() == EntityType.CHICKEN) {
             e.getDrops().clear();
-            en.getLocation().getWorld().dropItemNaturally(en.getLocation().add(1, 0, 0), new ItemStack(Material.COOKED_CHICKEN, 3));
-            en.getLocation().getWorld().dropItemNaturally(en.getLocation().add(1, 0, 0), new ItemStack(Material.FEATHER, 2));
+            e.getDrops().add(new ItemStack(Material.COOKED_CHICKEN, 3));
+            e.getDrops().add(new ItemStack(Material.FEATHER, 2));
         }else if(en.getType() == EntityType.RABBIT){
             e.getDrops().clear();
-            en.getLocation().getWorld().dropItemNaturally(en.getLocation().add(1, 0, 0), new ItemStack(Material.COOKED_MUTTON, 3));
-            en.getLocation().getWorld().dropItemNaturally(en.getLocation().add(1, 0, 0), new ItemStack(Material.LEATHER, 2));
+            e.getDrops().add(new ItemStack(Material.COOKED_MUTTON, 3));
+            e.getDrops().add(new ItemStack(Material.LEATHER, 2));
         }else if(en.getType() == EntityType.HORSE){
             e.getDrops().clear();
-            en.getLocation().getWorld().dropItemNaturally(en.getLocation().add(1, 0, 0), new ItemStack(Material.LEATHER, MathUtils.getRand(1, 4)));
+            e.getDrops().add(new ItemStack(Material.LEATHER, MathUtils.getRand(1, 4)));
         }
     }
 }

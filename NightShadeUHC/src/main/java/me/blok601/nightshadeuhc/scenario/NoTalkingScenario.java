@@ -1,5 +1,6 @@
 package me.blok601.nightshadeuhc.scenario;
 
+import com.nightshadepvp.core.entity.NSPlayer;
 import me.blok601.nightshadeuhc.entity.UHCPlayer;
 import me.blok601.nightshadeuhc.entity.object.PlayerStatus;
 import me.blok601.nightshadeuhc.util.ChatUtils;
@@ -23,7 +24,7 @@ public class NoTalkingScenario extends Scenario {
 
         Player p = e.getPlayer();
 
-        if (UHCPlayer.get(p).getPlayerStatus() == PlayerStatus.PLAYING) {
+        if (UHCPlayer.get(p).getPlayerStatus() == PlayerStatus.PLAYING && !NSPlayer.get(p).isInStaffChat()) {
             Location loc = e.getPlayer().getLocation();
             Bukkit.broadcastMessage(ChatUtils.format(getPrefix() + "&e" + e.getPlayer().getName() + " &7is located at &8(&e" + loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ() + "&8)"));
         }

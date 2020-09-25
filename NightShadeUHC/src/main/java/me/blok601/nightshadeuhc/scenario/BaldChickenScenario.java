@@ -26,10 +26,11 @@ public class BaldChickenScenario extends Scenario {
 
         Entity entity = event.getEntity();
         if (entity instanceof Chicken) {
-            event.getDrops().stream().filter(itemStack -> itemStack.getType() == Material.FEATHER).forEach(itemStack -> itemStack.setType(Material.AIR));
+            //event.getDrops().stream().filter(itemStack -> itemStack.getType() == Material.FEATHER).forEach(itemStack -> itemStack.setType(Material.AIR));
+            event.getDrops().removeIf(itemStack -> itemStack.getType() == Material.FEATHER);
         } else if (entity instanceof Skeleton) {
-            event.getDrops().stream().filter(itemStack -> itemStack.getType() == Material.ARROW).forEach(itemStack -> itemStack.setType(Material.AIR));
-
+            //event.getDrops().stream().filter(itemStack -> itemStack.getType() == Material.ARROW).forEach(itemStack -> itemStack.setType(Material.AIR));
+            event.getDrops().removeIf(itemStack -> itemStack.getType() == Material.ARROW);
             event.getDrops().add(new ItemStack(Material.ARROW, MathUtils.getRand(15, 20)));
         }
     }

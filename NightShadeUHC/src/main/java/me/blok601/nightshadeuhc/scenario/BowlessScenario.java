@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
@@ -23,16 +24,20 @@ public class BowlessScenario extends Scenario{
         super("Bowless", "Bows can't be crafted", new ItemBuilder(Material.BOW).name("Bowless").make());
     }
 
-    @EventHandler
-    public void onCraft(PrepareItemCraftEvent e){
-        if(!isEnabled()){
+    @EventHandler(ignoreCancelled = true)
+    public void on(CraftItemEvent event)  {
+        ItemStack item = event.getCurrentItem();
+
+        if (item == null) {
             return;
         }
 
-        if(e.getRecipe().getResult().getType() == Material.BOW){
-            e.getRecipe().getResult().setType(Material.AIR); //crafting
+        if (item.getType() != Material.BOW) {
+            return;
         }
 
+        sendMessage((Player) event.getWhoClicked(), "&cBows are disabled in bowless!");
+        event.setCancelled(true);
     }
 
     @EventHandler(ignoreCancelled = true)

@@ -18,7 +18,7 @@ public class EnchantParanoiaScenario extends Scenario {
     @EventHandler
     public void onEnchant(EnchantItemEvent event) {
         if (!isEnabled()) return;
-        if (!event.isCancelled()) return;
+        if (event.isCancelled()) return;
 
         Player player = event.getEnchanter();
         Location location = player.getLocation();

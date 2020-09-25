@@ -19,6 +19,7 @@ import me.blok601.nightshadeuhc.scenario.ScenarioManager;
 import me.blok601.nightshadeuhc.scenario.interfaces.StarterItems;
 import me.blok601.nightshadeuhc.util.ChatUtils;
 import me.blok601.nightshadeuhc.util.FreezeUtil;
+import me.blok601.nightshadeuhc.util.PlayerUtils;
 import me.blok601.nightshadeuhc.util.Util;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
@@ -101,24 +102,13 @@ public class GameStartTask extends BukkitRunnable {
                     Core.get().getLogManager().log(Logger.LogType.INFO, "Everyone has been healed and fed!");
                     Bukkit.getOnlinePlayers().forEach(o -> o.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, gameManager.getStarterFood())));
                     Bukkit.getServer().getPluginManager().callEvent(new GameStartEvent());
-                    UHCPlayerColl.get().getAllOnlinePlayers().stream().filter(uhcPlayer -> uhcPlayer.getPlayerStatus() == PlayerStatus.PLAYING).forEach(uhcPlayer -> {
-                        for (Scenario scenario : scenarioManager.getEnabledScenarios()) {
-                            if (scenario instanceof StarterItems) {
-                                StarterItems starterItems = (StarterItems) scenario;
 
-                                for (ItemStack i : starterItems.getStarterItems()) {
-                                    if (uhcPlayer.getPlayer().getInventory().firstEmpty() == -1) {
-                                        Location lock = uhcPlayer.getPlayer().getLocation();
-                                        world.dropItem(lock, i);
-                                    }
-                                    else {
-                                        uhcPlayer.getPlayer().getInventory().addItem(i);
-                                    }
-                                }
+                    for (Scenario scenario : scenarioManager.getEnabledScenarios()){
+                        if(!(scenario instanceof StarterItems)) continue;
 
-                            }
-                        }
-                    });
+                        StarterItems starterItems = (StarterItems) scenario;
+                        UHCPlayerColl.get().getAllPlaying().forEach(uP -> PlayerUtils.giveBulkItems(uP.getPlayer(), starterItems.getStarterItems()));
+                    }
 
                     Bukkit.getOnlinePlayers().forEach(p -> {
                         UHCPlayerColl.get().getAllPlaying().forEach(uhcPlayer -> {

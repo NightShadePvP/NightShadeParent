@@ -1,5 +1,6 @@
 package me.blok601.nightshadeuhc.scenario;
 
+import com.google.common.collect.ImmutableList;
 import me.blok601.nightshadeuhc.scenario.interfaces.StarterItems;
 import me.blok601.nightshadeuhc.util.ItemBuilder;
 import org.bukkit.Material;
@@ -8,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.List;
 //Created By Ozzy, All by himself. July 20th, 2028
 public class BomberScenario extends Scenario implements StarterItems {
   public BomberScenario(){
-    super("Bombers", "Mobs and Animals drop TNT. Everyone receives an unbreakable Flint and Steel on start.", new ItemBuilder(Material.TNT).name("Bombers").make());
+    super("Bombers", "Mobs and Animals drop TNT. Everyone receives an unbreakable Flint and Steel on start.", new ItemBuilder(Material.EXPLOSIVE_MINECART).name("Bombers").make());
   }
 
   @EventHandler
@@ -55,6 +57,13 @@ public class BomberScenario extends Scenario implements StarterItems {
 
   @Override
   public List<ItemStack> getStarterItems() {
-    return Collections.singletonList(new ItemStack(Material.FLINT_AND_STEEL));
+
+    ItemStack itemStack = new ItemStack(Material.FLINT_AND_STEEL);
+    ItemMeta meta = itemStack.getItemMeta();
+    meta.spigot().setUnbreakable(true);
+
+    itemStack.setItemMeta(meta);
+
+    return ImmutableList.of(new ItemStack(Material.FLINT_AND_STEEL));
   }
 }

@@ -185,8 +185,8 @@ public class JoinListener implements Listener {
             player.getEnderChest().clear();
             gamePlayer.setPlayerStatus(PlayerStatus.LOBBY);
             player.teleport(MConf.get().getSpawnLocation().asBukkitLocation());
-            UHC.getScoreboardManager().applyBoard(player);
         }
+        UHC.getScoreboardManager().applyBoard(player);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

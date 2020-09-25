@@ -16,7 +16,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 public class BatsScenario extends Scenario{
 
     public BatsScenario() {
-        super("Bats", "Upon the death of a bat, there is a 95% chance of a Golden Apple dropping", new ItemBuilder(Material.GOLDEN_APPLE).name("Bats").make());
+        super("Bats", "Upon the death of a bat, there is a 95% chance of a Golden Apple dropping, but 5% chance of death", new ItemBuilder(Material.GOLDEN_APPLE).name("Bats").make());
     }
 
     @EventHandler
@@ -34,7 +34,7 @@ public class BatsScenario extends Scenario{
             if(MathUtils.getChance(95)){
                 e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation(), new ItemBuilder(Material.GOLDEN_APPLE).make());
             }else{
-                if(e.getEntity().getKiller() instanceof Player){
+                if(e.getEntity().getKiller() != null){
                     Player p = e.getEntity().getKiller();
                     p.damage(0);
                     p.setHealth(0);

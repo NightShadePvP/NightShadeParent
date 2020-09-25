@@ -52,7 +52,7 @@ public class PlayerUtils {
 
     public static void giveBulkItems(Player player, Collection<ItemStack> items) {
         for (ItemStack itemStack : items) {
-
+            giveItem(itemStack, player);
         }
     }
 

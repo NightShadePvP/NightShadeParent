@@ -44,20 +44,11 @@ public class RocketStartScenario extends Scenario {
     public void onPvP(PvPEnableEvent event) {
         if (!isEnabled()) return;
         Player player;
-        HashSet<PotionEffect> toRemove;
         for (UHCPlayer uhcPlayer : UHCPlayerColl.get().getAllPlaying()) {
-            toRemove = new HashSet<>();
             if (uhcPlayer.isOnline()) {
                 player = uhcPlayer.getPlayer();
-                for (PotionEffect effect : player.getActivePotionEffects()) {
-                    if (effect.getType() == PotionEffectType.SPEED || effect.getType() == PotionEffectType.FAST_DIGGING) {
-                        toRemove.add(effect);
-                    }
-                }
-
-                for (PotionEffect effect : toRemove) {
-                    player.getActivePotionEffects().remove(effect);
-                }
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 1, 0, false, false));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 1, 0, false, false));
                 sendMessage(uhcPlayer.getPlayer(), "&fSpeed I &band &fHaste I&b have been removed! Good luck!");
             }
         }
@@ -69,15 +60,9 @@ public class RocketStartScenario extends Scenario {
                 tasks.add(uuid -> {
                     Player p = Bukkit.getPlayer(uuid);
                     if (p != null) {
-                        for (PotionEffect effect : p.getActivePotionEffects()) {
-                            if (effect.getType() == PotionEffectType.SPEED || effect.getType() == PotionEffectType.FAST_DIGGING) {
-                                tr.add(effect);
-                            }
-                        }
-
-                        for (PotionEffect effect : tr) {
-                            p.getActivePotionEffects().remove(effect);
-                        }
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 1, 0, false, false));
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 1, 0, false, false));
+                        sendMessage(p.getPlayer(), "&fSpeed I &band &fHaste I&b have been removed! Good luck!");
                     }
                 });
                 Core.get().getLoginTasks().put(loggedOutPlayer.getUuid(), tasks);
@@ -87,15 +72,9 @@ public class RocketStartScenario extends Scenario {
                     HashSet<PotionEffect> tr = Sets.newHashSet();
                     Player p = Bukkit.getPlayer(uuid);
                     if (p != null) {
-                        for (PotionEffect effect : p.getActivePotionEffects()) {
-                            if (effect.getType() == PotionEffectType.SPEED || effect.getType() == PotionEffectType.FAST_DIGGING) {
-                                tr.add(effect);
-                            }
-                        }
-
-                        for (PotionEffect effect : tr) {
-                            p.getActivePotionEffects().remove(effect);
-                        }
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 1, 0, false, false));
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 1, 0, false, false));
+                        sendMessage(p.getPlayer(), "&fSpeed I &band &fHaste I&b have been removed! Good luck!");
                     }
                 });
                 Core.get().getLoginTasks().put(loggedOutPlayer.getUuid(), newTasks);
