@@ -220,9 +220,9 @@ public class EngineMatch extends Engine {
             e.setTo(e.getFrom());
         }
 
-        iMatch match = MatchHandler.getInstance().getActiveMatch(p);
-        if (match == null || match.getMatchState() != MatchState.INGAME) return;
-        if (!match.getArena().getSelection().contains(e.getTo())) e.setTo(e.getFrom());
+//        iMatch match = MatchHandler.getInstance().getActiveMatch(p);
+//        if (match == null || match.getMatchState() != MatchState.INGAME) return;
+//        if (!match.getArena().getSelection().contains(e.getTo())) e.setTo(e.getFrom());
     }
 
     @EventHandler

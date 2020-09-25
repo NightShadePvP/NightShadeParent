@@ -6,6 +6,7 @@ import com.nightshadepvp.core.Logger;
 import com.nightshadepvp.core.Rank;
 import com.nightshadepvp.core.entity.NSPlayer;
 import com.nightshadepvp.core.entity.objects.PlayerTag;
+import com.nightshadepvp.core.utils.ItemBuilder;
 import com.nightshadepvp.tournament.Settings;
 import com.nightshadepvp.tournament.Tournament;
 import com.nightshadepvp.tournament.entity.TPlayer;
@@ -404,6 +405,8 @@ public class EnginePlayer extends Engine {
             EngineInventory.edtingMap.remove(player.getUniqueId());
             tPlayer.setStatus(PlayerStatus.LOBBY);
             PlayerUtils.clearPlayer(player, true);
+            ItemBuilder item = new ItemBuilder(Material.BOOK).name("&5Kit Editor");
+            player.getInventory().setItem(4, item.make());
         }
     }
 
