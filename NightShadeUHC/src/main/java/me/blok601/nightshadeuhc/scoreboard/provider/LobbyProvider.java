@@ -66,8 +66,8 @@ public class LobbyProvider implements SidebarProvider {
             //scenarioManager.getEnabledScenarios().forEach(scenario -> names.add(new SidebarEntry(ChatUtils.format("  &f↣ &b" + scenario.getName()))));
             for (int count = 0; count < scenarioManager.getEnabledScenarios().size(); count++){
                 names.add(new SidebarEntry(this.colorsForScenarios.get(count), ChatUtils.format("  &f↣ &b"), ChatColor.AQUA + scenarioManager.getEnabledScenarios().get(count).getName()));
-                return names;
             }
+            return names;
         }
 
         for (Scenario scen : scenarioManager.getEnabledScenarios()) {
@@ -79,7 +79,7 @@ public class LobbyProvider implements SidebarProvider {
             }
         }
 
-        names.add(new SidebarEntry(ChatColor.DARK_AQUA.toString(), ChatUtils.format("&o" + (scenarioManager.getEnabledScenarios().size() - i) + " more..."), ChatColor.GOLD.toString()));
+        names.add(new SidebarEntry(ChatColor.DARK_AQUA.toString(), ChatUtils.format("&f↣ &b&o" + (scenarioManager.getEnabledScenarios().size() - i) + " more..."), ChatColor.GOLD.toString()));
         return names;
     }
 }
