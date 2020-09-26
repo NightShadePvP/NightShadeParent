@@ -156,8 +156,20 @@ public class GameHandler {
                 for (JSONObject match : challonge.getMatchesByRound(round).get()) {
                     String[] players = MatchWrapper.getPlayerNames(match.getInt("id"), challonge);
                     if (players == null) continue;
-                    TPlayer tPlayer1 = TPlayer.get(Bukkit.getPlayer(players[0]));
-                    TPlayer tPlayer2 = TPlayer.get(Bukkit.getPlayer(players[1]));
+                    TPlayer tPlayer1;
+                    TPlayer tPlayer2;
+                    Player player1 = Bukkit.getPlayer(players[0]);
+                    if(player1 == null){
+                        tPlayer1 = TPlayer.get(Bukkit.getOfflinePlayer(players[0]).getUniqueId());
+                    }else{
+                        tPlayer1 = TPlayer.get(player1);
+                    }
+                    Player player2 = Bukkit.getPlayer(players[1]);
+                    if(player2 == null){
+                        tPlayer2 = TPlayer.get(Bukkit.getOfflinePlayer(players[1]).getUniqueId());
+                    }else{
+                        tPlayer2 = TPlayer.get(Bukkit.getPlayer(players[1]));
+                    }
                     SoloMatch soloMatch = new SoloMatch(tPlayer1, tPlayer2);
                     Core.get().getLogManager().log(Logger.LogType.DEBUG, "Players: " + tPlayer1.getName() + " And " + tPlayer2.getName());
                     MatchHandler.getInstance().addMatch(soloMatch);

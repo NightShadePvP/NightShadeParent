@@ -23,6 +23,7 @@ public class CmdTournament extends NightShadeTournamentCommand {
     public CmdTournamentPost cmdTournamentPost = new CmdTournamentPost();
     public CmdTournamentFinish cmdTournamentFinish = new CmdTournamentFinish();
     public CmdTournamentForceWinner cmdTournamentForceWinner = new CmdTournamentForceWinner();
+    public CmdTournamentGiveKit cmdTournamentGiveKit = new CmdTournamentGiveKit();
 
     @Override
     public List<String> getAliases() {
