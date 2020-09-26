@@ -26,6 +26,7 @@ public class BowlessScenario extends Scenario{
 
     @EventHandler(ignoreCancelled = true)
     public void on(CraftItemEvent event)  {
+        if(!isEnabled()) return;
         ItemStack item = event.getCurrentItem();
 
         if (item == null) {

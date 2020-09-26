@@ -87,8 +87,6 @@ public class ScoreboardHandler implements Listener {
                 board.setDefaultSidebar(arenaProvider, 40L);
                 break;
             case LOBBY:
-                board.setDefaultSidebar(lobbyProvider, 30L);
-                break;
             case SPECTATING:
                 if(GameState.gameHasStarted()){
                     board.setDefaultSidebar(uhcProvider, 20L);

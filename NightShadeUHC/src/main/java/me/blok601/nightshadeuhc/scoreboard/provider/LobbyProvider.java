@@ -79,7 +79,7 @@ public class LobbyProvider implements SidebarProvider {
             }
         }
 
-        names.add(new SidebarEntry(ChatColor.DARK_AQUA.toString(), ChatUtils.format("&f↣ &b&o" + (scenarioManager.getEnabledScenarios().size() - i) + " more..."), ChatColor.GOLD.toString()));
+        names.add(new SidebarEntry(ChatColor.DARK_AQUA.toString(), ChatUtils.format("  &f↣ &b&o" + (scenarioManager.getEnabledScenarios().size() - i) + " more..."), ChatColor.GOLD.toString()));
         return names;
     }
 }
