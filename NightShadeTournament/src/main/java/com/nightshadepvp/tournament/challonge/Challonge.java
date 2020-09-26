@@ -1,6 +1,7 @@
 package com.nightshadepvp.tournament.challonge;
 
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
@@ -235,12 +236,14 @@ public class Challonge {
     public CompletableFuture<Boolean> updateMatch(int id, String name) {
         return supplyAsync(() -> {
             HttpResponse<JsonNode> response = null;
+            Map<String, String> headers = Maps.newHashMap();
+            headers.put("Content-Type", "application/json");
+            headers.put("accept", "application/json");
             try {
                 response = Unirest.put("https://" + username + ":" + api + "@api.challonge.com/v1/tournaments/{tournament}/matches/{match_id}.json".
                         replace("{tournament}", url)
-                        .replace("{match_id}", matchIds
-                                .get(id)))
-                        .header("accept", "application/json")
+                        .replace("{match_id}", matchIds.get(id)))
+                        .headers(headers)
                         .field("api_key", api)
                         .field("match[scores_csv]", "1-0")
                         .field("match[winner_id]", String.valueOf(partId.get(name)))
