@@ -10,7 +10,6 @@ import com.nightshadepvp.tournament.task.LogOutTimerTask;
 import org.bukkit.Location;
 import org.bukkit.entity.Item;
 import org.bukkit.event.entity.EntityEvent;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 

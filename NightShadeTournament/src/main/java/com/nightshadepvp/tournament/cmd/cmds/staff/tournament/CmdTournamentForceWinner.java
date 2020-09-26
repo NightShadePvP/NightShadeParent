@@ -12,8 +12,10 @@ import com.nightshadepvp.tournament.entity.TPlayer;
 import com.nightshadepvp.tournament.entity.handler.MatchHandler;
 import com.nightshadepvp.tournament.entity.objects.game.SoloMatch;
 import com.nightshadepvp.tournament.entity.objects.game.iMatch;
+import com.nightshadepvp.tournament.task.LogOutTimerTask;
 import com.nightshadepvp.tournament.utils.ChatUtils;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collections;
 import java.util.List;
@@ -50,6 +52,7 @@ public class CmdTournamentForceWinner extends NightShadeTournamentCommand {
             if(opponent.isOnline()){
                 opponent.getPlayer().setHealth(0);
             }else{
+                soloMatch.getLogOutTimers().values().stream().filter(LogOutTimerTask::isRunning).forEach(BukkitRunnable::cancel);
                 soloMatch.endMatch(Collections.singletonList(winnerTPlayer), null);
             }
         }

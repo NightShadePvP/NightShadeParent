@@ -16,8 +16,6 @@ import com.nightshadepvp.tournament.entity.enums.MatchState;
 import com.nightshadepvp.tournament.entity.enums.PlayerStatus;
 import com.nightshadepvp.tournament.entity.handler.GameHandler;
 import com.nightshadepvp.tournament.entity.handler.InventoryManager;
-import com.nightshadepvp.tournament.entity.handler.MatchHandler;
-import com.nightshadepvp.tournament.entity.handler.RoundHandler;
 import com.nightshadepvp.tournament.entity.objects.data.Arena;
 import com.nightshadepvp.tournament.entity.objects.data.Kit;
 import com.nightshadepvp.tournament.entity.objects.player.PlayerInv;
@@ -34,17 +32,11 @@ import com.nightshadepvp.tournament.task.LogOutTimerTask;
 import com.nightshadepvp.tournament.utils.ChatUtils;
 import com.nightshadepvp.tournament.utils.PlayerUtils;
 import com.nightshadepvp.tournament.utils.TimeUtils;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent;
-import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
 import org.bukkit.*;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -189,6 +181,7 @@ public class SoloMatch implements iMatch {
 
         TPlayer winner = winners.get(0);
         setWinner(winner);
+        setWinners(Collections.singletonList(winner));
         TPlayer loser = getOpponents(winner).get(0);
         Player loserPlayer = loser.getPlayer();
         loser.setSeed(-1);
@@ -204,9 +197,11 @@ public class SoloMatch implements iMatch {
 
         //setMatchState(MatchState.DONE);
         setMatchState(MatchState.RESETTING);
-        setWinners(Collections.singletonList(winner));
 
-        InventoryManager.getInstance().addInventory(winner.getPlayer());
+        if(winner.isOnline()) {
+            InventoryManager.getInstance().addInventory(winner.getPlayer());
+        }
+
         if (loser.isOnline()) {
             InventoryManager.getInstance().addInventory(loserPlayer);
         }
@@ -249,7 +244,9 @@ public class SoloMatch implements iMatch {
                 loserPlayer.setFlySpeed(0.2F);
                 loserPlayer.setHealth(loserPlayer.getMaxHealth());
                 loserPlayer.setCanPickupItems(false);
-                winner.getPlayer().hidePlayer(loserPlayer);
+                if(winner.isOnline()) {
+                    winner.getPlayer().hidePlayer(loserPlayer);
+                }
             }
         } else {
             //Died to PvE or plugin, or anything else in general
@@ -273,7 +270,9 @@ public class SoloMatch implements iMatch {
                         loserPlayer.setFlySpeed(0.2F);
                         loserPlayer.setHealth(loserPlayer.getMaxHealth());
                         loserPlayer.setCanPickupItems(false);
-                        winner.getPlayer().hidePlayer(loserPlayer);
+                        if(winner.isOnline()) {
+                            winner.getPlayer().hidePlayer(loserPlayer);
+                        }
                     }
                 }
             }.runTaskLater(Tournament.get(), 2L);
@@ -287,8 +286,10 @@ public class SoloMatch implements iMatch {
         scoreboards.clear();
         Tournament.get().getServer().getPluginManager().callEvent(new MatchEndEvent(this));
 
-        loser.msg(ChatUtils.message("&bYou have died! Thank you for playing on NightShadePvP!"));
-        loser.msg(ChatUtils.message("&bJoin the Discord at discord.me/NightShadePvP for updates and more!"));
+        if(loser.isOnline()) {
+            loser.msg(ChatUtils.message("&bYou have died! Thank you for playing on NightShadePvP!"));
+            loser.msg(ChatUtils.message("&bJoin the Discord at discord.me/NightShadePvP for updates and more!"));
+        }
 
         new BukkitRunnable() {
             int counter = 5;
@@ -362,7 +363,7 @@ public class SoloMatch implements iMatch {
     }
 
     public void setWinner(TPlayer winner) {
-        getWinners().add(winner);
+        this.winners = Collections.singletonList(winner);
     }
 
     public void setWinners(List<TPlayer> winners) {
@@ -685,5 +686,9 @@ public class SoloMatch implements iMatch {
     @Override
     public ArrayList<Item> getDrops() {
         return drops;
+    }
+
+    public HashMap<UUID, LogOutTimerTask> getLogOutTimers() {
+        return logOutTimers;
     }
 }
