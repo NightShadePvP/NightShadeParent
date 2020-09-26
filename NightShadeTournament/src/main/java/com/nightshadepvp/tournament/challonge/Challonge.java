@@ -8,6 +8,7 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.nightshadepvp.core.Core;
 import com.nightshadepvp.core.Logger;
+import com.nightshadepvp.tournament.entity.handler.GameHandler;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONArray;
@@ -252,7 +253,8 @@ public class Challonge {
                 return true;
             }else{
                 Core.get().getLogManager().log(Logger.LogType.SEVERE, "Challonge Error Status: " + response.getStatus());
-                Core.get().getLogManager().log(Logger.LogType.SERVER, "Challonge Error Message: " + response.getStatusText());
+                Core.get().getLogManager().log(Logger.LogType.SEVERE, "Challonge Error Message: " + response.getStatusText());
+                Core.get().getLogManager().log(Logger.LogType.SEVERE, "Challonge Body: " + response.getBody().toString());
                 return false;
             }
         });
