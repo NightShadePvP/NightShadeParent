@@ -121,6 +121,10 @@ public class GameSetupInventoryClick implements Listener {
                 new TimerGUI(p);
             } else if (slot == 12) {
                 p.closeInventory();
+                if(gameManager.getWorld() == null){
+                    p.sendMessage(ChatUtils.message("&cYou have not set the game world!"));
+                    return;
+                }
                 p.sendMessage(ChatUtils.message("&eThe game will start in 3 minutes..."));
                 p.sendMessage(ChatUtils.message("&eDo /cancelgame at any time within those 3 minutes to cancel the start timer!"));
                 GameCountdownTask gameCountdownTask = new GameCountdownTask(gameManager, scenarioManager);

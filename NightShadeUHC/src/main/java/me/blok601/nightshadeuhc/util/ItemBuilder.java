@@ -130,7 +130,7 @@ public class ItemBuilder {
     public ItemBuilder lore(final String lore, boolean newLore){
 
         List<String> lores = new ArrayList<>();
-        lores.add(lore);
+        lores.add(ChatUtils.format(lore));
 
         meta().setLore(lores);
         make().setItemMeta(meta());

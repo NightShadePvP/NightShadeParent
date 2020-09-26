@@ -89,6 +89,7 @@ public class ComponentHandler {
 
         if (slot == 26) { //main menu slot
             new HostGUI((Player) e.getWhoClicked(), gameManager, scenarioManager);
+            return false;
         }
 
         if (getComponent(stack.getType()) != null) {

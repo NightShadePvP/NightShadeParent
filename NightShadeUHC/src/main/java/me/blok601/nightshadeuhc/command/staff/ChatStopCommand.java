@@ -25,13 +25,13 @@ public class ChatStopCommand implements UHCCommand{
         Player p = (Player) s;
         if(ChatUtils.isChatFrozen()){
             ChatUtils.setChatFrozen(false);
-            p.sendMessage(ChatUtils.message("&eThe chat is now &aunfrozen"));
+            //p.sendMessage(ChatUtils.message("&eThe chat is now &aunfrozen"));
             Bukkit.broadcastMessage(ChatUtils.message("&eThe chat is now &aunfrozen"));
             return;
         }
 
         ChatUtils.setChatFrozen(true);
-        p.sendMessage(ChatUtils.message("&eThe chat is now &cfrozen"));
+        //p.sendMessage(ChatUtils.message("&eThe chat is now &cfrozen"));
         Bukkit.broadcastMessage(ChatUtils.message("&eThe chat is now &cfrozen"));
     }
 

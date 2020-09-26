@@ -192,7 +192,7 @@ public class ScenarioManager implements UHCCommand{
 
         ItemStack item;
         for (Scenario scenario : ScenarioManager.scenarios) {
-            item = new ItemBuilder(scenario.getItem()).name(scenario.isEnabled() ? ChatUtils.format("&a" + scenario.getName()) : ChatUtils.format("&c" + scenario.getName())).lore(scenario.getDesc()).make();
+            item = new ItemBuilder(scenario.getItem()).name(scenario.isEnabled() ? ChatUtils.format("&a" + scenario.getName()) : ChatUtils.format("&c" + scenario.getName())).lore(scenario.getDesc(), true).make();
             items.add(item);
         }
 
