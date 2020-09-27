@@ -238,7 +238,6 @@ public class Challonge {
             HttpResponse<JsonNode> response = null;
             Map<String, String> headers = Maps.newHashMap();
             headers.put("Content-Type", "application/json");
-            headers.put("accept", "application/json");
             try {
                 response = Unirest.put("https://" + username + ":" + api + "@api.challonge.com/v1/tournaments/{tournament}/matches/{match_id}.json".
                         replace("{tournament}", url)
