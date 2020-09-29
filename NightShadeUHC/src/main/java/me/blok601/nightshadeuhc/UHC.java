@@ -24,8 +24,6 @@ import me.blok601.nightshadeuhc.scoreboard.ScoreboardHandler;
 import me.blok601.nightshadeuhc.stat.handler.StatsHandler;
 import me.blok601.nightshadeuhc.task.*;
 import me.blok601.nightshadeuhc.util.ChatUtils;
-import me.blok601.nightshadeuhc.util.Lag;
-import me.blok601.nightshadeuhc.util.Util;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -33,7 +31,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -137,24 +134,6 @@ public class UHC extends MassivePlugin implements PluginMessageListener {
         new ScoreboardHealthTask(scoreboardManager).runTaskTimerAsynchronously(this, 0, 60);
         new StaffTrackTask().runTaskTimer(this, 0, 100);
         new PregenTask().runTaskTimer(this, 0, 40);
-
-//        Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
-//            scoreboardManager.getPlayerScoreboards().values().forEach(PlayerScoreboard::update);
-//        }, 0L, 35L);
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (Lag.getTPS() > 18) {
-                    Util.staffLog("&aThe TPS is currently: " + Lag.getTPS() + " &6Status: &aGREAT");
-                } else if (Lag.getTPS() < 18 && Lag.getTPS() > 16) {
-                    Util.staffLog("&eThe TPS is currently: " + Lag.getTPS() + " &6Status: &eUnstable. Consider stopping mob spawns");
-                } else {
-                    Util.staffLog("&cThe TPS is currently: " + Lag.getTPS() + " &6Status: &cBAD. Contact an admin");
-                }
-
-            }
-        }.runTaskTimer(this, 1, 120 * 20);
 
         new WorldLoadTask(() -> {
 

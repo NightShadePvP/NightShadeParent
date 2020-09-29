@@ -8,6 +8,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.time.Year;
+
 public class EnchantParanoiaScenario extends Scenario {
 
     public EnchantParanoiaScenario() {
@@ -22,7 +24,7 @@ public class EnchantParanoiaScenario extends Scenario {
 
         Player player = event.getEnchanter();
         Location location = player.getLocation();
-        broadcast("&f" + player.getName() + " &benchanted an item at &f" + location.getX() + "," + location.getY() + "," + location.getZ());
+        broadcast("&f" + player.getName() + " &benchanted an item at &f" + Math.round(location.getX()) + "," + Math.round(location.getY()) + "," + Math.round(location.getZ()));
     }
 
 }

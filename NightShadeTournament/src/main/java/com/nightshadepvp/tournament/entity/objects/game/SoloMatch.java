@@ -186,14 +186,13 @@ public class SoloMatch implements iMatch {
         Player loserPlayer = loser.getPlayer();
         loser.setSeed(-1);
         try {
-            if (!this.challonge.updateMatch(this.getMatchID(), winner.getName()).get()) {
+            if (!this.challonge.updateMatch(this.getChallongeMatchID(), winner.getName()).get()) {
                 Core.get().getLogManager().log(Logger.LogType.SEVERE, "The request failed!");
                 Core.get().getLogManager().log(Logger.LogType.SEVERE, winner.getName() + " could not be sent to challonge api!");
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-
 
         //setMatchState(MatchState.DONE);
         setMatchState(MatchState.RESETTING);

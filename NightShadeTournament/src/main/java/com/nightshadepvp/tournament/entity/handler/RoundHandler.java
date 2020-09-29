@@ -58,7 +58,9 @@ public class RoundHandler {
     }
 
     public void addMatch(int r, iMatch soloMatch) {
-        getMatchesByRoundNumber(r).add(soloMatch);
+        HashSet<iMatch> mS = getMatchesByRoundNumber(r);
+        mS.add(soloMatch);
+        this.matches.put(r, mS);
         MatchHandler.getInstance().setMatchID(MatchHandler.getInstance().getMatchID());
         soloMatch.setMatchID(MatchHandler.getInstance().getMatchID());
         soloMatch.setChallongeMatchID(challonge.matchIds.get(soloMatch.getMatchID()));

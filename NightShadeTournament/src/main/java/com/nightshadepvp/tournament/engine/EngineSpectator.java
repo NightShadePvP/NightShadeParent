@@ -88,6 +88,7 @@ public class EngineSpectator extends Engine {
                 return; // Shoudn't happen at all
             }
 
+            MatchHandler.getInstance().getActiveMatches().stream().filter(im -> im.getSpectators().contains(tPlayer)).forEach(im -> im.getSpectators().remove(tPlayer));
             match.addSpectator(tPlayer);
 
             if(match instanceof SoloMatch){
