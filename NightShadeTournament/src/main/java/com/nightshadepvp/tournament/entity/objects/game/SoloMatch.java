@@ -12,6 +12,7 @@ import com.nightshadepvp.core.utils.PacketUtils;
 import com.nightshadepvp.tournament.Tournament;
 import com.nightshadepvp.tournament.challonge.Challonge;
 import com.nightshadepvp.tournament.entity.TPlayer;
+import com.nightshadepvp.tournament.entity.TPlayerColl;
 import com.nightshadepvp.tournament.entity.enums.MatchState;
 import com.nightshadepvp.tournament.entity.enums.PlayerStatus;
 import com.nightshadepvp.tournament.entity.handler.GameHandler;
@@ -178,13 +179,20 @@ public class SoloMatch implements iMatch {
     @Override
     public void endMatch(List<TPlayer> winners, EntityEvent event) { //TODO: Champ game check
         if (winners.size() != 1) return;
-
         TPlayer winner = winners.get(0);
         setWinner(winner);
         setWinners(Collections.singletonList(winner));
         TPlayer loser = getOpponents(winner).get(0);
         Player loserPlayer = loser.getPlayer();
         loser.setSeed(-1);
+
+        for (TPlayer tPlayer : getPlayers()){
+            for (TPlayer other : TPlayerColl.get().getAllOnline()){
+                if(other.isSpectator() || !other.isPlayer()) continue;
+                tPlayer.getPlayer().showPlayer(other.getPlayer());
+            }
+        }
+
         try {
             if (!this.challonge.updateMatch(this.getChallongeMatchID(), winner.getName()).get()) {
                 Core.get().getLogManager().log(Logger.LogType.SEVERE, "The request failed!");
@@ -430,6 +438,17 @@ public class SoloMatch implements iMatch {
         Kit kit = getGameHandler().getKit();
         setMatchState(MatchState.STARTING);
         setupBoard();
+
+        for (TPlayer tPlayer : getPlayers()){
+            if(!tPlayer.isOnline()) continue;
+
+            for (TPlayer other : TPlayerColl.get().getAllOnline()){
+                if(!other.isPlayer()) continue;
+                if(isPlayer(other)) continue;
+
+                tPlayer.getPlayer().hidePlayer(other.getPlayer());
+            }
+        }
 
         Core.get().getLogManager().log(Logger.LogType.DEBUG, "The match id for this game is: " + this.getMatchID());
         Core.get().getLogManager().log(Logger.LogType.DEBUG, "Printing id list: " + this.challonge.matchIds);
@@ -689,5 +708,10 @@ public class SoloMatch implements iMatch {
 
     public HashMap<UUID, LogOutTimerTask> getLogOutTimers() {
         return logOutTimers;
+    }
+
+    @Override
+    public boolean isPlayer(TPlayer tPlayer) {
+        return getPlayers().contains(tPlayer);
     }
 }

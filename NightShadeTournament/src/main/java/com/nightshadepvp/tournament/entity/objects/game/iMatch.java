@@ -218,4 +218,11 @@ public interface iMatch {
      * Method to clear all dropped items
      */
     void resetDrops();
+
+    /**
+     *
+     * @param tPlayer Player to check if they are playing
+     * @return Whether the specified player is in this match
+     */
+    boolean isPlayer(TPlayer tPlayer);
 }

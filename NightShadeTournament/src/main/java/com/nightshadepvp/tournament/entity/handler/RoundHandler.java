@@ -63,7 +63,7 @@ public class RoundHandler {
         this.matches.put(r, mS);
         MatchHandler.getInstance().setMatchID(MatchHandler.getInstance().getMatchID());
         soloMatch.setMatchID(MatchHandler.getInstance().getMatchID());
-        soloMatch.setChallongeMatchID(challonge.matchIds.get(soloMatch.getMatchID()));
+        //soloMatch.setChallongeMatchID(challonge.matchIds.get(soloMatch.getMatchID()));
     }
 
     public void setupChallonge() {

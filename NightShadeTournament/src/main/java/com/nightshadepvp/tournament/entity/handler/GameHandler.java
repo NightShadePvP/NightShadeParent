@@ -171,6 +171,7 @@ public class GameHandler {
                         tPlayer2 = TPlayer.get(Bukkit.getPlayer(players[1]));
                     }
                     SoloMatch soloMatch = new SoloMatch(tPlayer1, tPlayer2);
+                    soloMatch.setChallongeMatchID(String.valueOf(match.getInt("int")));
                     Core.get().getLogManager().log(Logger.LogType.DEBUG, "Players: " + tPlayer1.getName() + " And " + tPlayer2.getName());
                     MatchHandler.getInstance().addMatch(soloMatch);
                     RoundHandler.getInstance().addMatch(round, soloMatch);
