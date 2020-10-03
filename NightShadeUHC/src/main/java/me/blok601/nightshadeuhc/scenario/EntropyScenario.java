@@ -16,33 +16,42 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public class EntropyScenario extends Scenario {
 
-
+    private int counter;
     public EntropyScenario() {
         super("Entropy", "Every 10 min 1XP level is drained from you. If you don't have any levels when the drain occurs, you die.", new ItemBuilder(Material.EXP_BOTTLE).name("Entropy").make());
+        counter = 600;
     }
 
     @EventHandler
-    public void onGameStart(GameStartEvent e){
+    public void onGameStart(GameStartEvent e) {
 
-        if(!isEnabled()) return;
-
-
+        if (!isEnabled()) return;
         Bukkit.getOnlinePlayers().forEach(o -> o.setLevel(1));
-        new BukkitRunnable(){
+
+        new BukkitRunnable() {
             @Override
             public void run() {
+                if(!isEnabled()){
+                    counter = -1;
+                    cancel();
+                    return;
+                }
+                counter -= 30;
 
-                UHCPlayerColl.get().getAllPlaying().forEach(uhcPlayer -> {
-                    Player p = uhcPlayer.getPlayer();
+                if(counter == 0){
+                    UHCPlayerColl.get().getAllPlaying().forEach(uhcPlayer -> {
+                        Player p = uhcPlayer.getPlayer();
 
-                    if(p.getLevel() == 0){
-                        p.setHealth(0.0);
-                        Bukkit.broadcastMessage(ChatUtils.format(getPrefix() + "&6" + p.getName() + " &4has withered away&8."));
-                    }else{
-                        p.setLevel(p.getLevel() -1);
-                    }
-                });
+                        if (p.getLevel() == 0) {
+                            p.setHealth(0.0);
+                            Bukkit.broadcastMessage(ChatUtils.format(getPrefix() + "&6" + p.getName() + " &4has withered away&8."));
+                        } else {
+                            p.setLevel(p.getLevel() - 1);
+                        }
+                    });
+                    counter = 600;
+                }
             }
-        }.runTaskTimer(UHC.get(), 0, 10*60*20);
+        }.runTaskTimer(UHC.get(), 0, 20*30);
     }
 }

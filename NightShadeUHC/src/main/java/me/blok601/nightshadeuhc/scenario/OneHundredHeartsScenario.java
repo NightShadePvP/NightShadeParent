@@ -7,15 +7,17 @@ import org.bukkit.Material;
 
 public class OneHundredHeartsScenario extends Scenario {
     public OneHundredHeartsScenario() {
-        super("OneHundredHearts", "Players receive LOTS of health OwO", new ItemBuilder(Material.GOLDEN_APPLE).name("One Hundred Hearts").make());
+        super("OneHundredHearts", "Players start with 100 hearts", new ItemBuilder(Material.GOLDEN_APPLE).name("One Hundred Hearts").make());
     }
 
     public void onStart(GameStartEvent event) {
         if (!isEnabled()) return;
 
         if (getScenarioManager().getScen("Chicken").isEnabled()) return;
+
         UHCPlayerColl.get().getAllPlaying().forEach(uhcPlayer -> {
             uhcPlayer.getPlayer().setMaxHealth(200D);
+            uhcPlayer.getPlayer().setHealth(uhcPlayer.getPlayer().getMaxHealth());
         });
     }
 

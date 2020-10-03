@@ -17,8 +17,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
-public class DonateHealthCommand implements UHCCommand{
-    Boolean a = false;
+public class DonateHealthCommand implements UHCCommand {
+    private boolean a = false;
 
     private ScenarioManager scenarioManager;
 
@@ -54,7 +54,7 @@ public class DonateHealthCommand implements UHCCommand{
 
         if (p.getWorld() == GameManager.get().getWorld() && p.getGameMode() == GameMode.SURVIVAL) {
 
-            if( target == p) {
+            if (target == p) {
                 p.sendMessage(ChatUtils.message("&cYou cannot donate health to yourself!"));
                 return;
 
@@ -82,7 +82,7 @@ public class DonateHealthCommand implements UHCCommand{
                 double healthdiff = target.getMaxHealth() - target.getHealth();
 
                 p.setHealth(p.getHealth() - donate);
-                p.sendMessage(ChatUtils.message("&3Successfully Donated Health to " +target.getName() + "!"));
+                p.sendMessage(ChatUtils.message("&3Successfully Donated Health to " + target.getName() + "!"));
 
 
                 if (target.getHealth() + (double) donate > target.getMaxHealth()) {
@@ -91,13 +91,11 @@ public class DonateHealthCommand implements UHCCommand{
                     target.setHealth(target.getMaxHealth());
                     target.sendMessage(ChatUtils.message("&3 Someone donated you " + donate + " health, and thus your max health has increased!!"));
 
-                }
-                else {
+                } else {
                     target.setHealth(target.getHealth() + donate);
                     target.sendMessage(ChatUtils.message("&3 Someone donated you " + donate + " health!"));
 
                 }
-
 
 
             } catch (NumberFormatException e) {
@@ -106,14 +104,12 @@ public class DonateHealthCommand implements UHCCommand{
 
             }
 
-        }
-        else {
+        } else {
             p.sendMessage(ChatUtils.message("&cYou must be playing the UHC to donate!"));
             return;
 
         }
         return;
-
 
 
     }

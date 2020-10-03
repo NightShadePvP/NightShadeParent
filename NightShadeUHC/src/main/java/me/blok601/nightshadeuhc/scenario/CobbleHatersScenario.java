@@ -17,7 +17,7 @@ public class CobbleHatersScenario extends Scenario{
 
     private Set<Material> disallowedItems;
     public CobbleHatersScenario() {
-        super("Cobble Haters", "You cannot mine stone, furnaces, or make stone tools", new ItemBuilder(Material.STONE_PICKAXE).name("Cobble Haters").make());
+        super("Cobble Haters", "You cannot mine stone, craft furnaces, or make stone tools", new ItemBuilder(Material.STONE_PICKAXE).name("Cobble Haters").make());
         disallowedItems = ImmutableSet.of(Material.FURNACE, Material.STONE_AXE, Material.STONE_HOE, Material.STONE_PICKAXE, Material.STONE_SPADE);
     }
 

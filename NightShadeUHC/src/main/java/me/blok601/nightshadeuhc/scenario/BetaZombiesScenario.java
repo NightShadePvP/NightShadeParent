@@ -17,6 +17,8 @@ public class BetaZombiesScenario extends Scenario{
     public void on(EntityDeathEvent e){
         if(!isEnabled()) return;
 
+        e.getDrops().stream().filter(itemStack -> itemStack.getType() == Material.ROTTEN_FLESH).forEach(itemStack -> itemStack.setType(Material.AIR));
+
         if(e.getEntity() instanceof Zombie){
             e.getDrops().add(new ItemStack(Material.FEATHER, 2));
         }

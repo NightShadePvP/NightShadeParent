@@ -101,6 +101,8 @@ public class GameStartTask extends BukkitRunnable {
 
                     Core.get().getLogManager().log(Logger.LogType.INFO, "Everyone has been healed and fed!");
                     Bukkit.getOnlinePlayers().forEach(o -> o.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, gameManager.getStarterFood())));
+                    TimerTask timerTask = gameManager.getTimer();
+                    timerTask.start();
                     Bukkit.getServer().getPluginManager().callEvent(new GameStartEvent());
 
                     for (Scenario scenario : scenarioManager.getEnabledScenarios()){
@@ -120,8 +122,6 @@ public class GameStartTask extends BukkitRunnable {
                             p.hidePlayer(uhcPlayer.getPlayer());
                             uhcPlayer.getPlayer().showPlayer(p);
                         });
-
-
                         p.sendMessage(ChatUtils.format("&f&m-----------------------------------"));
                         p.sendMessage(ChatUtils.format("&fHost: &5" + gameManager.getHost().getName()));
                         if (scenarioManager.getEnabledScenarios().size() == 0) {
@@ -170,8 +170,6 @@ public class GameStartTask extends BukkitRunnable {
                         meetupTask.runTaskTimer(UHC.get(), 0, Util.TICKS);
                     }
                     gameManager.setMeetupTask(meetupTask);
-                    TimerTask timerTask = gameManager.getTimer();
-                    timerTask.start();
 
 
                     GameState.setState(GameState.INGAME);

@@ -45,6 +45,8 @@ public class DoubleOrNothingScenario extends Scenario {
                     PlayerUtils.dropItem(new ItemStack(Material.IRON_ORE, 2), location);
                     event.setExpToDrop(event.getExpToDrop() * 2);
                 } else {
+                    event.setCancelled(true);
+                    block.setType(Material.AIR);
                     event.setExpToDrop(0);
                 }
                 break;
@@ -53,6 +55,8 @@ public class DoubleOrNothingScenario extends Scenario {
                     PlayerUtils.dropItem(new ItemStack(Material.GOLD_ORE, 2), location);
                     event.setExpToDrop(event.getExpToDrop() * 2);
                 } else {
+                    event.setCancelled(true);
+                    block.setType(Material.AIR);
                     event.setExpToDrop(0);
                 }
                 break;
@@ -61,6 +65,8 @@ public class DoubleOrNothingScenario extends Scenario {
                     PlayerUtils.dropItem(new ItemStack(Material.DIAMOND, 2), location);
                     event.setExpToDrop(event.getExpToDrop() * 2);
                 } else {
+                    event.setCancelled(true);
+                    block.setType(Material.AIR);
                     event.setExpToDrop(0);
                 }
                 break;
@@ -69,6 +75,8 @@ public class DoubleOrNothingScenario extends Scenario {
                     PlayerUtils.dropItem(new ItemStack(Material.EMERALD, 2), location);
                     event.setExpToDrop(event.getExpToDrop() * 2);
                 } else {
+                    event.setCancelled(true);
+                    block.setType(Material.AIR);
                     event.setExpToDrop(0);
                 }
                 break;

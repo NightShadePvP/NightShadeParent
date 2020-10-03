@@ -50,7 +50,7 @@ public class KrenzinatorScenario extends Scenario{
 
        if(event.getCurrentItem().getType() == Material.DIAMOND_SWORD){
            if(event.getResult() == Event.Result.ALLOW){
-               player.damage(1);
+               player.damage(2);
                sendMessage(player, "&eYou have been damaged for crafting a Diamond Sword!");
                return;
            }

@@ -39,8 +39,13 @@ public class FlowerPowerScenario extends Scenario {
 
         if (flowerTypes.contains(block.getType())) {
 
-            e.setCancelled(true);
 
+
+            e.setCancelled(true);
+            if(block.getType() == Material.DOUBLE_PLANT){
+               Block other =  block.getLocation().getWorld().getBlockAt(block.getLocation().add(0, 1, 0));
+                other.setType(Material.AIR);
+            }
             block.setType(Material.AIR);
 
             ItemStack item = generateRandomItem();
