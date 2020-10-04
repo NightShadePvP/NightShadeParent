@@ -47,7 +47,8 @@ public class LobbyProvider implements SidebarProvider {
         lines.add(new SidebarEntry(ChatColor.BLUE.toString(), ChatUtils.format("&fPlayers: &b"), ChatColor.AQUA + "" + Bukkit.getServer().getOnlinePlayers().size()));
         lines.add(new SidebarEntry(""));
         lines.add(new SidebarEntry(ChatUtils.format("&fScenarios:")));
-        lines.addAll(scenNames());
+        if(scenNames().size() != 0)
+            lines.addAll(scenNames());
         lines.add(new SidebarEntry(ChatUtils.format("&f&m--------------------")));
         lines.add(new SidebarEntry(ChatUtils.format("&bdiscord.nightshadepvp.com")));
         lines.add(new SidebarEntry(ChatUtils.format("&b@NightShadePvPMC")));
@@ -57,7 +58,7 @@ public class LobbyProvider implements SidebarProvider {
     }
 
     private List<SidebarEntry> scenNames() {
-        if (scenarioManager.getEnabledScenarios().size() == 0) return Lists.newArrayList();
+        if (scenarioManager.getEnabledScenarios().size() == 0) return Collections.emptyList();
         if (scenarioManager.getEnabledScenarios().contains(scenarioManager.getScen("Mystery Scenarios")))
             return Collections.singletonList(new SidebarEntry(this.colorsForScenarios.get(0), ChatUtils.format("&bMystery Scenarios"), ""));
         ArrayList<SidebarEntry> names = Lists.newArrayList();
@@ -78,7 +79,7 @@ public class LobbyProvider implements SidebarProvider {
                 names.add(new SidebarEntry(ChatUtils.format("  &f↣ &b" + scenario.getName().substring(0, 2)), ChatColor.AQUA + scenario.getName().substring(2), ""));
                 i++;
             } else {
-                names.add(new SidebarEntry(ChatColor.DARK_AQUA.toString(), ChatUtils.format("  &f↣ &b&o" + (scenarioManager.getEnabledScenarios().size() - i) + " more..."), ChatColor.GOLD.toString()));
+                names.add(new SidebarEntry(ChatUtils.format("  &f↣ &b&o"), ((scenarioManager.getEnabledScenarios().size() - i) + " more..."), ""));
                 break;
             }
         }
