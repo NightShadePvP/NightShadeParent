@@ -22,7 +22,7 @@ import java.util.Collections;
 /**
  * Created by Blok on 6/24/2018.
  */
-public class AssaultAndBatteryScenario extends Scenario{
+public class AssaultAndBatteryScenario extends Scenario {
 
 
     public AssaultAndBatteryScenario() {
@@ -30,16 +30,16 @@ public class AssaultAndBatteryScenario extends Scenario{
     }
 
     @EventHandler
-    public void onEnable(ScenarioEnableEvent e){
-        if(e.getScenario().getName().equalsIgnoreCase(getName())){
-            if(TeamManager.getInstance().getTeamSize() != 2 || !GameManager.get().isIsTeam()){
+    public void onEnable(ScenarioEnableEvent e) {
+        if (e.getScenario().getName().equalsIgnoreCase(getName())) {
+            if (TeamManager.getInstance().getTeamSize() != 2 || !GameManager.get().isIsTeam()) {
                 e.setCancelled(true);
+                e.setMessage("&cAssault and Battery can only be enabled in Teams of 2!");
                 e.getPlayer().closeInventory();
-                e.getPlayer().sendMessage(ChatUtils.format(getPrefix() + "&cAssault and Battery can only be enabled in Teams of 2!"));
                 return;
             }
 
-            if(GameState.gameHasStarted()){
+            if (GameState.gameHasStarted()) {
                 e.getPlayer().sendMessage(ChatUtils.message("&eAssigned Assault and Battery teams now!"));
                 assign();
             }
@@ -48,28 +48,28 @@ public class AssaultAndBatteryScenario extends Scenario{
     }
 
     @EventHandler
-    public void onStart(GameStartEvent e){
-        if(!isEnabled()) return;
+    public void onStart(GameStartEvent e) {
+        if (!isEnabled()) return;
         Bukkit.broadcastMessage(ChatUtils.format(getPrefix() + "&eTeams have been set!"));
         assign();
     }
 
     @EventHandler
-    public void onDamage(EntityDamageByEntityEvent e){
+    public void onDamage(EntityDamageByEntityEvent e) {
 
-        if(!isEnabled()) return;
+        if (!isEnabled()) return;
 
-        if(!(e.getEntity() instanceof Player)){
+        if (!(e.getEntity() instanceof Player)) {
             return;
         }
 
         Player p = (Player) e.getEntity();
 
-        if(e.getDamager() instanceof Player){
+        if (e.getDamager() instanceof Player) {
             Player damager = (Player) e.getDamager();
             Team team = TeamManager.getInstance().getTeam(damager);
-            if(team != null){
-                if(!team.getMelee().equals(damager.getUniqueId())){
+            if (team != null) {
+                if (!team.getMelee().equals(damager.getUniqueId())) {
                     e.setCancelled(true);
                     e.setDamage(0);
                     damager.sendMessage(ChatUtils.format(getPrefix() + "&cYou can't use melee attacks!"));
@@ -78,18 +78,18 @@ public class AssaultAndBatteryScenario extends Scenario{
             }
         }
 
-        if(e.getDamager() instanceof Projectile){
+        if (e.getDamager() instanceof Projectile) {
             Projectile projectile = (Projectile) e.getDamager();
-            if(projectile instanceof FishHook) return;
-            if(projectile.getShooter() instanceof Player){
+            if (projectile instanceof FishHook) return;
+            if (projectile.getShooter() instanceof Player) {
                 Player shooter = (Player) projectile.getShooter();
                 Team team = TeamManager.getInstance().getTeam(shooter);
-                if(team != null){
+                if (team != null) {
                     if (!PlayerUtils.isPlaying(team.getBow())) {
                         return; //Allow
                     }
 
-                    if(!team.getBow().equals(shooter.getUniqueId())){
+                    if (!team.getBow().equals(shooter.getUniqueId())) {
                         e.setCancelled(true);
                         e.setDamage(0);
                         shooter.sendMessage(ChatUtils.format(getPrefix() + "&cYou can't use projectile attacks!"));
@@ -101,38 +101,37 @@ public class AssaultAndBatteryScenario extends Scenario{
 
     }
 
-    private void assign(){
+    private void assign() {
         Player tempPlayer;
-        for (Team team : TeamManager.getInstance().getTeams()){
+        for (Team team : TeamManager.getInstance().getTeams()) {
             Collections.shuffle(team.getMembers());
-            if(team.getMembers().size() == 0){
+            if (team.getMembers().size() == 0) {
                 tempPlayer = Bukkit.getPlayer(team.getMembers().get(0));
-                if(tempPlayer == null){
+                if (tempPlayer == null) {
                     team.setBow(Bukkit.getOfflinePlayer(team.getMembers().get(0)).getUniqueId());
                     team.setMelee(Bukkit.getOfflinePlayer(team.getMembers().get(0)).getUniqueId());
                     continue;
-                }else{
+                } else {
                     tempPlayer.sendMessage(ChatUtils.format(getPrefix() + "&eYou can do both melee and ranged attacks since you are solo!"));
                     continue;
                 }
             }
             tempPlayer = Bukkit.getPlayer(team.getMembers().get(0));
-            if(tempPlayer == null){
+            if (tempPlayer == null) {
                 team.setMelee(Bukkit.getOfflinePlayer(team.getMembers().get(0)).getUniqueId());
-            }else{
+            } else {
                 team.setMelee(tempPlayer.getUniqueId());
                 tempPlayer.sendMessage(ChatUtils.format(getPrefix() + "&eYou can only use melee attacks!"));
             }
             tempPlayer = Bukkit.getPlayer(team.getMembers().get(1));
-            if(tempPlayer == null){
+            if (tempPlayer == null) {
                 team.setBow(Bukkit.getOfflinePlayer(team.getMembers().get(1)).getUniqueId());
-            }else{
+            } else {
                 tempPlayer.sendMessage(ChatUtils.format(getPrefix() + "&eYou can only do ranged attacks!"));
                 team.setBow(tempPlayer.getUniqueId());
             }
         }
     }
-
 
 
 }

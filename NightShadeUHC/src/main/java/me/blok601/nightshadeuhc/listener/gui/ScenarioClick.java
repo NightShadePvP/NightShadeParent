@@ -1,5 +1,7 @@
 package me.blok601.nightshadeuhc.listener.gui;
 
+import me.blok601.nightshadeuhc.UHC;
+import me.blok601.nightshadeuhc.event.ScenarioDisableEvent;
 import me.blok601.nightshadeuhc.event.ScenarioEnableEvent;
 import me.blok601.nightshadeuhc.scenario.Scenario;
 import me.blok601.nightshadeuhc.scenario.ScenarioManager;
@@ -86,17 +88,22 @@ public class ScenarioClick implements Listener  {
                     if (scenario == null) return;
 
                     if (scenario.isEnabled()) {
-                        scenario.setEnabled(false);
-                        scenario.onToggle(false, p);
-                        p.sendMessage(ChatUtils.message("&cDisabled &e" + scenario.getName() + "!"));
+                        ScenarioDisableEvent scenarioDisableEvent = new ScenarioDisableEvent(scenario, p);
+                        UHC.get().getServer().getPluginManager().callEvent(scenarioDisableEvent);
+                        if(!scenarioDisableEvent.isCancelled()){
+                            scenario.setEnabled(false);
+                            scenario.onToggle(false, p);
+                            p.sendMessage(ChatUtils.message("&cDisabled &e" + scenario.getName() + "!"));
+                        }
+
                     } else {
                         ScenarioEnableEvent ev = new ScenarioEnableEvent(scenario, p);
                         Bukkit.getServer().getPluginManager().callEvent(ev);
                         if (!ev.isCancelled()) {
                             scenario.setEnabled(true);
                             scenario.onToggle(true, p);
+                            p.sendMessage(ChatUtils.message("&aEnabled &e" + scenario.getName() + "!"));
                         }
-                        p.sendMessage(ChatUtils.message("&aEnabled &e" + scenario.getName() + "!"));
                     }
                 }
             }

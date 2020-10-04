@@ -269,14 +269,23 @@ public class GameListener implements Listener {
         p.setPlayerListName(p.getName());
     }
 
-    @EventHandler
-    public void scenarioEnable(ScenarioEnableEvent enableEvent) {
-        long now = System.currentTimeMillis();
-        if ((now - this.lastBoardUpdate) >= 3000) {//3 seconds
-            this.lastBoardUpdate = now;
-            uhc.getServer().getScheduler().scheduleSyncDelayedTask(uhc, () -> Bukkit.getOnlinePlayers().forEach(player -> UHC.getScoreboardManager().applyBoard(player)), 100);
-        }
-    }
+//    @EventHandler
+//    public void scenarioEnable(ScenarioEnableEvent enableEvent) {
+//        long now = System.currentTimeMillis();
+//        if ((now - this.lastBoardUpdate) >= 3000) {//3 seconds
+//            this.lastBoardUpdate = now;
+//            uhc.getServer().getScheduler().scheduleSyncDelayedTask(uhc, () -> Bukkit.getOnlinePlayers().forEach(player -> UHC.getScoreboardManager().applyBoard(player)), 100);
+//        }
+//    }
+//
+//    @EventHandler
+//    public void onDisable(ScenarioDisableEvent scenarioDisableEvent){
+//        long now = System.currentTimeMillis();
+//        if ((now - this.lastBoardUpdate) >= 3000) {//3 seconds
+//            this.lastBoardUpdate = now;
+//            uhc.getServer().getScheduler().scheduleSyncDelayedTask(uhc, () -> Bukkit.getOnlinePlayers().forEach(player -> UHC.getScoreboardManager().applyBoard(player)), 100);
+//        }
+//    }
 
     private String get(int i) {
         int m = i / 60;

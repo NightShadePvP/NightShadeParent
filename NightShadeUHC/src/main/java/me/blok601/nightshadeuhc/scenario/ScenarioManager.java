@@ -6,6 +6,8 @@ import com.nightshadepvp.core.Rank;
 import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.command.UHCCommand;
 import me.blok601.nightshadeuhc.component.ComponentHandler;
+import me.blok601.nightshadeuhc.event.ScenarioDisableEvent;
+import me.blok601.nightshadeuhc.event.ScenarioEnableEvent;
 import me.blok601.nightshadeuhc.manager.GameManager;
 import me.blok601.nightshadeuhc.util.ChatUtils;
 import me.blok601.nightshadeuhc.util.ItemBuilder;
@@ -24,7 +26,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Blok on 3/28/2017.
  */
-public class ScenarioManager implements UHCCommand{
+public class ScenarioManager implements UHCCommand {
 
     private UHC uhc;
     private GameManager gameManager;
@@ -37,8 +39,8 @@ public class ScenarioManager implements UHCCommand{
         this.componentHandler = componentHandler;
     }
 
-    public void setup(){
-        scenarios = new ArrayList<>();          
+    public void setup() {
+        scenarios = new ArrayList<>();
         addScen(new AssaultAndBatteryScenario(), "AAB");
         addScen(new AurophobiaScenario(), "AP");
         addScen(new BackpackScenario(), "BP");
@@ -97,7 +99,7 @@ public class ScenarioManager implements UHCCommand{
         addScen(new PuppyPowerPlusPlusScenario(), "PP++");
         addScen(new RewardingLongShotsScenario(), "RL");
         addScen(new RiskyRetrievalScenario(), "RR");
-        addScen(new Scenario("Rush", "The game progresses quicker", new  ItemStack(Material.COMPASS, 1)));
+        addScen(new Scenario("Rush", "The game progresses quicker", new ItemStack(Material.COMPASS, 1)));
         addScen(new SkycleanScenario());
         addScen(new SkyhighScenario());
         addScen(new SlaveMarketScenario(Core.get()));
@@ -167,26 +169,25 @@ public class ScenarioManager implements UHCCommand{
     }
 
 
-
-    private void addScen(Scenario s){
+    private void addScen(Scenario s) {
         scenarios.add(s);
         s.setScenarioManager(this);
         Bukkit.getPluginManager().registerEvents(s, uhc);
     }
 
-    private void addScen(Scenario s, String abbreviation){
+    private void addScen(Scenario s, String abbreviation) {
         scenarios.add(s);
-        if(s.getAbbreviation() != null)
-        s.setAbbreviation(abbreviation);
+        if (s.getAbbreviation() != null)
+            s.setAbbreviation(abbreviation);
         s.setScenarioManager(this);
         Bukkit.getPluginManager().registerEvents(s, uhc);
     }
 
-    public Scenario getScen(String name){
+    public Scenario getScen(String name) {
         return scenarios.stream().filter(scem -> scem.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
-    private void openScenarioGUI(Player player){
+    private void openScenarioGUI(Player player) {
         System.out.println("Current Scens: " + scenarios.size());
         ArrayList<ItemStack> items = new ArrayList<>();
 
@@ -200,9 +201,9 @@ public class ScenarioManager implements UHCCommand{
 
     }
 
-    public Scenario getScen(ItemStack itemStack){
-        for (Scenario scenario : getScenarios()){
-            if(scenario.getItem().equals(itemStack)){
+    public Scenario getScen(ItemStack itemStack) {
+        for (Scenario scenario : getScenarios()) {
+            if (scenario.getItem().equals(itemStack)) {
                 return scenario;
             }
         }
@@ -227,17 +228,17 @@ public class ScenarioManager implements UHCCommand{
 
     @Override
     public void onCommand(CommandSender s, Command cmd, String l, String[] args) {
-        if(s instanceof Player) {
+        if (s instanceof Player) {
             Player p = (Player) s;
-            if(args.length == 0){
+            if (args.length == 0) {
                 openScenarioGUI(p);
                 p.sendMessage(ChatUtils.message("&eOpening Scenario GUI..."));
                 return;
-            }else if(args.length == 1){
-                if(args[0].equalsIgnoreCase("clear")){
-                   getEnabledScenarios().forEach(scenario -> scenario.setEnabled(false));
+            } else if (args.length == 1) {
+                if (args[0].equalsIgnoreCase("clear")) {
+                    getEnabledScenarios().forEach(scenario -> scenario.setEnabled(false));
                     p.sendMessage(ChatUtils.message("&eAll scenarios have been disabled!"));
-                }else if(args[0].equalsIgnoreCase("list")){
+                } else if (args[0].equalsIgnoreCase("list")) {
                     HashSet<String> names = new HashSet<>();
                     scenarios.stream().sorted(Comparator.comparing(Scenario::getName)).forEach(scenario -> {
                         if (scenario.isEnabled()) {
@@ -245,15 +246,15 @@ public class ScenarioManager implements UHCCommand{
                         }
                     });
                     p.sendMessage(ChatUtils.message("&eScenarios: &b" + Joiner.on("&7, &b").join(names)));
-                }else{
+                } else {
                     p.sendMessage(ChatUtils.message("&cUsage: /scen"));
                     p.sendMessage(ChatUtils.message("&cUsage: /scen <enable/disable> <scenario>"));
                 }
-            }else {
-                if(args[0].equalsIgnoreCase("enable")){
+            } else {
+                if (args[0].equalsIgnoreCase("enable")) {
                     StringBuilder builder = new StringBuilder();
 
-                    for (int i = 1; i < args.length; i++){
+                    for (int i = 1; i < args.length; i++) {
                         builder.append(args[i]).append(" ");
                     }
 
@@ -261,17 +262,25 @@ public class ScenarioManager implements UHCCommand{
 
 
                     Scenario scenario = this.getScen(f);
-                    if(scenario == null){
+                    if (scenario == null) {
                         p.sendMessage(ChatUtils.message("That scenario couldn't be found!"));
                         return;
                     }
 
-                    scenario.setEnabled(true);
-                    p.sendMessage(ChatUtils.message("&aEnabled &e" + scenario.getName() + "!"));
-                }else if(args[0].equalsIgnoreCase("disable")){
+
+                    ScenarioEnableEvent ev = new ScenarioEnableEvent(scenario, p);
+                    Bukkit.getServer().getPluginManager().callEvent(ev);
+                    if (!ev.isCancelled()) {
+                        scenario.setEnabled(true);
+                        scenario.onToggle(true, p);
+                        p.sendMessage(ChatUtils.message("&aEnabled &e" + scenario.getName() + "!"));
+                    }else{
+                        p.sendMessage(ChatUtils.message("&e" + scenario.getName() + " &ccould not be enabled because " + ev.getMessage()));
+                    }
+                } else if (args[0].equalsIgnoreCase("disable")) {
                     StringBuilder builder = new StringBuilder();
 
-                    for (int i = 1; i < args.length; i++){
+                    for (int i = 1; i < args.length; i++) {
                         builder.append(args[i]).append(" ");
                     }
 
@@ -279,7 +288,7 @@ public class ScenarioManager implements UHCCommand{
 
 
                     Scenario scenario = this.getScen(f);
-                    if(scenario == null){
+                    if (scenario == null) {
                         p.sendMessage(ChatUtils.message("That scenario couldn't be found!"));
                         return;
                     }
@@ -288,10 +297,14 @@ public class ScenarioManager implements UHCCommand{
                         p.sendMessage(ChatUtils.message("&b" + scenario.getName() + "&c is not enabled!"));
                         return;
                     }
-
-                    scenario.setEnabled(false);
-                    p.sendMessage(ChatUtils.message("&cDisabled &e" + scenario.getName() +"!"));
-                }else{
+                    ScenarioDisableEvent scenarioDisableEvent = new ScenarioDisableEvent(scenario, p);
+                    UHC.get().getServer().getPluginManager().callEvent(scenarioDisableEvent);
+                    if(!scenarioDisableEvent.isCancelled()){
+                        scenario.setEnabled(false);
+                        scenario.onToggle(false, p);
+                        p.sendMessage(ChatUtils.message("&cDisabled &e" + scenario.getName() + "!"));
+                    }
+                } else {
                     p.sendMessage(ChatUtils.message("&cUsage: /scen"));
                     p.sendMessage(ChatUtils.message("&cUsage: /scen <enable/disable> <scenario>"));
                     return;

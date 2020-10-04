@@ -32,6 +32,7 @@ public class ChildrenLeftUnattendedScenario extends Scenario {
         if (newState) {
             if (!gameManager.isIsTeam()) {
                 sendMessage(player, "&cThis scenario can't be enabled in a non-teams game!");
+                this.setEnabled(false);
             }
         }
     }
