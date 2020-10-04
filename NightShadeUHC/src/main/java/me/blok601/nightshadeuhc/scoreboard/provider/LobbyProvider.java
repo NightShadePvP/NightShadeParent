@@ -27,7 +27,7 @@ public class LobbyProvider implements SidebarProvider {
     private ScenarioManager scenarioManager;
     public LobbyProvider(UHC uhc, GameManager gameManager, ScenarioManager scenarioManager) {
         this.scenarioManager = scenarioManager;
-        colorsForScenarios = Lists.newArrayList(ChatColor.WHITE.toString(), ChatColor.DARK_BLUE.toString(), ChatColor.BLACK.toString(), ChatColor.RED.toString(), ChatColor.YELLOW.toString());
+        colorsForScenarios = Lists.newArrayList(ChatColor.DARK_BLUE.toString(), ChatColor.BLACK.toString(), ChatColor.RED.toString(), ChatColor.YELLOW.toString());
     }
     @Override
     public List<SidebarEntry> getLines(Player p) {
@@ -64,8 +64,9 @@ public class LobbyProvider implements SidebarProvider {
         int i = 0;
         if (scenarioManager.getEnabledScenarios().size() <= 3) {
             //scenarioManager.getEnabledScenarios().forEach(scenario -> names.add(new SidebarEntry(ChatUtils.format("  &f↣ &b" + scenario.getName()))));
-            for (int count = 0; count < scenarioManager.getEnabledScenarios().size(); count++){
-                names.add(new SidebarEntry(this.colorsForScenarios.get(count), ChatUtils.format("  &f↣ &b"), ChatColor.AQUA + scenarioManager.getEnabledScenarios().get(count).getName()));
+            for (Scenario scenario : scenarioManager.getEnabledScenarios()){
+                //names.add(new SidebarEntry(this.colorsForScenarios.get(count), ChatUtils.format("  &f↣ &b"), ChatColor.AQUA + scenarioManager.getEnabledScenarios().get(count).getName()));
+                names.add(new SidebarEntry(ChatUtils.format("  &f↣ &b" + scenario.getName().substring(0, 2)), ChatColor.AQUA + scenario.getName().substring(2), ""));
             }
             return names;
         }
