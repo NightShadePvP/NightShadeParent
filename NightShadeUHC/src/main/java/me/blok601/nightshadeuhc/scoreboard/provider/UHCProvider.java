@@ -38,8 +38,6 @@ public class UHCProvider implements SidebarProvider {
         if (GameManager.get().isIsTeam()) {
             //Team game
             Team team = TeamManager.getInstance().getTeam(p);
-
-
             if (team == null) {
                 lines.add(new SidebarEntry(ChatColor.YELLOW.toString(), ChatUtils.format("&fTeam Kills: &b"), ChatColor.AQUA + "0"));
             } else {

@@ -27,7 +27,7 @@ public class LobbyProvider implements SidebarProvider {
     private ScenarioManager scenarioManager;
     public LobbyProvider(UHC uhc, GameManager gameManager, ScenarioManager scenarioManager) {
         this.scenarioManager = scenarioManager;
-        colorsForScenarios = ImmutableList.of(ChatColor.WHITE.toString(), ChatColor.DARK_BLUE.toString(), ChatColor.BLACK.toString(), ChatColor.RED.toString(), ChatColor.YELLOW.toString());
+        colorsForScenarios = Lists.newArrayList(ChatColor.WHITE.toString(), ChatColor.DARK_BLUE.toString(), ChatColor.BLACK.toString(), ChatColor.RED.toString(), ChatColor.YELLOW.toString());
     }
     @Override
     public List<SidebarEntry> getLines(Player p) {
