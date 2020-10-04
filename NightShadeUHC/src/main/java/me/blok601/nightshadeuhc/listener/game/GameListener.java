@@ -56,6 +56,8 @@ public class GameListener implements Listener {
     private ScenarioManager scenarioManager;
     private ComponentHandler componentHandler;
 
+    private long lastBoardUpdate = -1;
+
 
     public GameListener(UHC uhc, GameManager gameManager, ScenarioManager scenarioManager, ComponentHandler componentHandler) {
         this.uhc = uhc;
@@ -65,9 +67,9 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void onStart(GameStartEvent e){
+    public void onStart(GameStartEvent e) {
         //if(UHC.players.size() >= 15){//Only count if game has 15 player fill or more
-            StatsHandler.getInstance().getCachedGame().setStart(System.currentTimeMillis());
+        StatsHandler.getInstance().getCachedGame().setStart(System.currentTimeMillis());
         StatsHandler.getInstance().getCachedGame().setFill(UHCPlayerColl.get().getAllPlaying().size());
 
         Bukkit.getServer().getScheduler().runTaskAsynchronously(uhc, () -> StatsHandler.getInstance().getCachedGame().setMatchID(uhc.getGameCollection().count() + 1));
@@ -91,7 +93,7 @@ public class GameListener implements Listener {
             cachedGame.setHost(GameManager.get().getHost().getUniqueId().toString());
             ArrayList<String> winners = new ArrayList<>();
             NSPlayer targetNSPlayer;
-            for (UUID winner : e.getWinners()){
+            for (UUID winner : e.getWinners()) {
                 winners.add(winner.toString());
                 targetNSPlayer = NSPlayer.get(winner); //This is just for now
                 if (targetNSPlayer.getRank().getValue() < Rank.DRAGON.getValue()) {
@@ -136,7 +138,7 @@ public class GameListener implements Listener {
 
             try {
                 List<String> winnerNames = Lists.newArrayList();
-                for (String uuid : cachedGame.getWinners()){
+                for (String uuid : cachedGame.getWinners()) {
                     winnerNames.add(UHCPlayer.get(UUID.fromString(uuid)).getName());
                 }
                 Core.get().getTwitter().updateStatus("Congratulations to " + Joiner.on(", ").join(winnerNames) + " on winning a NightShadePvP UHC with " + MathUtils.cummulativeList(cachedGame.getWinnerKills().values()) + " kills!");
@@ -147,17 +149,17 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void on(PvPEnableEvent e){
-        new BukkitRunnable(){
+    public void on(PvPEnableEvent e) {
+        new BukkitRunnable() {
             @Override
             public void run() {
 
-                if(WorldBorderTask.counter <= 0){
+                if (WorldBorderTask.counter <= 0) {
                     this.cancel();
                     return;
                 }
 
-                Bukkit.getOnlinePlayers().forEach(player ->{
+                Bukkit.getOnlinePlayers().forEach(player -> {
                     ActionBarUtil.sendActionBarMessage(player, "§bBorder Shrink §8» " + get(WorldBorderTask.counter));
                 });
             }
@@ -178,7 +180,7 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void onLateStart(PlayerJoinGameLateEvent e){
+    public void onLateStart(PlayerJoinGameLateEvent e) {
         Player player = e.getPlayer();
         UHCPlayer uhcPlayer = UHCPlayer.get(player);
         uhcPlayer.setChangedLevel(0);
@@ -234,7 +236,7 @@ public class GameListener implements Listener {
                     date.withZone(DateTimeZone.UTC);
                     Util.staffLog("Test Date:");
                     Util.staffLog("Date: " + date.getMonthOfYear() + "/" + date.getDayOfMonth() + "/" + date.getYear());
-                    Util.staffLog("Time: " + date.getHourOfDay() +":" + date.getMinuteOfHour() + ":" + date.getSecondOfMinute());
+                    Util.staffLog("Time: " + date.getHourOfDay() + ":" + date.getMinuteOfHour() + ":" + date.getSecondOfMinute());
 //                    new BukkitRunnable(){
 //
 //                    }.runTaskLaterAsynchronously(uhc, date.minus )
@@ -249,8 +251,8 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void onSpawn(CreatureSpawnEvent event){
-        if(event.getEntity().getType() == EntityType.RABBIT && (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.CHUNK_GEN || event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL)){
+    public void onSpawn(CreatureSpawnEvent event) {
+        if (event.getEntity().getType() == EntityType.RABBIT && (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.CHUNK_GEN || event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL)) {
             event.setCancelled(true);
         }
     }
@@ -267,9 +269,18 @@ public class GameListener implements Listener {
         p.setPlayerListName(p.getName());
     }
 
-    private String get(int i){
-        int m = i/60;
-        int s = i%60;
+    @EventHandler
+    public void scenarioEnable(ScenarioEnableEvent enableEvent) {
+        long now = System.currentTimeMillis();
+        if ((now - this.lastBoardUpdate) >= 3000) {//3 seconds
+            this.lastBoardUpdate = now;
+            uhc.getServer().getScheduler().scheduleSyncDelayedTask(uhc, () -> Bukkit.getOnlinePlayers().forEach(player -> UHC.getScoreboardManager().applyBoard(player)), 100);
+        }
+    }
+
+    private String get(int i) {
+        int m = i / 60;
+        int s = i % 60;
 
         return "§b" + m + "§fm§b" + s + "§fs";
     }
