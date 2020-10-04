@@ -61,7 +61,7 @@ public class LobbyProvider implements SidebarProvider {
         if (scenarioManager.getEnabledScenarios().contains(scenarioManager.getScen("Mystery Scenarios")))
             return Collections.singletonList(new SidebarEntry(this.colorsForScenarios.get(0), ChatUtils.format("&bMystery Scenarios"), ""));
         ArrayList<SidebarEntry> names = Lists.newArrayList();
-        int i = 0;
+
         if (scenarioManager.getEnabledScenarios().size() <= 3) {
             //scenarioManager.getEnabledScenarios().forEach(scenario -> names.add(new SidebarEntry(ChatUtils.format("  &f↣ &b" + scenario.getName()))));
             for (Scenario scenario : scenarioManager.getEnabledScenarios()){
@@ -71,16 +71,18 @@ public class LobbyProvider implements SidebarProvider {
             return names;
         }
 
-        for (Scenario scen : scenarioManager.getEnabledScenarios()) {
-            if (i < 3 && scen.getName().length() < 16) {
-                names.add(new SidebarEntry(this.colorsForScenarios.get(i), ChatUtils.format("  &f↣ &b"), ChatColor.AQUA + scen.getName()));
+        int i = 0;
+        for (Scenario scenario : scenarioManager.getEnabledScenarios()) {
+            if (i < 3) { //put 3 on the board + x more
+               // names.add(new SidebarEntry(this.colorsForScenarios.get(i), ChatUtils.format("  &f↣ &b"), ChatColor.AQUA + scen.getName()));
+                names.add(new SidebarEntry(ChatUtils.format("  &f↣ &b" + scenario.getName().substring(0, 2)), ChatColor.AQUA + scenario.getName().substring(2), ""));
                 i++;
-            } else if (i >= 3) {
+            } else {
+                names.add(new SidebarEntry(ChatColor.DARK_AQUA.toString(), ChatUtils.format("  &f↣ &b&o" + (scenarioManager.getEnabledScenarios().size() - i) + " more..."), ChatColor.GOLD.toString()));
                 break;
             }
         }
 
-        names.add(new SidebarEntry(ChatColor.DARK_AQUA.toString(), ChatUtils.format("  &f↣ &b&o" + (scenarioManager.getEnabledScenarios().size() - i) + " more..."), ChatColor.GOLD.toString()));
         return names;
     }
 }
