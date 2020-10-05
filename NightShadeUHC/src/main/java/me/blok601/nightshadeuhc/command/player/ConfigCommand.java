@@ -1,6 +1,7 @@
 package me.blok601.nightshadeuhc.command.player;
 
 import com.nightshadepvp.core.Rank;
+import me.blok601.nightshadeuhc.component.ComponentHandler;
 import me.blok601.nightshadeuhc.manager.GameManager;
 import me.blok601.nightshadeuhc.util.ChatUtils;
 import me.blok601.nightshadeuhc.command.UHCCommand;
@@ -15,9 +16,11 @@ import org.bukkit.entity.Player;
 public class ConfigCommand implements UHCCommand{
 
     private GameManager gameManager;
+    private ComponentHandler componentHandler;
 
-    public ConfigCommand(GameManager gameManager) {
+    public ConfigCommand(GameManager gameManager, ComponentHandler componentHandler) {
         this.gameManager = gameManager;
+        this.componentHandler = componentHandler;
     }
 
     @Override
@@ -37,7 +40,7 @@ public class ConfigCommand implements UHCCommand{
 
         p.sendMessage(ChatUtils.message("&eOpening the game config!"));
 
-        new ConfigGUI(p, gameManager);
+        new ConfigGUI(p, gameManager, componentHandler);
 
     }
 
