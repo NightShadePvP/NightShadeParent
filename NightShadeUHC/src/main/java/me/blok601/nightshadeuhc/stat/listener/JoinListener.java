@@ -131,6 +131,14 @@ public class JoinListener implements Listener {
                 }.runTaskLater(uhc, 1);
             }
 
+
+            if (PlayerUtils.inGameWorld(player) && UHC.loggedOutPlayers.contains(player.getUniqueId())) {
+                UHC.loggedOutPlayers.remove(player.getUniqueId());
+                gamePlayer.setPlayerStatus(PlayerStatus.PLAYING);
+            } else {
+                //They randomly joined while whitelist was off but game was going
+                gameManager.getLateScatter().add(player.getName().toLowerCase());
+            }
             if (gameManager.getLateScatter().contains(player.getName().toLowerCase())) {
                 //Late scatter them
                 new BukkitRunnable(){
@@ -150,13 +158,6 @@ public class JoinListener implements Listener {
                         Bukkit.getPluginManager().callEvent(new PlayerJoinGameLateEvent(player));
                     }
                 }.runTaskLater(uhc, 1);
-            }
-
-            if (PlayerUtils.inGameWorld(player) && UHC.loggedOutPlayers.contains(player.getUniqueId())) {
-                UHC.loggedOutPlayers.remove(player.getUniqueId());
-                gamePlayer.setPlayerStatus(PlayerStatus.PLAYING);
-            } else {
-                gamePlayer.setPlayerStatus(PlayerStatus.LOBBY);
             }
 
             StringBuilder builder = new StringBuilder();
@@ -185,6 +186,7 @@ public class JoinListener implements Listener {
             player.getEnderChest().clear();
             gamePlayer.setPlayerStatus(PlayerStatus.LOBBY);
             player.teleport(MConf.get().getSpawnLocation().asBukkitLocation());
+            PlayerUtils.clearPlayer(player, true);
         }
         UHC.getScoreboardManager().applyBoard(player);
     }

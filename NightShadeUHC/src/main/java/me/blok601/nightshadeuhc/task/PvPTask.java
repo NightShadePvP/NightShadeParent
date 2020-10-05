@@ -5,6 +5,7 @@ import me.blok601.nightshadeuhc.command.staff.PvPCommand;
 import me.blok601.nightshadeuhc.entity.UHCPlayer;
 import me.blok601.nightshadeuhc.entity.UHCPlayerColl;
 import me.blok601.nightshadeuhc.event.PvPEnableEvent;
+import me.blok601.nightshadeuhc.manager.GameManager;
 import me.blok601.nightshadeuhc.util.ChatUtils;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
@@ -23,9 +24,11 @@ public class PvPTask extends BukkitRunnable {
     public static int counter;
     private World w;
 
-    public PvPTask(int counter, World w) {
+    private GameManager gameManager;
+    public PvPTask(int counter, World w, GameManager gameManager) {
         PvPTask.counter = counter;
         this.w = w;
+        this.gameManager = gameManager;
     }
 
     @Override
@@ -44,6 +47,7 @@ public class PvPTask extends BukkitRunnable {
 
                 if (uhcPlayer.isUsingOldVersion()) {
                     uhcPlayer.msg(ChatUtils.message("&3PvP has been enabled!"));
+                    gameManager.setWhitelistEnabled(true);
                     continue;
                 }
 

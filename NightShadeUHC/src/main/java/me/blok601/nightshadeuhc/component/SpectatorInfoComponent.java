@@ -83,7 +83,7 @@ public class SpectatorInfoComponent extends Component {
             Arrow a = (Arrow) e.getDamager();
             if (a.getShooter() instanceof Player) {
                 Player damager = (Player) a.getShooter();
-                UHCPlayerColl.get().getAllOnline().stream().filter(UHCPlayer::isSpectator).filter(UHCPlayer::isReceivingSpectatorInfo).forEach(uhcPlayer -> fancyMessage.text(SpecInfoData.translate(p, p.getHealth() - e.getFinalDamage(), damager, SpecInfoData.DAMAGE_PLAYER)).send(uhcPlayer.getPlayer()));
+                UHCPlayerColl.get().getAllOnline().stream().filter(UHCPlayer::isSpectator).filter(UHCPlayer::isReceivingSpectatorInfo).forEach(uhcPlayer -> fancyMessage.text(SpecInfoData.translate(p, p.getHealth() - e.getFinalDamage(), damager, SpecInfoData.DAMAGE_PLAYER_BOW)).send(uhcPlayer.getPlayer()));
             }
         }
     }

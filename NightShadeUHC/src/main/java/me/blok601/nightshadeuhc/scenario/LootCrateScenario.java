@@ -4,9 +4,11 @@ import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.event.GameStartEvent;
 import me.blok601.nightshadeuhc.util.ChatUtils;
 import me.blok601.nightshadeuhc.util.ItemBuilder;
+import me.blok601.nightshadeuhc.util.PlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -96,6 +98,7 @@ public class LootCrateScenario extends Scenario{
                         else {
                             player.getInventory().addItem(chests.get(r.nextInt(chests.size())));
                         }
+                        PlayerUtils.playSound(Sound.NOTE_BASS_DRUM, player);
                         player.sendMessage(ChatUtils.format(getPrefix() + "&eYou have been given your lootcrate!"));
                     }
                 }

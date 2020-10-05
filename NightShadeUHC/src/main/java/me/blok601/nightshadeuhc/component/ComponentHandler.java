@@ -88,7 +88,8 @@ public class ComponentHandler {
     public boolean handleClick(ItemStack stack, InventoryClickEvent e, int slot){
 
         if (slot == 26) { //main menu slot
-            new HostGUI((Player) e.getWhoClicked(), gameManager, scenarioManager);
+            plugin.getServer().getScheduler().runTaskLater(plugin, () -> new HostGUI((Player) e.getWhoClicked(), gameManager, scenarioManager), 1L);
+
             return false;
         }
 

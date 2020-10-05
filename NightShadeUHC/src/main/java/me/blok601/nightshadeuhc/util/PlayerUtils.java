@@ -107,5 +107,17 @@ public class PlayerUtils {
         player.addPotionEffect(new PotionEffect(type, duration, level, true, true));
     }
 
+    public static void clearPlayer(Player player, boolean inv){
+        player.setMaxHealth(20.0);
+        player.setHealth(player.getMaxHealth());
+        player.getActivePotionEffects().clear();
+        player.setExp(0F);
+        player.setLevel(0);
+        if(inv){
+            player.getInventory().clear();
+            player.getInventory().setArmorContents(null);
+        }
+    }
+
 
 }

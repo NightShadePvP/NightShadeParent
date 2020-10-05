@@ -2,6 +2,8 @@ package me.blok601.nightshadeuhc.gui;
 
 import com.nightshadepvp.core.Core;
 import com.nightshadepvp.core.utils.ItemBuilder;
+import me.blok601.nightshadeuhc.component.Component;
+import me.blok601.nightshadeuhc.component.ComponentHandler;
 import me.blok601.nightshadeuhc.manager.GameManager;
 import me.blok601.nightshadeuhc.util.ChatUtils;
 import org.bukkit.DyeColor;
@@ -14,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public class ConfigGUI {
 
-    public ConfigGUI(Player player, GameManager gameManager) {
+    public ConfigGUI(Player player, GameManager gameManager, ComponentHandler componentHandler) {
         GuiBuilder menu = new GuiBuilder();
         menu.name(ChatUtils.format("&5Game Settings"));
         menu.rows(5);
@@ -34,30 +36,23 @@ public class ConfigGUI {
 
         ItemStack mining = new ItemBuilder(Material.IRON_PICKAXE)
                 .name(ChatUtils.format("&6Mining Information"))
-                .lore(ChatUtils.format("&3Stripmining» &e Host's Choice"))
-                .lore(ChatUtils.format("&3Rollercoastering» &e&aAllowed"))
+                .lore(ChatUtils.format("&bRollercoastering &8» &aAllowed"))
                 .make();
 
         ItemStack apples = new ItemBuilder(Material.APPLE)
                 .name(ChatUtils.format("&6Apples"))
-                .lore(ChatUtils.format("&3Apple rates» &e" + GameManager.get().getAppleRates() + "%")).make();
+                .lore(ChatUtils.format("&bApple rates &8» &f" + GameManager.get().getAppleRates() + "%")).make();
 
         ItemStack healing = new ItemBuilder(Material.GOLDEN_APPLE)
                 .name(ChatUtils.format("&6Healing"))
-                .lore(ChatUtils.format("&3Golden Heads» &eHeal 4 hearts"))
-                .lore(ChatUtils.format("&3Health Potions» &aOff"))
+                .lore(ChatUtils.format("&bGolden Heads &8» &fHeal 4 hearts"))
+                .lore(ChatUtils.format("&bHealth Potions &8» &aOff"))
                 .make();
 
         ItemStack potions = new ItemBuilder(Material.POTION)
                 .name(ChatUtils.format("&6Potions"))
-                .lore(ChatUtils.format("&3Nether» &cDisabled"))
-                .lore(ChatUtils.format("&3Tier 2 Potions» &cOff"))
-                .make();
-
-        ItemStack combat = new ItemBuilder(Material.DIAMOND_SWORD)
-                .name(ChatUtils.format("&6PvP"))
-                .lore(ChatUtils.format("&3iPvP» &cNot Allowed"))
-                .lore(ChatUtils.format("&3iPvP» &eBannable"))
+                .lore(ChatUtils.format("&bNether &8» &cDisabled"))
+                .lore(ChatUtils.format("&bTier 2 Potions» &cOff"))
                 .make();
 
         ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
@@ -67,9 +62,9 @@ public class ConfigGUI {
         newSkull.skullOwner(GameManager.get().getHost().getName());
 
         ItemStack server = new ItemBuilder(Material.PAPER).name(ChatUtils.format("&5&lServer Information"))
-                .lore(ChatUtils.format("&bOwners &8» &fBlok, Milan, and Ozzy"))
+                .lore(ChatUtils.format("&bOwner &8» &fBlok"))
                 .lore(ChatUtils.format("&bProvider &8» &fOVH"))
-                .lore(ChatUtils.format("&bDevelopers &8» &fBL0K, Ozzy, and Database"))
+                .lore(ChatUtils.format("&bDevelopers &8» &fBL0K and RJ"))
                 .lore(ChatUtils.format("&bWebsite &8» &fwww.nightshadepvp.com"))
                 .lore(ChatUtils.format("&bTwitter &8» &f@NightShadePVPMC"))
                 .lore(ChatUtils.format("&bDiscord &8» &fdiscord.nightshadepvp.com"))
@@ -78,11 +73,21 @@ public class ConfigGUI {
         menu.item(3, post.make());
         menu.item(4, newSkull.make());
         menu.item(5, timers.make());
-        menu.item(10, mining);
+        menu.item(11, mining);
         menu.item(12, apples);
         menu.item(14, healing);
-        menu.item(16, potions);
-        menu.item(40, server);
+        menu.item(15, potions);
+        menu.item(13, server);
+
+
+        int index = 18;
+
+        for (Component component : componentHandler.getComponents()){
+            menu.item(index, new ItemBuilder(component.getMaterial())
+                    .name("&b" + component.getName())
+                    .lore(component.isEnabled() ? "&aEnabled" : "&cDisabled").make());
+            index++;
+        } //Should add all the toggleable options to the gui
 
         player.openInventory(menu.make());
     }

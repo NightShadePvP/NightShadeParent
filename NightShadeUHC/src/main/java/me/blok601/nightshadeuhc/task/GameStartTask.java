@@ -152,7 +152,7 @@ public class GameStartTask extends BukkitRunnable {
                     }
                     gameManager.setFinalHealTask(task);
 
-                    PvPTask pvpTask = new PvPTask(pvpTime, world);
+                    PvPTask pvpTask = new PvPTask(pvpTime, world, gameManager);
                     if (pvpTime > 0) {
                         pvpTask.runTaskTimer(UHC.get(), 0, Util.TICKS);
                     }

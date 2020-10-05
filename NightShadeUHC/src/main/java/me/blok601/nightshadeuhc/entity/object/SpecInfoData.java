@@ -24,6 +24,7 @@ public class SpecInfoData {
     public static final String DAMAGE_OTHER = "&5PvE&8»&c%player%&8<-&bPvE &8[&a%health% &c❤&8]";
     public static final String DAMAGE_MOB = "&5PvE&8»&c%player%&8<-&bMob &8[&a%health% &c❤&8]";
     public static final String DAMAGE_PLAYER = "&5PvP&8»&c%player%&8<-&b%d% &8[&a%health% &c❤&8]";
+    public static final String DAMAGE_PLAYER_BOW = "&5PvP&8»&c%player%&8<-&b%d% &8[&a%health% &c❤&8] &8[&7Bow&7]";
     public static final DecimalFormat format = new DecimalFormat("##.##");
 
 }

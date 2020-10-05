@@ -89,15 +89,13 @@ public class RespawnCommand implements UHCCommand{
             target.chat("/rea");
         }
 
-
-
         target.setGameMode(GameMode.SURVIVAL);
         target.teleport(obj.getLocation());
-        target.getInventory().setArmorContents(obj.getArmor());
-        target.getInventory().setContents(obj.getItems());
         if (targetUHCPlayer.isSpectator()) {
             targetUHCPlayer.unspec();
         }
+        target.getInventory().setArmorContents(obj.getArmor());
+        target.getInventory().setContents(obj.getItems());
 
         GameManager.get().getInvs().remove(target.getUniqueId());
         targetUHCPlayer.setPlayerStatus(PlayerStatus.PLAYING);
