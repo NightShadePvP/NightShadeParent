@@ -1,9 +1,9 @@
 package me.blok601.nightshadeuhc.task;
 
+import com.nightshadepvp.core.utils.ActionBarUtil;
 import com.wimbli.WorldBorder.BorderData;
 import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.manager.GameManager;
-import me.blok601.nightshadeuhc.util.ActionBarUtil;
 import me.blok601.nightshadeuhc.util.ChatUtils;
 import me.blok601.nightshadeuhc.util.MathUtils;
 import me.blok601.nightshadeuhc.util.Util;

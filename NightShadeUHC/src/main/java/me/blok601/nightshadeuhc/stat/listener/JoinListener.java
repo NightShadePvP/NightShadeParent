@@ -186,7 +186,7 @@ public class JoinListener implements Listener {
             player.getEnderChest().clear();
             gamePlayer.setPlayerStatus(PlayerStatus.LOBBY);
             player.teleport(MConf.get().getSpawnLocation().asBukkitLocation());
-            PlayerUtils.clearPlayer(player, true);
+            com.nightshadepvp.core.utils.PlayerUtils.clearPlayer(player, true);
         }
         UHC.getScoreboardManager().applyBoard(player);
     }

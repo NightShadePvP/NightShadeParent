@@ -14,7 +14,7 @@ import me.blok601.nightshadeuhc.scenario.CaptainsScenario;
 import me.blok601.nightshadeuhc.scenario.ScenarioManager;
 import me.blok601.nightshadeuhc.util.ChatUtils;
 import me.blok601.nightshadeuhc.util.MathUtils;
-import me.blok601.nightshadeuhc.util.PlayerUtils;
+import com.nightshadepvp.core.utils.PlayerUtils;
 import me.blok601.nightshadeuhc.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

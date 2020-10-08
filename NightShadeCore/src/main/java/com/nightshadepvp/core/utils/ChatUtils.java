@@ -5,6 +5,7 @@ import com.nightshadepvp.core.entity.NSPlayerColl;
 import com.nightshadepvp.core.entity.objects.PlayerColor;
 import com.nightshadepvp.core.entity.objects.PlayerEffect;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -104,4 +105,53 @@ public class ChatUtils {
     }
 
 
+    public static String uppercaseFirstLetter(String input){
+        String firstLetter = input.substring(0, 1).toUpperCase();
+        return firstLetter + input.substring(1).toLowerCase();
+    }
+
+    public static String oreToString(Material material){
+        String name = material.toString();
+        if(!name.contains("ORE")){
+            return null;
+        }
+
+        String[] words = name.split("_");
+        String prefix;
+        if(words[0].contains("diamond")){
+            prefix = "&b";
+        }else if(words[0].contains("gold")){
+            prefix = "&6";
+        }else if(words[0].contains("lapis")){
+            prefix = "&9";
+        }else if(words[0].contains("redstone")){
+            prefix = "&c";
+        }else if(words[0].contains("iron")){
+            prefix = "&f";
+        }else if(words[0].contains("emerald")){
+            prefix = "&a";
+        }else{
+            prefix = "&e"; //highlight
+        }
+        return prefix + uppercaseFirstLetter(words[0].toLowerCase()) + uppercaseFirstLetter(words[1].toLowerCase());
+
+    }
+
+    public static String materialToString(Material material){
+        String name = material.toString();
+        if(oreToString(material) != null){
+            return oreToString(material);
+        }
+
+        if(name.contains("_")){
+            String[] words = name.split("_");
+            StringBuilder builder = new StringBuilder();
+            for (String word : words){
+                builder.append(uppercaseFirstLetter(word.toLowerCase())).append(" ");
+            }
+
+            return builder.toString().trim();
+        }
+        return uppercaseFirstLetter(name.toLowerCase());
+    }
 }

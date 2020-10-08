@@ -1,13 +1,13 @@
 package me.blok601.nightshadeuhc.scenario;
 
 import com.google.common.collect.ImmutableList;
+import com.nightshadepvp.core.utils.ChatUtils;
+import com.nightshadepvp.core.utils.PlayerUtils;
 import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.entity.object.GameState;
 import me.blok601.nightshadeuhc.event.GameStartEvent;
-import me.blok601.nightshadeuhc.util.ChatUtils;
 import me.blok601.nightshadeuhc.util.ItemBuilder;
 import me.blok601.nightshadeuhc.util.MathUtils;
-import me.blok601.nightshadeuhc.util.PlayerUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -62,7 +62,7 @@ public class BloodCycleScenario extends Scenario {
         //pick an item
         currentItem = materials.get(rand);
         PlayerUtils.broadcastSound(Sound.BAT_DEATH);
-        broadcast("&eThe cycle is now on " + ChatUtils.oreToString(currentItem) + "&e.");
+        broadcast("&eThe cycle is now on " + com.nightshadepvp.core.utils.ChatUtils.oreToString(currentItem) + "&e.");
         broadcast("&eUpon mining this item, there is a &b"  + (chances.get(currentItem) * 100) + "% &echance of being dealt half a heart! Be cautious...");
 
 
@@ -81,7 +81,7 @@ public class BloodCycleScenario extends Scenario {
                     //pick an item
                     currentItem = materials.get(rand);
                     PlayerUtils.broadcastSound(Sound.BAT_DEATH);
-                    broadcast("&eThe cycle is now on " + ChatUtils.oreToString(currentItem) + "&e.");
+                    broadcast("&eThe cycle is now on " + com.nightshadepvp.core.utils.ChatUtils.oreToString(currentItem) + "&e.");
                     broadcast("&eUpon mining this item, there is a &b"  + (chances.get(currentItem) * 100) + "% &echance of being dealt half a heart! Be cautious...");
                 }
             }

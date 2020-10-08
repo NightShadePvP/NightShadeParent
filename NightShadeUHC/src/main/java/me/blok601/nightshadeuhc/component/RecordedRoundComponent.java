@@ -1,11 +1,11 @@
 package me.blok601.nightshadeuhc.component;
 
 import com.nightshadepvp.core.utils.PacketUtils;
+import com.nightshadepvp.core.utils.PlayerUtils;
 import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.event.GameStartEvent;
 import me.blok601.nightshadeuhc.event.UHCStatUpdateEvent;
 import me.blok601.nightshadeuhc.manager.GameManager;
-import me.blok601.nightshadeuhc.util.PlayerUtils;
 import me.blok601.nightshadeuhc.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

@@ -9,6 +9,7 @@ import com.nightshadepvp.core.Core;
 import com.nightshadepvp.core.Rank;
 import com.nightshadepvp.core.entity.NSPlayer;
 import com.nightshadepvp.core.events.MatchpostUpdateEvent;
+import com.nightshadepvp.core.utils.ActionBarUtil;
 import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.component.ComponentHandler;
 import me.blok601.nightshadeuhc.entity.UHCPlayer;
@@ -194,7 +195,7 @@ public class GameListener implements Listener {
 
                 //UHCPlayerColl.get().getAllPlaying().forEach(uhcPlayer -> PlayerUtils.giveBulkItems(uhcPlayer.getPlayer(), starterItems.getStarterItems
                 for (ItemStack stack : starterItems.getStarterItems()) {
-                    PlayerUtils.giveItem(stack, player);
+                    com.nightshadepvp.core.utils.PlayerUtils.giveItem(stack, player);
                 }
             }
         }

@@ -1,10 +1,10 @@
 package me.blok601.nightshadeuhc.scenario;
 
+import com.nightshadepvp.core.utils.PlayerUtils;
 import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.event.GameStartEvent;
 import me.blok601.nightshadeuhc.util.ChatUtils;
 import me.blok601.nightshadeuhc.util.ItemBuilder;
-import me.blok601.nightshadeuhc.util.PlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;

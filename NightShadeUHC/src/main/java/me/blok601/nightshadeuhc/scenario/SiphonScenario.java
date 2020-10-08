@@ -1,9 +1,9 @@
 package me.blok601.nightshadeuhc.scenario;
 
 import com.google.common.collect.ImmutableList;
+import com.nightshadepvp.core.utils.PlayerUtils;
 import me.blok601.nightshadeuhc.event.CustomDeathEvent;
 import me.blok601.nightshadeuhc.util.ItemBuilder;
-import me.blok601.nightshadeuhc.util.PlayerUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
