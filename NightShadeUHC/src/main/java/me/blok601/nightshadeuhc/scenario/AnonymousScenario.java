@@ -31,6 +31,7 @@ public class AnonymousScenario extends Scenario {
 
     @EventHandler
     public void onJoinGameLate(PlayerJoinGameLateEvent event){
+        if(!isEnabled())  return;
         assign(UHCPlayer.get(event.getPlayer()));
     }
 
