@@ -84,7 +84,7 @@ public class ConfigGUI {
 
         for (Component component : componentHandler.getComponents()){
             menu.item(index, new ItemBuilder(component.getMaterial())
-                    .name("&b" + component.getName())
+                    .name("&b" + component.getName() + " &8»")
                     .lore(component.isEnabled() ? "&aEnabled" : "&cDisabled").make());
             index++;
         } //Should add all the toggleable options to the gui

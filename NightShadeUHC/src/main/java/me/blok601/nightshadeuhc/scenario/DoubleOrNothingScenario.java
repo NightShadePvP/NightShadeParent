@@ -42,7 +42,7 @@ public class DoubleOrNothingScenario extends Scenario {
         switch (block.getType()) {
             case IRON_ORE:
                 if (rand.nextBoolean()) {
-                    PlayerUtils.dropItem(new ItemStack(Material.IRON_ORE, 2), location);
+                    PlayerUtils.dropItem(new ItemStack(Material.IRON_ORE, 1), location);
                     event.setExpToDrop(event.getExpToDrop() * 2);
                 } else {
                     event.setCancelled(true);
@@ -52,7 +52,7 @@ public class DoubleOrNothingScenario extends Scenario {
                 break;
             case GOLD_ORE:
                 if (rand.nextBoolean()) {
-                    PlayerUtils.dropItem(new ItemStack(Material.GOLD_ORE, 2), location);
+                    PlayerUtils.dropItem(new ItemStack(Material.GOLD_ORE, 1), location);
                     event.setExpToDrop(event.getExpToDrop() * 2);
                 } else {
                     event.setCancelled(true);
@@ -62,7 +62,7 @@ public class DoubleOrNothingScenario extends Scenario {
                 break;
             case DIAMOND_ORE:
                 if (rand.nextBoolean()) {
-                    PlayerUtils.dropItem(new ItemStack(Material.DIAMOND, 2), location);
+                    PlayerUtils.dropItem(new ItemStack(Material.DIAMOND, 1), location);
                     event.setExpToDrop(event.getExpToDrop() * 2);
                 } else {
                     event.setCancelled(true);
@@ -72,7 +72,7 @@ public class DoubleOrNothingScenario extends Scenario {
                 break;
             case EMERALD_ORE:
                 if (rand.nextBoolean()) {
-                    PlayerUtils.dropItem(new ItemStack(Material.EMERALD, 2), location);
+                    PlayerUtils.dropItem(new ItemStack(Material.EMERALD, 1), location);
                     event.setExpToDrop(event.getExpToDrop() * 2);
                 } else {
                     event.setCancelled(true);

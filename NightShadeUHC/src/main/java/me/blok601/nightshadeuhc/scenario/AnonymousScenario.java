@@ -2,8 +2,10 @@ package me.blok601.nightshadeuhc.scenario;
 
 import de.robingrether.idisguise.disguise.PlayerDisguise;
 import me.blok601.nightshadeuhc.UHC;
+import me.blok601.nightshadeuhc.entity.UHCPlayer;
 import me.blok601.nightshadeuhc.entity.UHCPlayerColl;
 import me.blok601.nightshadeuhc.event.GameStartEvent;
+import me.blok601.nightshadeuhc.event.PlayerJoinGameLateEvent;
 import me.blok601.nightshadeuhc.util.ChatUtils;
 import me.blok601.nightshadeuhc.util.ItemBuilder;
 import org.bukkit.Material;
@@ -24,7 +26,12 @@ public class AnonymousScenario extends Scenario {
     @EventHandler
     public void onGameStart(GameStartEvent e){
         if(!isEnabled()) return;
-        assign();
+        assignAll();
+    }
+
+    @EventHandler
+    public void onJoinGameLate(PlayerJoinGameLateEvent event){
+        assign(UHCPlayer.get(event.getPlayer()));
     }
 
     public static String getDisuigse() {
@@ -35,13 +42,15 @@ public class AnonymousScenario extends Scenario {
         AnonymousScenario.disuigse = disuigse;
     }
 
-    public static void assign(){
-        UHCPlayerColl.get().getAllOnline().stream().filter(uhcPlayer -> !uhcPlayer.isSpectator()).forEach(uhcPlayer -> {
-            UHC.getApi().disguise(uhcPlayer.getPlayer(), new PlayerDisguise(disuigse));
-            uhcPlayer.msg(ChatUtils.format( "&4Anonymous&8» &eYou are now disguised as" + disuigse));
-            uhcPlayer.setDisguised(true);
-            uhcPlayer.setDisguisedName(disuigse);
-        });
+    public void assignAll(){
+        UHCPlayerColl.get().getAllOnline().stream().filter(uhcPlayer -> !uhcPlayer.isSpectator()).forEach(this::assign);
+    }
+
+    public void assign(UHCPlayer uhcPlayer){
+        UHC.getApi().disguise(uhcPlayer.getPlayer(), new PlayerDisguise(disuigse));
+        uhcPlayer.msg(ChatUtils.format( "&4Anonymous&8» &eYou are now disguised as" + disuigse));
+        uhcPlayer.setDisguised(true);
+        uhcPlayer.setDisguisedName(disuigse);
     }
 
 

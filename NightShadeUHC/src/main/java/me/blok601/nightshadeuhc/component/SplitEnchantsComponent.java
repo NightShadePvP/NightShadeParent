@@ -31,7 +31,7 @@ public class SplitEnchantsComponent extends Component implements UHCCommand {
     @Override
     public void onCommand(CommandSender s, Command cmd, String l, String[] args) {
         Player player = (Player) s;
-        if(!isEnabled()){
+        if(!this.isEnabled()){
             player.sendMessage(ChatUtils.message("&cSplitting enchants is currently disabled!"));
             return;
         }

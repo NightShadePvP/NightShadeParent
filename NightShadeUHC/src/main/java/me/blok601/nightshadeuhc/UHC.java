@@ -13,8 +13,10 @@ import com.onarandombox.MultiverseCore.MultiverseCore;
 import de.robingrether.idisguise.api.DisguiseAPI;
 import me.blok601.nightshadeuhc.command.CommandHandler;
 import me.blok601.nightshadeuhc.command.UHCCommand;
+import me.blok601.nightshadeuhc.command.staff.PvPCommand;
 import me.blok601.nightshadeuhc.component.ComponentHandler;
 import me.blok601.nightshadeuhc.component.GoldenHeadRecipe;
+import me.blok601.nightshadeuhc.entity.MConf;
 import me.blok601.nightshadeuhc.entity.object.GameState;
 import me.blok601.nightshadeuhc.listener.gui.EnchantHider;
 import me.blok601.nightshadeuhc.manager.*;
@@ -116,6 +118,7 @@ public class UHC extends MassivePlugin implements PluginMessageListener {
         setupTasks();
 
 
+        PvPCommand.enablePvP(MConf.get().getArenaLocation().asBukkitWorld());
         Bukkit.getConsoleSender().sendMessage(ChatUtils.message("&aNightShadePvPUHC " + getDescription().getVersion() + " has been successfully enabled!"));
         Bukkit.getConsoleSender().sendMessage(ChatUtils.message("&eDetected Server&8: &3" + serverType));
         GameState.setState(GameState.WAITING);

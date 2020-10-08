@@ -50,7 +50,8 @@ public class AnonymousNameCommand implements UHCCommand {
 
         AnonymousScenario.setDisuigse(name);
         if(GameState.gameHasStarted()){
-            AnonymousScenario.assign();
+            AnonymousScenario anonymousScenario = (AnonymousScenario) scenarioManager.getScen("Anonymous");
+            anonymousScenario.assignAll();
         }
 
         p.sendMessage(ChatUtils.message("&eYou have set the Anonymous name to " + name));

@@ -184,6 +184,9 @@ public class GameListener implements Listener {
         Player player = e.getPlayer();
         UHCPlayer uhcPlayer = UHCPlayer.get(player);
         uhcPlayer.setChangedLevel(0);
+        if(!gameManager.getWhitelist().contains(player.getName().toLowerCase())){
+            gameManager.getWhitelist().add(player.getName().toLowerCase());
+        }
         for (Scenario scenario : scenarioManager.getEnabledScenarios()) {
             if (scenario instanceof StarterItems) {
 
