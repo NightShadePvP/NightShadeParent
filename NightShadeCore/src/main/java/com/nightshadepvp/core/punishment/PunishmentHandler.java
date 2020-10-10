@@ -5,7 +5,6 @@ import com.nightshadepvp.core.punishment.type.dq.AvoidingMeetupPunishment;
 import com.nightshadepvp.core.punishment.type.dq.BenefitingPunishment;
 import com.nightshadepvp.core.punishment.type.dq.CampingPunishment;
 import com.nightshadepvp.core.punishment.type.dq.StalkingPunishment;
-import com.nightshadepvp.core.punishment.type.mute.DisrespectPunishment;
 import com.nightshadepvp.core.punishment.type.mute.HackusationPunishment;
 import com.nightshadepvp.core.punishment.type.mute.SpamPunishment;
 import com.nightshadepvp.core.punishment.type.mute.ToxcictyPunishment;
@@ -56,11 +55,10 @@ public class PunishmentHandler {
         this.punishments.add(new CampingPunishment());
         this.punishments.add(new StalkingPunishment());
         this.punishments.add(new HackusationPunishment());
-        this.punishments.add(new SpoilingPunishment());
         this.punishments.add(new SpamPunishment());
         this.punishments.add(new ToxcictyPunishment());
-        this.punishments.add(new DisrespectPunishment());
         this.punishments.add(new AvoidingMeetupPunishment());
+        this.punishments.add(new IllegalMiningPunishment());
     }
 
     public ItemBuilder getChildStack() {

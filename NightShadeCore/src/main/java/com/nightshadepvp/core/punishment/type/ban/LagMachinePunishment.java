@@ -23,10 +23,10 @@ public class LagMachinePunishment extends AbstractPunishment {
                 this, Collections.singletonList("warn %player% Creating a Lag Machine"), PunishmentType.WARNING
         ), 20);
 
-        this.addChild(new Punishment("Lag Machine (1st Offense)", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
+        this.addChild(new Punishment("Lag Machine (2nd Offense)", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                 .name("&5Lag Machine &8(&52nd Offense&8)")
                 .lore("&eClick to ban the player for 3d for creating a lag machine").make(),
-                this, Collections.singletonList("ban %player% 3d Creating a Lag Machine"), PunishmentType.BAN
+                this, Collections.singletonList("banip %player% 3d Creating a Lag Machine (2nd Offense)"), PunishmentType.BAN
         ), 21);
     }
 }

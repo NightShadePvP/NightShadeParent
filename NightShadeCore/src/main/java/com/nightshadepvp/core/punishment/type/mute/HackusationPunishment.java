@@ -20,13 +20,13 @@ public class HackusationPunishment extends AbstractPunishment {
         this.addChild(new Punishment("Hackusation (1st Offense)", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                 .name("&5Hackusation &8(&51st Offense&8)")
                 .lore("&eClick to warn the player for hackusations in public chat").make(),
-                this, Collections.singletonList("warn %player% Hackusation"), PunishmentType.WARNING
+                this, Collections.singletonList("warn %player% Hackusation (1st Offense)"), PunishmentType.WARNING
         ), 20);
 
         this.addChild(new Punishment("Hackusation (2nd Offense)", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                 .name("&5Hackusation &8(&52nd Offense&8)")
                 .lore("&eClick to mute the player for 15 minutes for hackusations in public chat").make(),
-                this, Collections.singletonList("mute %player% 15m Hackusations"), PunishmentType.MUTE
+                this, Collections.singletonList("mute %player% 15m Hackusations (2nd Offense)"), PunishmentType.MUTE
         ), 21);
     }
 }

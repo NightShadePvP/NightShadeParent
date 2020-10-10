@@ -34,7 +34,7 @@ public class IllegalMiningPunishment extends AbstractPunishment {
                 .amount(3)
                 .name("&5Illegal Mining &8(&53rd Offense&8)")
                 .lore("&eClick to ban the player for 3d for Illegal Mining").make(),
-                this, Collections.singletonList("ban %player% Illegal Mining 3d"), PunishmentType.BAN
+                this, Collections.singletonList("banip %player% Illegal Mining 3d (3rd Offense)"), PunishmentType.BAN
         ), 22);
     }
 }

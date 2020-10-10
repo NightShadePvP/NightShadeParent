@@ -31,7 +31,7 @@ public class SiphonScenario extends Scenario{
     public void onDeath(CustomDeathEvent event){
         if(!isEnabled()) return;
         Player dead = event.getKilled();
-        Player killer = dead.getKiller();
+        Player killer = event.getKiller();
         if(killer == null) return;
 
         //Add regen 2 hearts

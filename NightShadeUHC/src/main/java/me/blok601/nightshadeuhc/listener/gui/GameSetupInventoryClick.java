@@ -718,10 +718,10 @@ public class GameSetupInventoryClick implements Listener {
             int cBorder = gameManager.getShrinks()[slot];
 
             if (e.getClick() == ClickType.LEFT) {
-                gameManager.getShrinks()[slot] = cBorder + 50; //Add 50
+                gameManager.getShrinks()[slot] = cBorder + 25; //Add 25
             } else if (e.getClick() == ClickType.RIGHT) {
-                if (gameManager.getShrinks()[slot] - 50 < 0) return;
-                gameManager.getShrinks()[slot] = cBorder - 50; //Minus 50
+                if (gameManager.getShrinks()[slot] - 25 < 0) return;
+                gameManager.getShrinks()[slot] = cBorder - 25; //Minus 25
             } else if (e.getClick() == ClickType.MIDDLE) {
                 p.closeInventory();
                 gameManager.getSetupStageHashMap().put(p, SetupStage.BORDER);
@@ -738,7 +738,7 @@ public class GameSetupInventoryClick implements Listener {
                 return;
             } else {
                 builder.lore(ChatUtils.format("&6" + border), true);
-                builder.lore("&7(&6i&7) &6Right click to increase border by 50, left click to decrease by 50");
+                builder.lore("&7(&6i&7) &6Right click to increase border by 25, left click to decrease by 25");
             }
 
             inventory.setItem(slot, builder.make());

@@ -53,7 +53,7 @@ public abstract class AbstractPunishment {
             return new ItemBuilder(material).name("&5" + this.name).lore("&eClick to view the punishment options for " + this.name).make();
         }
 
-        return itemStack;
+        return new ItemBuilder(itemStack).name("&5" + this.name).lore("&eClick to view the punishment options for " + this.name).make();
     }
 
     PunishmentType getPunishmentType() {

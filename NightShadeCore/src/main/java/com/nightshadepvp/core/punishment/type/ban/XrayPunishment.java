@@ -15,19 +15,21 @@ import java.util.Collections;
 public class XrayPunishment extends AbstractPunishment {
 
     public XrayPunishment() {
-        super("Xray",Material.DIAMOND_ORE, PunishmentType.BAN);
+        super("Xray", Material.DIAMOND_ORE, PunishmentType.BAN);
 
         this.addChild(new Punishment("Xray (1st Offense)",
                 new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                         .name("&5Hacked Client &8(&51st Offense&8)")
-                        .lore("&eBan the player for 2 months for Xray").make(), this, Collections.singletonList("ban %player% 2mo Xray"), PunishmentType.BAN), 20
+                        .lore("&eBan the player for 2 months for Xray").make(), this,
+                Collections.singletonList("banip %player% 2mo Xray (1st Offense)"), PunishmentType.BAN), 20
         );
 
         this.addChild(new Punishment("Xray (2nd Offense)",
                 new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                         .name("&5Hacked Client &8(&52nd Offense&8)")
                         .amount(2)
-                        .lore("&eBan the player permanently for Xray").make(), this, Collections.singletonList("ban %player% Xray"), PunishmentType.BAN), 21
+                        .lore("&eBan the player permanently for Xray").make(), this,
+                Collections.singletonList("banip %player% Xray (2nd Offense)"), PunishmentType.BAN), 21
         );
 
     }
