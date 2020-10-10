@@ -27,7 +27,7 @@ public class MathUtils {
 
     public static double getPercentage(double input, double outOf){
         double percentage = input / outOf;
-        return percentage * 100;
+        return Math.ceil(percentage * 100);
     }
 
     public static ArrayList<Location> getCircle(Location center, double radius, int amount) {

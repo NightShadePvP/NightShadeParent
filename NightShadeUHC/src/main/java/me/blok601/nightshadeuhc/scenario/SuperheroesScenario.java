@@ -16,6 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Consumer;
 
 /**
  * Created by Blok on 7/17/2018.
@@ -34,8 +35,8 @@ public class SuperheroesScenario extends Scenario {
     }
 
     @EventHandler
-    public void onGameStart(GameStartEvent e){
-        if(!isEnabled()) return;
+    public void onGameStart(GameStartEvent e) {
+        if (!isEnabled()) return;
         Random random = ThreadLocalRandom.current();
         {
             for (Player p : Bukkit.getServer().getOnlinePlayers()) {
@@ -47,16 +48,9 @@ public class SuperheroesScenario extends Scenario {
                 powers.put(p.getUniqueId(), type);
 
 
-                if (type == SuperHeroType.HEALTH) {
-                    p.setMaxHealth(40);
-                    p.setHealth(40);
-                } else {
-                    for (PotionEffect effect : type.getEffecst()) {
-                        p.addPotionEffect(effect);
-                    }
-                }
+                type.giveEffects(p);
 
-                p.sendMessage((ChatUtils.format(getPrefix() + "&eYour super power is: &3" + type.getName())));
+                p.sendMessage((ChatUtils.format(getPrefix() + "&eYour super power is: " + type.getName())));
             }
         }
     }
@@ -70,11 +64,20 @@ public class SuperheroesScenario extends Scenario {
         toggler.sendMessage(ChatUtils.format(getPrefix() + "All powers have been cleared!"));
     }
 
-    public enum SuperHeroType{
-        SPEED("Speed 2, Haste 2", Lists.newArrayList(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1), new PotionEffect(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE, 1))),
+    public enum SuperHeroType {
+        SPEED("Speed 2, Haste 2", Lists.newArrayList(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1),
+                new PotionEffect(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE, 1))),
+
+
         STRENGTH("Strength 1", Lists.newArrayList(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0))),
-        RES("Resistance 1, Fire Resis+tance 1", Lists.newArrayList(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0), new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0))),
+
+
+        RES("Resistance 1, Fire Resistance 1", Lists.newArrayList(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0), new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0))),
+
+
         HEALTH("10 Extra Hearts", Collections.emptyList()),
+
+
         JUMP("Jump Boost 4, Haste 2, Saturation", Lists.newArrayList(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 3), new PotionEffect(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE, 1), new PotionEffect(PotionEffectType.SATURATION, Integer.MAX_VALUE, 9)));
 
         private String name;
@@ -92,17 +95,27 @@ public class SuperheroesScenario extends Scenario {
         public List<PotionEffect> getEffecst() {
             return effect;
         }
+
+        public void giveEffects(Player player) {
+            if (this == HEALTH) {
+                player.setMaxHealth(40.0);
+                player.setHealth(40.0);
+                return;
+            }
+
+            effect.forEach(potionEffect -> player.addPotionEffect(potionEffect));
+        }
     }
 
     @EventHandler
-    public void onDamage(EntityDamageEvent e){
+    public void onDamage(EntityDamageEvent e) {
 
-        if(!isEnabled()){
+        if (!isEnabled()) {
             return;
         }
 
-        if(e.getEntity() instanceof Player){
-            if(e.getCause() == EntityDamageEvent.DamageCause.FALL) {
+        if (e.getEntity() instanceof Player) {
+            if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
                 e.setCancelled(true);
             }
         }

@@ -160,6 +160,7 @@ public class ScenarioManager implements UHCCommand {
         addScen(new FastSmeltingScenario());
         addScen(new DoubleOrNothingScenario());
         addScen(new SickToMyStomachScenario());
+        addScen(new PermaNightScenario(gameManager));
 
         sortScenarios();
     }

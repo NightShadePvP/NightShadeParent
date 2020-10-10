@@ -26,10 +26,7 @@ import me.blok601.nightshadeuhc.scenario.cmd.slavemarket.BidCommand;
 import me.blok601.nightshadeuhc.scenario.cmd.slavemarket.SlaveOwnerCommand;
 import me.blok601.nightshadeuhc.scenario.cmd.slavemarket.StartBiddingCommand;
 import me.blok601.nightshadeuhc.scenario.cmd.mole.*;
-import me.blok601.nightshadeuhc.scenario.cmd.superhero.AssignPowerCommand;
-import me.blok601.nightshadeuhc.scenario.cmd.superhero.ClearPowerCommand;
-import me.blok601.nightshadeuhc.scenario.cmd.superhero.PowerCommand;
-import me.blok601.nightshadeuhc.scenario.cmd.superhero.ResetPowersCommand;
+import me.blok601.nightshadeuhc.scenario.cmd.superhero.*;
 import me.blok601.nightshadeuhc.stat.command.LeaderboardsCommand;
 import me.blok601.nightshadeuhc.stat.command.StatsCommand;
 
@@ -137,6 +134,7 @@ public class CommandHandler  {
         registerCommand(new PMOresCommand());
         registerCommand(new ResetPowersCommand());
         registerCommand(new BorderCommand(gameManager));
+        registerCommand(new PowersCommand(scenarioManager));
 
         SlaveMarketScenario scenario = (SlaveMarketScenario) scenarioManager.getScen("Slave Market");
         if(scenario == null){

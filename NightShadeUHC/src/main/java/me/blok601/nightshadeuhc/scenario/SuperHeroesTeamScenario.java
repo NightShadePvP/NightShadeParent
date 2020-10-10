@@ -1,6 +1,7 @@
 package me.blok601.nightshadeuhc.scenario;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import me.blok601.nightshadeuhc.entity.UHCPlayerColl;
 import me.blok601.nightshadeuhc.entity.object.Team;
 import me.blok601.nightshadeuhc.event.GameStartEvent;
@@ -18,6 +19,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Consumer;
 
 public class SuperHeroesTeamScenario extends Scenario{
     private GameManager gameManager;
@@ -28,7 +30,7 @@ public class SuperHeroesTeamScenario extends Scenario{
     public SuperHeroesTeamScenario(GameManager gameManager) {
         super("Superheroes Teams", "Each player will gain a special ability. The powers are speed 2, strength 1, resistance 1, invisibility, 10 extra hearts, and jump boost 4.", new ItemBuilder(Material.BREWING_STAND_ITEM).name("Superheroes").make());
         this.gameManager = gameManager;
-        powers = new HashMap<>();
+        powers = Maps.newHashMap();
     }
 
 
@@ -56,14 +58,8 @@ public class SuperHeroesTeamScenario extends Scenario{
                 powers.put(tempPlayer.getUniqueId(), type);
                 jew.remove(0);
 
-                if (type == SuperHeroType.HEALTH) {
-                    tempPlayer.setMaxHealth(40);
-                    tempPlayer.setHealth(40);
-                } else {
-                    for (PotionEffect effect : type.getEffecst()) {
-                        tempPlayer.addPotionEffect(effect);
-                    }
-                }
+                type.giveEffects(tempPlayer);
+                sendMessage(tempPlayer, "&bYour superpower is: " + type.getName());
             }
 
         }
@@ -78,25 +74,27 @@ public class SuperHeroesTeamScenario extends Scenario{
                 }
 
                 powers.put(uhcPlayer.getUuid(), type);
-                if (type == SuperHeroType.HEALTH) {
-                    p.setMaxHealth(40);
-                    p.setHealth(40);
-                } else {
-                    for (PotionEffect effect : type.getEffecst()) {
-                        p.addPotionEffect(effect);
-                    }
-                }
+                type.giveEffects(p);
 
-                uhcPlayer.msg(ChatUtils.format(getPrefix() + "&eYour super power is: &3" + type.getName()));
+                uhcPlayer.msg(ChatUtils.format(getPrefix() + "&eYour super power is: " + type.getName()));
             }
         });
     }
 
-    public enum SuperHeroType{
-        SPEED("Speed 2, Haste 2", Lists.newArrayList(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1), new PotionEffect(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE, 1))),
+    public enum SuperHeroType {
+        SPEED("Speed 2, Haste 2", Lists.newArrayList(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1),
+                new PotionEffect(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE, 1))),
+
+
         STRENGTH("Strength 1", Lists.newArrayList(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0))),
+
+
         RES("Resistance 1, Fire Resistance 1", Lists.newArrayList(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0), new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0))),
+
+
         HEALTH("10 Extra Hearts", Collections.emptyList()),
+
+
         JUMP("Jump Boost 4, Haste 2, Saturation", Lists.newArrayList(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 3), new PotionEffect(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE, 1), new PotionEffect(PotionEffectType.SATURATION, Integer.MAX_VALUE, 9)));
 
         private String name;
@@ -113,6 +111,16 @@ public class SuperHeroesTeamScenario extends Scenario{
 
         public List<PotionEffect> getEffecst() {
             return effect;
+        }
+
+        public void giveEffects(Player player) {
+            if (this == HEALTH) {
+                player.setMaxHealth(40.0);
+                player.setHealth(40.0);
+                return;
+            }
+
+            effect.forEach(player::addPotionEffect);
         }
     }
 
