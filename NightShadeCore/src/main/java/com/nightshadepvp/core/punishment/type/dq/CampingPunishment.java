@@ -19,14 +19,14 @@ public class CampingPunishment extends AbstractPunishment {
 
         this.addChild(new Punishment("Camping During Meetup (1st Offense)", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                 .name("&5Camping During Meetup&8(&51st Offense&8)")
-                .lore("&eClick to warn the player for camping during meetup 1st offense").make(),
+                .lore("&eClick to warn the player for camping during meetup (1st offense)").make(),
                 this, Collections.singletonList("warn %player% Camping During Meetup 1/1"), PunishmentType.WARNING
         ), 22);
 
         this.addChild(new Punishment("Camping During Meetup (2nd Offense)", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                 .name("&5Camping During Meetup &8(&52nd Offense&8)")
                 .amount(2)
-                .lore("&eClick to DQ the player for camping during meetup 2nd offense").make(),
+                .lore("&eClick to DQ the player for camping during meetup (2nd offense)").make(),
                 this, Collections.singletonList(""), PunishmentType.DQ
         ), 23);
     }

@@ -25,6 +25,7 @@ public class SpamPunishment extends AbstractPunishment {
 
         this.addChild(new Punishment("Spam (2nd Offense)", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                 .name("&5Spam &8(2nd Offense&8)")
+                .amount(2)
                 .lore("&eClick to mute the player for 30m for spam").make(),
                 this, Collections.singletonList("mute %player% 45m Spam (2nd Offense)"), PunishmentType.MUTE
         ), 21);

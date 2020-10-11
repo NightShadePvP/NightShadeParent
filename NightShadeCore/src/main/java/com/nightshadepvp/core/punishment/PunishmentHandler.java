@@ -5,9 +5,7 @@ import com.nightshadepvp.core.punishment.type.dq.AvoidingMeetupPunishment;
 import com.nightshadepvp.core.punishment.type.dq.BenefitingPunishment;
 import com.nightshadepvp.core.punishment.type.dq.CampingPunishment;
 import com.nightshadepvp.core.punishment.type.dq.StalkingPunishment;
-import com.nightshadepvp.core.punishment.type.mute.HackusationPunishment;
-import com.nightshadepvp.core.punishment.type.mute.SpamPunishment;
-import com.nightshadepvp.core.punishment.type.mute.ToxcictyPunishment;
+import com.nightshadepvp.core.punishment.type.mute.*;
 import com.nightshadepvp.core.utils.ChatUtils;
 import com.nightshadepvp.core.utils.ItemBuilder;
 import org.bukkit.Bukkit;
@@ -59,6 +57,9 @@ public class PunishmentHandler {
         this.punishments.add(new ToxcictyPunishment());
         this.punishments.add(new AvoidingMeetupPunishment());
         this.punishments.add(new IllegalMiningPunishment());
+        this.punishments.add(new EncouragingSuicidePunishment());
+        this.punishments.add(new AdvertisingPunishment());
+        this.punishments.add(new IllegalTeamSizePunishment());
     }
 
     public ItemBuilder getChildStack() {

@@ -19,14 +19,14 @@ public class XrayPunishment extends AbstractPunishment {
 
         this.addChild(new Punishment("Xray (1st Offense)",
                 new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
-                        .name("&5Hacked Client &8(&51st Offense&8)")
+                        .name("&5Xray &8(&51st Offense&8)")
                         .lore("&eBan the player for 2 months for Xray").make(), this,
                 Collections.singletonList("banip %player% 2mo Xray (1st Offense)"), PunishmentType.BAN), 20
         );
 
         this.addChild(new Punishment("Xray (2nd Offense)",
                 new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
-                        .name("&5Hacked Client &8(&52nd Offense&8)")
+                        .name("&5Xray &8(&52nd Offense&8)")
                         .amount(2)
                         .lore("&eBan the player permanently for Xray").make(), this,
                 Collections.singletonList("banip %player% Xray (2nd Offense)"), PunishmentType.BAN), 21
