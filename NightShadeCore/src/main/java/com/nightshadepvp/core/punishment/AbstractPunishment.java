@@ -18,23 +18,23 @@ public abstract class AbstractPunishment {
 
     private String name;
     private Material material;
-    private PunishmentType punishmentType;
+    private OffenseType offenseType;
     private HashMap<Integer, Punishment> children;
     private ItemStack itemStack;
 
 
-    public AbstractPunishment(String name, Material material, PunishmentType punishmentType) {
+    public AbstractPunishment(String name, Material material, OffenseType offenseType) {
         this.name = name;
         this.material = material;
-        this.punishmentType = punishmentType;
+        this.offenseType = offenseType;
         this.children = new HashMap<>();
         this.itemStack = null;
     }
 
-    public AbstractPunishment(String name, ItemStack itemStack, PunishmentType punishmentType) {
+    public AbstractPunishment(String name, ItemStack itemStack, OffenseType offenseType) {
         this.name = name;
         this.itemStack = itemStack;
-        this.punishmentType = punishmentType;
+        this.offenseType = offenseType;
         this.children = new HashMap<>();
         this.material = null;
     }
@@ -56,8 +56,8 @@ public abstract class AbstractPunishment {
         return new ItemBuilder(itemStack).name("&5" + this.name).lore("&eClick to view the punishment options for " + this.name).make();
     }
 
-    PunishmentType getPunishmentType() {
-        return punishmentType;
+    public OffenseType getOffenseType() {
+        return offenseType;
     }
 
     public void addChild(Punishment child, int slot) {

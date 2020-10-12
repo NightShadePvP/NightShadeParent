@@ -39,9 +39,9 @@ public class PunishmentHandler {
 
     private ArrayList<AbstractPunishment> punishments;
 
-    public void setup(){
+    public void setup() {
         this.punishing = new HashMap<>();
-        this.punishments= new ArrayList<>();
+        this.punishments = new ArrayList<>();
         this.punishments.add(new ExploitingBugsPunishment());
         this.punishments.add(new HackedClientPunishment());
         this.punishments.add(new HostLyingPunishment());
@@ -60,13 +60,16 @@ public class PunishmentHandler {
         this.punishments.add(new EncouragingSuicidePunishment());
         this.punishments.add(new AdvertisingPunishment());
         this.punishments.add(new IllegalTeamSizePunishment());
+        this.punishments.add(new ToggleSneakPunishment());
+        this.punishments.add(new RandomTeamRulesPunishment());
+        this.punishments.add(new PunishmentEvadingPunishment());
     }
 
     public ItemBuilder getChildStack() {
-        return new ItemBuilder( new ItemStack(Material.INK_SACK, 1, (short) 8));
+        return new ItemBuilder(new ItemStack(Material.INK_SACK, 1, (short) 8));
     }
 
-    public ItemStack getBackButton(){
+    public ItemStack getBackButton() {
         ItemStack itemStack = new ItemStack(Material.WOOL, 1, DyeColor.RED.getWoolData());
         return new ItemBuilder(itemStack).name("&eBack").lore("&eClick to return to the punishment menu").make();
     }
@@ -75,9 +78,10 @@ public class PunishmentHandler {
         return punishing;
     }
 
-    public void createGUI(Player player){
+    public void createGUI(Player player) {
         Inventory inventory = Bukkit.createInventory(null, 54, "Punishment Menu");
-        int i = 18;
+        int chatIndex = 18;
+        int gpIndex = 36;
         ItemStack skullStack = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         SkullMeta skullMeta = (SkullMeta) skullStack.getItemMeta();
         skullMeta.setOwner(getPunishing().get(player));
@@ -86,47 +90,34 @@ public class PunishmentHandler {
         inventory.setItem(3, new ItemBuilder(Material.PAPER).lore("&eClick to view player history").name("&5Player History").make());
         inventory.setItem(4, skullStack);
         inventory.setItem(5, new ItemBuilder(Material.PACKED_ICE).name("&5Freeze player").lore("&eClick to freeze player").make());
-        ArrayList<AbstractPunishment> bans = this.punishments.stream().filter(abstractPunishment -> abstractPunishment.getPunishmentType() == PunishmentType.BAN).collect(Collectors.toCollection(ArrayList::new));
-        ArrayList<AbstractPunishment> mutes = this.punishments.stream().filter(abstractPunishment -> abstractPunishment.getPunishmentType() == PunishmentType.MUTE).collect(Collectors.toCollection(ArrayList::new));
-        ArrayList<AbstractPunishment> warns = this.punishments.stream().filter(abstractPunishment -> abstractPunishment.getPunishmentType() == PunishmentType.WARNING).collect(Collectors.toCollection(ArrayList::new));
-        ArrayList<AbstractPunishment> dqs = this.punishments.stream().filter(abstractPunishment -> abstractPunishment.getPunishmentType() == PunishmentType.DQ).collect(Collectors.toCollection(ArrayList::new));
-        for (AbstractPunishment abstractPunishment : bans) {
-            inventory.setItem(i, new ItemBuilder(abstractPunishment.getItemStack()).make());
-            i++;
+        ArrayList<AbstractPunishment> gameplay = this.punishments.stream().filter(abstractPunishment -> abstractPunishment.getOffenseType() == OffenseType.GAMEPLAY).collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<AbstractPunishment> chat = this.punishments.stream().filter(abstractPunishment -> abstractPunishment.getOffenseType() == OffenseType.CHAT).collect(Collectors.toCollection(ArrayList::new));
+        for (AbstractPunishment abstractPunishment : gameplay) {
+            inventory.setItem(chatIndex, new ItemBuilder(abstractPunishment.getItemStack()).make());
+            chatIndex++;
         }
 
-        for (AbstractPunishment abstractPunishment : mutes) {
-            inventory.setItem(i, new ItemBuilder(abstractPunishment.getItemStack()).make());
-            i++;
+        for (AbstractPunishment abstractPunishment : chat) {
+            inventory.setItem(gpIndex, new ItemBuilder(abstractPunishment.getItemStack()).make());
+            gpIndex++;
         }
-
-        for (AbstractPunishment abstractPunishment : warns) {
-            inventory.setItem(i, new ItemBuilder(abstractPunishment.getItemStack()).make());
-            i++;
-        }
-
-        for (AbstractPunishment abstractPunishment : dqs) {
-            inventory.setItem(i, new ItemBuilder(abstractPunishment.getItemStack()).make());
-            i++;
-        }
-
         player.openInventory(inventory);
 
     }
 
-    public AbstractPunishment getAbstractPunishment(ItemStack itemStack){
+    public AbstractPunishment getAbstractPunishment(ItemStack itemStack) {
         return punishments.stream().filter(abstractPunishment -> abstractPunishment.getItemStack().getType() == itemStack.getType()).findAny().orElse(null);
     }
 
-    public AbstractPunishment getAbstractPunishment(String name){
+    public AbstractPunishment getAbstractPunishment(String name) {
         return punishments.stream().filter(abstractPunishment -> abstractPunishment.getName().equalsIgnoreCase(name)).findAny().orElse(null);
     }
 
-    public void handleClick(ItemStack stack, InventoryClickEvent e){
-        if(getAbstractPunishment(stack) != null){
+    public void handleClick(ItemStack stack, InventoryClickEvent e) {
+        if (getAbstractPunishment(stack) != null) {
             AbstractPunishment abstractPunishment = getAbstractPunishment(stack);
             abstractPunishment.click(e);
-        }else{
+        } else {
             e.getWhoClicked().sendMessage(ChatUtils.message("&cThere was an error loading that punishment! Please try again later!"));
         }
     }

@@ -1,9 +1,6 @@
 package com.nightshadepvp.core.punishment.type.dq;
 
-import com.nightshadepvp.core.punishment.AbstractPunishment;
-import com.nightshadepvp.core.punishment.Punishment;
-import com.nightshadepvp.core.punishment.PunishmentHandler;
-import com.nightshadepvp.core.punishment.PunishmentType;
+import com.nightshadepvp.core.punishment.*;
 import com.nightshadepvp.core.utils.ItemBuilder;
 import org.bukkit.Material;
 
@@ -15,12 +12,12 @@ import java.util.Collections;
 public class BenefitingPunishment extends AbstractPunishment {
 
     public BenefitingPunishment() {
-        super("Benefiting", Material.EMERALD, PunishmentType.DQ);
+        super("Benefiting", Material.GOLD_INGOT, OffenseType.GAMEPLAY);
 
         this.addChild(new Punishment("Benefiting", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                 .name("&5Benefiting &8(&51st Offense&8)")
                 .lore("&eClick to DQ the player for benefiting").make(),
-                this, Collections.singletonList(""), PunishmentType.DQ
+                this, Collections.singletonList(""), PunishmentType.DQ, this.getOffenseType()
         ), 22);
     }
 }

@@ -1,5 +1,7 @@
 package com.nightshadepvp.core.punishment;
 
+import com.nightshadepvp.core.Rank;
+import com.nightshadepvp.core.entity.NSPlayer;
 import com.nightshadepvp.core.utils.ChatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -15,16 +17,30 @@ public class Punishment extends AbstractPunishment {
     private List<String> commands;
     private AbstractPunishment parent;
     private PunishmentType type;
+    private Rank neededRank;
 
-    public Punishment(String name, ItemStack itemStack, AbstractPunishment parent, List<String> commands, PunishmentType type) {
-        super(name, itemStack, type);
+    public Punishment(String name, ItemStack itemStack, AbstractPunishment parent, List<String> commands, PunishmentType type, OffenseType offenseType, Rank neededRank) {
+        super(name, itemStack, offenseType);
         this.commands = commands;
         this.type = type;
         this.parent = parent;
+        this.neededRank = neededRank;
+    }
+    public Punishment(String name, ItemStack itemStack, AbstractPunishment parent, List<String> commands, PunishmentType type, OffenseType offenseType) {
+        super(name, itemStack, offenseType);
+        this.commands = commands;
+        this.type = type;
+        this.parent = parent;
+        this.neededRank = Rank.TRIAL;
     }
 
     public void execute(Player staff){
         if(!PunishmentHandler.getInstance().getPunishing().containsKey(staff)){
+            return;
+        }
+
+        if(!NSPlayer.get(staff).hasRank(this.neededRank)){
+            staff.sendMessage(ChatUtils.message("&cYou require the " + this.neededRank.getPrefix() + " &crank to punish for &e" + this.getName()));
             return;
         }
 
@@ -54,9 +70,9 @@ public class Punishment extends AbstractPunishment {
         }
 
         PunishmentHandler.getInstance().getPunishing().remove(staff);
-
-
     }
 
-
+    public Rank getNeededRank() {
+        return neededRank;
+    }
 }

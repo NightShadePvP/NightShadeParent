@@ -31,10 +31,10 @@ public class PagedInventory {
             if (page.firstEmpty() == 46) {
                 pages.add(page);
                 page = getBlankPage(name);
-                page.addItem(items.get(i));
+                page.addItem(new ItemBuilder(items.get(i)).make());
             } else {
 //Add the item to the current page as per normal
-                page.addItem(items.get(i));
+                page.addItem(new ItemBuilder(items.get(i)).make());
             }
         }
         pages.add(page);

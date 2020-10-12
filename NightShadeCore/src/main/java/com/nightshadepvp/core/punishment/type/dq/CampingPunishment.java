@@ -1,9 +1,6 @@
 package com.nightshadepvp.core.punishment.type.dq;
 
-import com.nightshadepvp.core.punishment.AbstractPunishment;
-import com.nightshadepvp.core.punishment.Punishment;
-import com.nightshadepvp.core.punishment.PunishmentHandler;
-import com.nightshadepvp.core.punishment.PunishmentType;
+import com.nightshadepvp.core.punishment.*;
 import com.nightshadepvp.core.utils.ItemBuilder;
 import org.bukkit.Material;
 
@@ -15,19 +12,19 @@ import java.util.Collections;
 public class CampingPunishment extends AbstractPunishment {
 
     public CampingPunishment() {
-        super("Camping During Meetup", Material.COBBLESTONE, PunishmentType.BAN);
+        super("Camping During Meetup", Material.LADDER, OffenseType.GAMEPLAY);
 
         this.addChild(new Punishment("Camping During Meetup (1st Offense)", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                 .name("&5Camping During Meetup&8(&51st Offense&8)")
                 .lore("&eClick to warn the player for camping during meetup (1st offense)").make(),
-                this, Collections.singletonList("warn %player% Camping During Meetup 1/1"), PunishmentType.WARNING
+                this, Collections.singletonList("warn %player% Camping During Meetup 1/1"), PunishmentType.WARNING, this.getOffenseType()
         ), 22);
 
         this.addChild(new Punishment("Camping During Meetup (2nd Offense)", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                 .name("&5Camping During Meetup &8(&52nd Offense&8)")
                 .amount(2)
                 .lore("&eClick to DQ the player for camping during meetup (2nd offense)").make(),
-                this, Collections.singletonList(""), PunishmentType.DQ
+                this, Collections.singletonList(""), PunishmentType.DQ, this.getOffenseType()
         ), 23);
     }
 }
