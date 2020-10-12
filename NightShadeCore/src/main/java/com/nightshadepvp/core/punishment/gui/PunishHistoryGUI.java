@@ -31,9 +31,9 @@ public class PunishHistoryGUI {
         historyGUI.name("Punishment History for: " + target.getName()).rows(6);
 
         ItemStack banBase = new ItemStack(Material.WOOL, 1, DyeColor.PURPLE.getWoolData());
-        String banStatement = "SELECT * FROM 'litebans_bans' WHERE uuid=\"" + target.getUniqueId().toString() + "\"";
-        String muteStatment = "SELECT * FROM 'litebans_mutes' WHERE uuid=\"" + target.getUniqueId().toString() + "\"";
-        String warningsStatement = "SELECT * FROM 'litebans_warnings' WHERE uuid=\"" + target.getUniqueId().toString() + "\"";
+        String banStatement = "SELECT * FROM litebans_bans WHERE uuid=\"" + target.getUniqueId().toString() + "\"";
+        String muteStatment = "SELECT * FROM litebans_mutes WHERE uuid=\"" + target.getUniqueId().toString() + "\"";
+        String warningsStatement = "SELECT * FROM litebans_warnings WHERE uuid=\"" + target.getUniqueId().toString() + "\"";
         ArrayList<ItemStack> banItems = Lists.newArrayList();
         ArrayList<ItemStack> muteItems = Lists.newArrayList();
         ArrayList<ItemStack> warningItems = Lists.newArrayList();
@@ -70,7 +70,7 @@ public class PunishHistoryGUI {
                 while (warnings.next()) {
                     warningItems.add(new ItemBuilder(banBase)
                             .name("&ePunishment ID: " + warnings.getInt("id"))
-                            .lore("&bType: &fMute")
+                            .lore("&bType: &fWarning")
                             .lore("&bReason: &f" + warnings.getString("reason"))
                             .lore("&bBanned On: &f" + format.format(new Date(warnings.getLong("time"))))
                             .lore("&bBanned By: &f" + NSPlayer.get(UUID.fromString(warnings.getString("banned_by_uuid"))).getName())
@@ -85,22 +85,30 @@ public class PunishHistoryGUI {
                     int muteIndex = 18;
                     int warningIndex = 36;
 
-                    for (ItemStack stack : banItems){
+                    for (ItemStack stack : banItems) {
                         historyGUI.item(banIndex, stack);
                         banIndex++;
                     }
 
-                    for (ItemStack stack : muteItems){
+                    for (ItemStack stack : muteItems) {
                         historyGUI.item(muteIndex, stack);
                         muteIndex++;
                     }
 
-                    for (ItemStack stack : warningItems){
+                    for (ItemStack stack : warningItems) {
                         historyGUI.item(warningIndex, stack);
                         warningIndex++;
                     }
 
                     player.openInventory(historyGUI.make());
+
+                    try {
+                        bans.close();
+                        mutes.close();
+                        warnings.close();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
 
                 });
 
