@@ -16,7 +16,7 @@ public class BenefitingPunishment extends AbstractPunishment {
 
         this.addChild(new Punishment("Benefiting", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                 .name("&5Benefiting &8(&51st Offense&8)")
-                .lore("&eClick to DQ the player for benefiting").make(),
+                .loreWithNuke("&eClick to DQ the player for benefiting").make(),
                 this, Collections.singletonList(""), PunishmentType.DQ, this.getOffenseType()
         ), 22);
     }

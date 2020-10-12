@@ -17,7 +17,7 @@ public class IllegalMiningPunishment extends AbstractPunishment {
 
         this.addChild(new Punishment("Illegal Mining (1st Offense)", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                 .name("&5Illegal Mining &8(&51st Offense&8)")
-                .lore("&eClick to warn the player for Illegal Mining").make(),
+                .loreWithNuke("&eClick to warn the player for Illegal Mining").make(),
                 this, Collections.singletonList("warn %player% Illegal Mining (1/1)"), PunishmentType.WARNING,
                 this.getOffenseType(),
                 Rank.TRIAL
@@ -26,7 +26,7 @@ public class IllegalMiningPunishment extends AbstractPunishment {
         this.addChild(new Punishment("Illegal Mining (2nd Offense)", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                 .amount(2)
                 .name("&5Illegal Mining &8(&52nd Offense&8)")
-                .lore("&eClick to ban the player for 7d for Illegal Mining").make(),
+                .loreWithNuke("&eClick to ban the player for 7d for Illegal Mining").make(),
                 this, Collections.singletonList("banip %player% 7d Illegal Mining (2nd Offense)"), PunishmentType.WARNING,
                 this.getOffenseType(),
                 Rank.TRIAL

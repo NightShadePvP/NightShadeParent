@@ -17,7 +17,7 @@ public class HostLyingPunishment extends AbstractPunishment {
 
         this.addChild(new Punishment("Lying to the Host", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                 .name("&5Lying to the Host &8(&51st Offense&8)")
-                .lore("&eClick to ban the player for 1d for lying to the host").make(),
+                .loreWithNuke("&eClick to ban the player for 1d for lying to the host").make(),
                 this, Collections.singletonList("banip %player% 1d Lying to the Host (1st Offense)"), PunishmentType.BAN,
                 this.getOffenseType(),
                 Rank.TRIAL

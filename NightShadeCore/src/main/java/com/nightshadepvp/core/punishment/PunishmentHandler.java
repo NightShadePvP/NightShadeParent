@@ -80,7 +80,7 @@ public class PunishmentHandler {
 
     public void createGUI(Player player) {
         Inventory inventory = Bukkit.createInventory(null, 54, "Punishment Menu");
-        int chatIndex = 18;
+        int chatIndex = 9;
         int gpIndex = 36;
         ItemStack skullStack = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         SkullMeta skullMeta = (SkullMeta) skullStack.getItemMeta();
@@ -106,7 +106,7 @@ public class PunishmentHandler {
     }
 
     public AbstractPunishment getAbstractPunishment(ItemStack itemStack) {
-        return punishments.stream().filter(abstractPunishment -> abstractPunishment.getItemStack().getType() == itemStack.getType()).findAny().orElse(null);
+        return punishments.stream().filter(abstractPunishment -> abstractPunishment.getItemStack().equals(itemStack)).findAny().orElse(null);
     }
 
     public AbstractPunishment getAbstractPunishment(String name) {

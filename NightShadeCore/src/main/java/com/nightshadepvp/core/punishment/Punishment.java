@@ -40,7 +40,7 @@ public class Punishment extends AbstractPunishment {
         }
 
         if(!NSPlayer.get(staff).hasRank(this.neededRank)){
-            staff.sendMessage(ChatUtils.message("&cYou require the " + this.neededRank.getPrefix() + " &crank to punish for &e" + this.getName()));
+            staff.sendMessage(ChatUtils.message("&cYou require the " + this.neededRank.getPrefix() + "&crank to punish for &e" + this.getName()));
             return;
         }
 

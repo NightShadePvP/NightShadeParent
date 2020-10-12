@@ -16,7 +16,7 @@ public class iPvPPunishment extends AbstractPunishment {
 
         this.addChild(new Punishment("iPvP (1st Offense)", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                 .name("&5iPvP &8(&51st Offense&8)")
-                .lore("&eClick to ban the player for 3d for iPvP").make(),
+                .loreWithNuke("&eClick to ban the player for 3d for iPvP").make(),
                 this, Collections.singletonList("ban %player% 3d iPvP (1st Offense)"), PunishmentType.BAN,
                 this.getOffenseType()
         ), 20);

@@ -15,7 +15,7 @@ public class PunishmentEvadingPunishment extends AbstractPunishment {
 
         this.addChild(new Punishment("Evading Punishments", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                 .name("&5Evading Punishments")
-                .lore("&eClick to ban the player for Evading Punishments").make(), this,
+                .loreWithNuke("&eClick to ban the player for Evading Punishments").make(), this,
                 Collections.singletonList("banip %player% Evading Punishments"), PunishmentType.BAN, this.getOffenseType(), Rank.SENIOR), 20);
     }
 }

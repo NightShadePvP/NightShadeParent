@@ -13,7 +13,7 @@ public class RandomTeamRulesPunishment extends AbstractPunishment {
 
         this.addChild(new Punishment("Breaking Random Teams Rules (1st Offense)", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                         .name("&5Breaking Random Teams Rules (1st Offense)")
-                        .lore("&eClick to ban the player for 7d for breaking random teams rules (1st Offense)").make(), this,
+                        .loreWithNuke("&eClick to ban the player for 7d for breaking random teams rules (1st Offense)").make(), this,
                         Collections.singletonList("banip %player% 7d Breaking Random Teams Rules (1st Offense)"), PunishmentType.BAN,
                         this.getOffenseType()),
                 20);
