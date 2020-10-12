@@ -13,8 +13,10 @@ import com.nightshadepvp.core.gui.guis.EffectGUI;
 import com.nightshadepvp.core.gui.guis.PlayerTagGUI;
 import com.nightshadepvp.core.punishment.AbstractPunishment;
 import com.nightshadepvp.core.punishment.PunishmentHandler;
+import com.nightshadepvp.core.punishment.gui.PunishHistoryGUI;
 import com.nightshadepvp.core.utils.ChatUtils;
 import com.nightshadepvp.core.utils.ItemBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -30,7 +32,10 @@ import java.io.IOException;
 public class EngineInventory extends Engine {
 
     private static EngineInventory i = new EngineInventory();
-    public static EngineInventory get() { return i; }
+
+    public static EngineInventory get() {
+        return i;
+    }
 
     @EventHandler
     public void onClick(InventoryClickEvent e) {
@@ -202,17 +207,19 @@ public class EngineInventory extends Engine {
             }
 
             if (inv.getName().contains("Punish")) {//Will prob change this later on
+                String punishing = PunishmentHandler.getInstance().getPunishing().get(p);
                 e.setCancelled(true);
                 if (stack.getType() == Material.AIR) return;
 
                 if (e.getSlot() == 3) {
                     //History
                     p.closeInventory();
-                    p.chat("/history " + PunishmentHandler.getInstance().getPunishing().get(p));
+                    p.sendMessage(ChatUtils.message("&bOpening punishment history for &f" + punishing));
+                    new PunishHistoryGUI(p, Bukkit.getOfflinePlayer(punishing), Core.get());
                     return;
                 } else if (e.getSlot() == 4) {
                     return;
-                }else if(e.getSlot() == 5){
+                } else if (e.getSlot() == 5) {
                     //Freeze
                     p.closeInventory();
                     p.chat("/freeze " + PunishmentHandler.getInstance().getPunishing().get(p));
@@ -224,8 +231,8 @@ public class EngineInventory extends Engine {
             }
 
             if (PunishmentHandler.getInstance().getPunishing().containsKey(p)) {
-                if(p.getOpenInventory() instanceof PlayerInventory) return;
-                if(inv.getSize() != 54) return;
+                if (p.getOpenInventory() instanceof PlayerInventory) return;
+                if (inv.getSize() != 54) return;
                 e.setCancelled(true);
                 if (stack.getType() == Material.WOOL) {
                     PunishmentHandler.getInstance().createGUI(p);
@@ -239,7 +246,7 @@ public class EngineInventory extends Engine {
                     return;
                 }
 
-                if(abstractPunishment.getChild(e.getSlot()) == null){
+                if (abstractPunishment.getChild(e.getSlot()) == null) {
                     p.closeInventory();
                     p.sendMessage(ChatUtils.message("&cThere was a problem loading that punishment!"));
                     return;
