@@ -91,22 +91,22 @@ public class PunishmentHandler {
         ArrayList<AbstractPunishment> warns = this.punishments.stream().filter(abstractPunishment -> abstractPunishment.getPunishmentType() == PunishmentType.WARNING).collect(Collectors.toCollection(ArrayList::new));
         ArrayList<AbstractPunishment> dqs = this.punishments.stream().filter(abstractPunishment -> abstractPunishment.getPunishmentType() == PunishmentType.DQ).collect(Collectors.toCollection(ArrayList::new));
         for (AbstractPunishment abstractPunishment : bans) {
-            inventory.setItem(i, abstractPunishment.getItemStack());
+            inventory.setItem(i, new ItemBuilder(abstractPunishment.getItemStack()).make());
             i++;
         }
 
         for (AbstractPunishment abstractPunishment : mutes) {
-            inventory.setItem(i, abstractPunishment.getItemStack());
+            inventory.setItem(i, new ItemBuilder(abstractPunishment.getItemStack()).make());
             i++;
         }
 
         for (AbstractPunishment abstractPunishment : warns) {
-            inventory.setItem(i, abstractPunishment.getItemStack());
+            inventory.setItem(i, new ItemBuilder(abstractPunishment.getItemStack()).make());
             i++;
         }
 
         for (AbstractPunishment abstractPunishment : dqs) {
-            inventory.setItem(i, abstractPunishment.getItemStack());
+            inventory.setItem(i, new ItemBuilder(abstractPunishment.getItemStack()).make());
             i++;
         }
 

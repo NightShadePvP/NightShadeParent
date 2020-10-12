@@ -19,8 +19,8 @@ public class AdvertisingPunishment extends AbstractPunishment {
 
         this.addChild(new Punishment("Advertising Server IPs(1st Offense)", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                 .name("&5Advertising Server IPs&8(&51st Offense&8)")
-                .lore("&eClick to ban the player for 7d for advertising server ips").make(),
-                this, Collections.singletonList("banip %player% 7d Advertising Server IPs(1st Offense)"), PunishmentType.MUTE
+                .lore("&eClick to mute the player for 7d for advertising server ips").make(),
+                this, Collections.singletonList("mute %player% 7d Advertising Server IPs (1st Offense)"), PunishmentType.MUTE
         ), 20);
 
     }

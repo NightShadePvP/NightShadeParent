@@ -71,7 +71,7 @@ public abstract class AbstractPunishment {
 
         Inventory childInventory = Bukkit.createInventory(null, 54, getName());
         for (Map.Entry<Integer, Punishment> entry : this.children.entrySet()) {
-            childInventory.setItem(entry.getKey(), entry.getValue().getItemStack());
+            childInventory.setItem(entry.getKey(), new ItemBuilder(entry.getValue().getItemStack()).make());
         }
 
         childInventory.setItem(45, PunishmentHandler.getInstance().getBackButton());

@@ -26,6 +26,6 @@ public class EncouragingSuicidePunishment extends AbstractPunishment {
                 .amount(2)
                 .lore("&eClick to mute the player for 7d for Encouraging Suicide").make(),
                 this, Collections.singletonList("mute %player% 7d Encouraging Suicide (2nd Offense)"), PunishmentType.MUTE
-        ), 20);
+        ), 21);
     }
 }

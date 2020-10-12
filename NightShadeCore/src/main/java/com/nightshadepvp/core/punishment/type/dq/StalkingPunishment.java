@@ -19,7 +19,7 @@ public class StalkingPunishment extends AbstractPunishment {
 
         this.addChild(new Punishment("Excessive Stalking (1st Offense)", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                 .name("&5Excessive Stalking &8(&51st Offense&8)")
-                .lore("&eExcessive Stalking first offense is a verbal warning.").make(),
+                .lore("&eClick to warn the player for excessive stalking (1st offense)").make(),
                 this, Collections.singletonList("warn %player% Excessive Stalking (1st Offense)"), PunishmentType.WARNING
         ), 20);
 
