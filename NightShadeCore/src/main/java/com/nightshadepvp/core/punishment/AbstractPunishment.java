@@ -1,5 +1,6 @@
 package com.nightshadepvp.core.punishment;
 
+import com.nightshadepvp.core.gui.GuiBuilder;
 import com.nightshadepvp.core.utils.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -69,14 +70,16 @@ public abstract class AbstractPunishment {
         if(e.getCurrentItem() == null) return;
         if(e.getCurrentItem().getType() == Material.AIR) return;
 
-        Inventory childInventory = Bukkit.createInventory(null, 54, getName());
+        GuiBuilder guiBuilder = new GuiBuilder();
+        guiBuilder.name(getName()).rows(6);
+        //Inventory childInventory = Bukkit.createInventory(null, 54, getName());
         for (Map.Entry<Integer, Punishment> entry : this.children.entrySet()) {
-            childInventory.setItem(entry.getKey(), new ItemBuilder(entry.getValue().getItemStack()).make());
+            guiBuilder.item(entry.getKey(), new ItemBuilder(entry.getValue().getItemStack()).make());
         }
 
-        childInventory.setItem(45, PunishmentHandler.getInstance().getBackButton());
+        guiBuilder.item(45, PunishmentHandler.getInstance().getBackButton());
 
-        p.openInventory(childInventory);
+        p.openInventory(guiBuilder.make());
     }
 
     public Punishment getChild(int slot) {
