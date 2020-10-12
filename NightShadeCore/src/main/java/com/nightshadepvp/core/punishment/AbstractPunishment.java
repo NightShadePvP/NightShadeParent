@@ -2,6 +2,7 @@ package com.nightshadepvp.core.punishment;
 
 import com.nightshadepvp.core.gui.GuiBuilder;
 import com.nightshadepvp.core.utils.ItemBuilder;
+import litebans.api.Database;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -73,8 +74,8 @@ public abstract class AbstractPunishment {
         GuiBuilder guiBuilder = new GuiBuilder();
         guiBuilder.name(getName()).rows(6);
         //Inventory childInventory = Bukkit.createInventory(null, 54, getName());
-        for (Map.Entry<Integer, Punishment> entry : this.children.entrySet()) {
-            guiBuilder.item(entry.getKey(), new ItemBuilder(entry.getValue().getItemStack()).make());
+        for (Map.Entry<Integer, Punishment> child : this.children.entrySet()) {
+            guiBuilder.item(child.getKey(), new ItemBuilder(child.getValue().getItemStack()).make());
         }
 
         guiBuilder.item(45, PunishmentHandler.getInstance().getBackButton());

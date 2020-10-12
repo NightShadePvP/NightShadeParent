@@ -19,18 +19,22 @@ public class Punishment extends AbstractPunishment {
     private PunishmentType type;
     private Rank neededRank;
 
+    private ItemStack childStack;
+
     public Punishment(String name, ItemStack itemStack, AbstractPunishment parent, List<String> commands, PunishmentType type, OffenseType offenseType, Rank neededRank) {
         super(name, itemStack, offenseType);
         this.commands = commands;
         this.type = type;
         this.parent = parent;
         this.neededRank = neededRank;
+        this.childStack = itemStack;
     }
     public Punishment(String name, ItemStack itemStack, AbstractPunishment parent, List<String> commands, PunishmentType type, OffenseType offenseType) {
         super(name, itemStack, offenseType);
         this.commands = commands;
         this.type = type;
         this.parent = parent;
+        this.childStack = itemStack;
         this.neededRank = Rank.TRIAL;
     }
 
@@ -74,5 +78,10 @@ public class Punishment extends AbstractPunishment {
 
     public Rank getNeededRank() {
         return neededRank;
+    }
+
+    @Override
+    ItemStack getItemStack() {
+        return this.childStack;
     }
 }
