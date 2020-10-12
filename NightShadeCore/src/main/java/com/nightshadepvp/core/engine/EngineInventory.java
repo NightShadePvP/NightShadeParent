@@ -206,7 +206,7 @@ public class EngineInventory extends Engine {
                 }
             }
 
-            if (inv.getName().contains("Punish")) {//Will prob change this later on
+            if (inv.getName().contains("Punishment Menu")) {//Will prob change this later on
                 String punishing = PunishmentHandler.getInstance().getPunishing().get(p);
                 e.setCancelled(true);
                 if (stack.getType() == Material.AIR) return;

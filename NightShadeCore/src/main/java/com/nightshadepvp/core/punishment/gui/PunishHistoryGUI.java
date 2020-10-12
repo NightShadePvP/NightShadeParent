@@ -50,7 +50,7 @@ public class PunishHistoryGUI {
                             .lore("&bReason: &f" + bans.getString("reason"))
                             .lore("&bBanned On: &f" + format.format(new Date(bans.getLong("time"))))
                             .lore("&bBanned By: &f" + NSPlayer.get(UUID.fromString(bans.getString("banned_by_uuid"))).getName())
-                            .lore(bans.getString("removed_by_name").equalsIgnoreCase("#expired") ? "&cExpired" : "&bExpires: &f" + format.format(new Date(bans.getLong("until"))))
+                            .lore(bans.getString("removed_by_name").equalsIgnoreCase("#expired") ? "&cExpired" : "&bExpires: &f" + (bans.getLong("until") == -1 ? "Never" : format.format(new Date(bans.getLong("until")))))
                             .make()
                     );
                 }
@@ -62,7 +62,7 @@ public class PunishHistoryGUI {
                             .lore("&bReason: &f" + mutes.getString("reason"))
                             .lore("&bBanned On: &f" + format.format(new Date(mutes.getLong("time"))))
                             .lore("&bBanned By: &f" + NSPlayer.get(UUID.fromString(mutes.getString("banned_by_uuid"))).getName())
-                            .lore(mutes.getString("removed_by_name").equalsIgnoreCase("#expired") ? "&cExpired" : "&bExpires: &f" + format.format(new Date(mutes.getLong("until"))))
+                            .lore(mutes.getString("removed_by_name").equalsIgnoreCase("#expired") ? "&cExpired" : "&bExpires: &f" + (mutes.getLong("until") == -1 ? "Never" : format.format(new Date(mutes.getLong("until")))))
                             .make()
                     );
                 }
@@ -74,7 +74,7 @@ public class PunishHistoryGUI {
                             .lore("&bReason: &f" + warnings.getString("reason"))
                             .lore("&bBanned On: &f" + format.format(new Date(warnings.getLong("time"))))
                             .lore("&bBanned By: &f" + NSPlayer.get(UUID.fromString(warnings.getString("banned_by_uuid"))).getName())
-                            .lore(warnings.getString("removed_by_name").equalsIgnoreCase("#expired") ? "&cExpired" : "&bExpires: &f" + format.format(new Date(warnings.getLong("until"))))
+                            .lore(warnings.getString("removed_by_name").equalsIgnoreCase("#expired") ? "&cExpired" : "&bExpires: &f" + (warnings.getLong("until") == -1 ? "Never" : format.format(new Date(warnings.getLong("until")))))
                             .make()
                     );
                 }
