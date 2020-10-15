@@ -22,7 +22,7 @@ public class FeistyBoysScenario extends Scenario {
 
 
     List<Material> types = new ArrayList<>(Arrays.asList(Material.WOOD_PICKAXE, Material.STONE_PICKAXE, Material.IRON_PICKAXE, Material.GOLD_PICKAXE, Material.DIAMOND_PICKAXE));
-    List<Material> nocraft = new ArrayList<>(Arrays.asList(Material.WOOD_AXE, Material.STONE_AXE, Material.IRON_AXE, Material.GOLD_AXE, Material.DIAMOND_AXE, Material.DIAMOND_SWORD, Material.IRON_SWORD, Material.GOLD_SWORD, Material.WOOD_SWORD));
+    List<Material> nocraft = new ArrayList<>(Arrays.asList(Material.WOOD_AXE, Material.STONE_AXE, Material.IRON_AXE, Material.GOLD_AXE, Material.DIAMOND_AXE, Material.DIAMOND_SWORD, Material.IRON_SWORD, Material.GOLD_SWORD, Material.WOOD_SWORD, Material.STONE_SWORD));
 
 
 

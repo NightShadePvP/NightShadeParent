@@ -120,7 +120,7 @@ public class TimeUtils {
         int mins = seconds / 60;
         int s = seconds % 60;
 
-        return mins + "minutes and " + s + " seconds";
+        return mins + " minutes and " + s + " seconds";
     }
 
     public static String formatSecondsToMinutesSeconds(int seconds) {

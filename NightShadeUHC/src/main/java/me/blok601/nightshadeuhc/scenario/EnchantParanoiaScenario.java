@@ -24,7 +24,7 @@ public class EnchantParanoiaScenario extends Scenario {
 
         Player player = event.getEnchanter();
         Location location = player.getLocation();
-        broadcast("&f" + player.getName() + " &benchanted an item at &f" + Math.round(location.getX()) + "," + Math.round(location.getY()) + "," + Math.round(location.getZ()));
+        broadcast("&f" + player.getName() + " &benchanted an item at &f" + ((int) location.getX()) + "," + ((int) location.getY()) + "," + ((int) location.getZ()));
     }
 
 }

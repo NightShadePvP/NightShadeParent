@@ -29,6 +29,7 @@ public class SlutCleanScenario extends Scenario{
 
         Player p = e.getPlayer();
         Block b = e.getBlock();
+        boolean tripleOres = scenarioManager.getScen("Triple Ores").isEnabled();
 
         if(!PlayerUtils.wearingArmor(p)){
             Location clone = new Location(b.getWorld(),  b.getLocation().getBlockX() + 0.5D, b.getLocation().getBlockY(),  b.getLocation().getBlockZ() + 0.5D); //XP ORB
@@ -36,12 +37,20 @@ public class SlutCleanScenario extends Scenario{
             if(e.getBlock().getType().equals(Material.GOLD_ORE)){
                 e.setCancelled(true);
                 b.setType(Material.AIR);
-                e.getPlayer().getInventory().addItem(new ItemStack(Material.GOLD_INGOT, 1));
+                if(tripleOres){
+                    e.getPlayer().getInventory().addItem(new ItemStack(Material.GOLD_INGOT, 3));
+                }else{
+                    e.getPlayer().getInventory().addItem(new ItemStack(Material.GOLD_INGOT, 1));
+                }
                 b.getWorld().spawn(clone, ExperienceOrb.class).setExperience(3);
             }else if(b.getType().equals(Material.IRON_ORE)){
                 e.setCancelled(true);
                 e.getBlock().setType(Material.AIR);
-                p.getInventory().addItem(new ItemStack(Material.IRON_INGOT, 1));
+                if(tripleOres){
+                    p.getInventory().addItem(new ItemStack(Material.IRON_INGOT, 3));
+                }else{
+                    p.getInventory().addItem(new ItemStack(Material.IRON_INGOT, 1));
+                }
                 b.getWorld().spawn(clone, ExperienceOrb.class).setExperience(3);
             }
         }

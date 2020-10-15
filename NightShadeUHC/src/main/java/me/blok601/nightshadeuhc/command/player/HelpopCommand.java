@@ -53,7 +53,7 @@ public class HelpopCommand implements UHCCommand{
 				if(GameManager.get().getHelpOpMutes().containsKey(p.getUniqueId())){
 					if(!GameManager.get().getHelpopMuteReasons().containsKey(p.getUniqueId())){
 						//Check if they both have it
-						GameManager.get().getHelpopMuteReasons().remove(p.getUniqueId());
+						//GameManager.get().getHelpopMuteReasons().remove(p.getUniqueId());
 						GameManager.get().getHelpOpMutes().remove(p.getUniqueId());
 						return;
 					}

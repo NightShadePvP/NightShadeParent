@@ -81,6 +81,9 @@ public class HelpopMuteCommand implements UHCCommand {
                         GameManager.get().getHelpOpMutes().remove(uuid);
                         GameManager.get().getHelpopMuteReasons().remove(uuid);
                         return;
+                    }else{
+                        GameManager.get().getHelpOpMutes().remove(uuid);
+                        GameManager.get().getHelpopMuteReasons().remove(uuid);
                     }
                     cancel();
                     return;

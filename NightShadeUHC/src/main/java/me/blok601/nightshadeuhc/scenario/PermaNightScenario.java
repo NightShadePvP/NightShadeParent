@@ -17,9 +17,10 @@ public class PermaNightScenario extends Scenario{
 
     @EventHandler
     public void onStart(GameStartEvent e){
+        if(!isEnabled()) return;
         World world = gameManager.getWorld();
-        world.setTime(13000);
         world.setGameRuleValue("doDaylightCycle", "false");
+        world.setTime(13000);
         broadcast("&bIt is now night...");
     }
 }
