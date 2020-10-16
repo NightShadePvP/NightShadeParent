@@ -6,6 +6,7 @@ import com.nightshadepvp.core.entity.MConf;
 import com.nightshadepvp.core.store.NSStore;
 import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.entity.object.PlayerStatus;
+import org.bukkit.GameMode;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,18 +47,19 @@ public class UHCPlayerColl extends SenderColl<UHCPlayer> {
     }
 
     public List<UHCPlayer> getAllPlaying() {
-        return getAllOnline().stream().filter(SenderEntity::isPlayer)
+        return getAllOnlinePlayers().stream().filter(SenderEntity::isPlayer)
                 .filter(uhcPlayer -> !uhcPlayer.isSpectator())
+                .filter(uhcPlayer -> uhcPlayer.getPlayer().getGameMode() == GameMode.SURVIVAL)
                 .filter(uhcPlayer -> uhcPlayer.getPlayerStatus() == PlayerStatus.PLAYING).collect(Collectors.toList());
     }
 
-    public Collection<UHCPlayer> getSpectators(){
+    public Collection<UHCPlayer> getSpectators() {
         ArrayList<UHCPlayer> list = new ArrayList<>();
         getAllOnline().stream().filter(UHCPlayer::isSpectator).forEach(list::add);
         return list;
     }
 
-    public Collection<UHCPlayer> getAllOnlinePlayers(){
+    public Collection<UHCPlayer> getAllOnlinePlayers() {
         return getAllOnline().stream().filter(SenderEntity::isPlayer).collect(Collectors.toList());
     }
 

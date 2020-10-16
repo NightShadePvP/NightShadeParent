@@ -8,7 +8,7 @@ import com.nightshadepvp.core.Rank;
 import com.nightshadepvp.core.cmd.NightShadeCoreCommand;
 import com.nightshadepvp.core.cmd.req.ReqRankHasAtLeast;
 import com.nightshadepvp.core.entity.NSPlayer;
-import com.nightshadepvp.core.fanciful.FancyMessage;
+import com.nightshadepvp.core.utils.fanciful.FancyMessage;
 import com.nightshadepvp.core.utils.ChatUtils;
 import com.nightshadepvp.core.utils.PlayerUtils;
 import org.bukkit.ChatColor;

@@ -43,8 +43,9 @@ public class EntropyScenario extends Scenario {
                         Player p = uhcPlayer.getPlayer();
 
                         if (p.getLevel() == 0) {
+                            p.damage(0);
                             p.setHealth(0.0);
-                            Bukkit.broadcastMessage(ChatUtils.format(getPrefix() + "&6" + p.getName() + " &4has withered away&8."));
+                            broadcast("&6" + p.getName() + " &4has withered away&8.");
                         } else {
                             p.setLevel(p.getLevel() - 1);
                         }

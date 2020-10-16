@@ -1,4 +1,4 @@
-package com.nightshadepvp.core.fanciful;
+package com.nightshadepvp.core.utils.fanciful;
 
 import com.google.gson.stream.JsonWriter;
 

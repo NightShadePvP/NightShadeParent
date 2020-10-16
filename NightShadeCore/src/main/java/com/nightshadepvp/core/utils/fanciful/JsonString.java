@@ -1,4 +1,4 @@
-package com.nightshadepvp.core.fanciful;
+package com.nightshadepvp.core.utils.fanciful;
 
 import java.io.IOException;
 import java.util.HashMap;

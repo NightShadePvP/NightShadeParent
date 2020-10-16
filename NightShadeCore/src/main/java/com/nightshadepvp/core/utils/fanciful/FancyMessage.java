@@ -1,4 +1,4 @@
-package com.nightshadepvp.core.fanciful;
+package com.nightshadepvp.core.utils.fanciful;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -21,8 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
-
-import static com.nightshadepvp.core.fanciful.TextualComponent.rawText;
 
 /**
  * Represents a formattable message. Such messages can use elements such as colors, formatting codes, hover and click data, and other features provided by the vanilla Minecraft <a href="http://minecraft.gamepedia.com/Tellraw#Raw_JSON_Text">JSON message formatter</a>.
@@ -62,7 +60,7 @@ public class FancyMessage implements JsonRepresentedObject, Cloneable, Iterable<
 	 * @param firstPartText The existing text in the message.
 	 */
 	public FancyMessage(final String firstPartText) {
-		this(rawText(firstPartText));
+		this(TextualComponent.rawText(firstPartText));
 	}
 
 	public FancyMessage(final TextualComponent firstPartText) {
@@ -87,7 +85,7 @@ public class FancyMessage implements JsonRepresentedObject, Cloneable, Iterable<
 	 */
 	public FancyMessage text(String text) {
 		MessagePart latest = latest();
-		latest.text = rawText(text);
+		latest.text = TextualComponent.rawText(text);
 		dirty = true;
 		return this;
 	}
@@ -301,7 +299,7 @@ public class FancyMessage implements JsonRepresentedObject, Cloneable, Iterable<
 					}
 				}
 				if (i != lines.length - 1) {
-					result.messageParts.add(new MessagePart(rawText("\n")));
+					result.messageParts.add(new MessagePart(TextualComponent.rawText("\n")));
 				}
 			} catch (CloneNotSupportedException e) {
 				Bukkit.getLogger().log(Level.WARNING, "Failed to clone object", e);
@@ -387,7 +385,7 @@ public class FancyMessage implements JsonRepresentedObject, Cloneable, Iterable<
 	 * @return This builder instance.
 	 */
 	public FancyMessage then(final String text) {
-		return then(rawText(text));
+		return then(TextualComponent.rawText(text));
 	}
 
 	/**

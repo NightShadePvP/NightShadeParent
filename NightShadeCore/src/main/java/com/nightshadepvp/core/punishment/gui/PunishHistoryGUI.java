@@ -31,55 +31,125 @@ public class PunishHistoryGUI {
         historyGUI.name("Punishment History for: " + target.getName()).rows(6);
 
         ItemStack banBase = new ItemStack(Material.WOOL, 1, DyeColor.PURPLE.getWoolData());
-        String banStatement = "SELECT * FROM litebans_bans WHERE uuid=\"" + target.getUniqueId().toString() + "\"";
-        String muteStatment = "SELECT * FROM litebans_mutes WHERE uuid=\"" + target.getUniqueId().toString() + "\"";
-        String warningsStatement = "SELECT * FROM litebans_warnings WHERE uuid=\"" + target.getUniqueId().toString() + "\"";
         ArrayList<ItemStack> banItems = Lists.newArrayList();
         ArrayList<ItemStack> muteItems = Lists.newArrayList();
         ArrayList<ItemStack> warningItems = Lists.newArrayList();
 
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            try {
-                ResultSet bans = Database.get().prepareStatement(banStatement).executeQuery();
-                ResultSet mutes = Database.get().prepareStatement(muteStatment).executeQuery();
-                ResultSet warnings = Database.get().prepareStatement(warningsStatement).executeQuery();
-                while (bans.next()) {
-                    banItems.add(new ItemBuilder(banBase)
-                            .name("&ePunishment ID: " + bans.getInt("id"))
-                            .lore("&bType: &fBan")
-                            .lore("&bReason: &f" + bans.getString("reason"))
-                            .lore("&bBanned On: &f" + format.format(new Date(bans.getLong("time"))))
-                            .lore("&bBanned By: &f" + NSPlayer.get(UUID.fromString(bans.getString("banned_by_uuid"))).getName())
-                            .lore(bans.getString("removed_by_name").equalsIgnoreCase("#expired") ? "&cExpired" : "&bExpires: &f" + (bans.getLong("until") == -1 ? "Never" : format.format(new Date(bans.getLong("until")))))
-                            .make()
-                    );
-                }
 
-                while (mutes.next()) {
-                    muteItems.add(new ItemBuilder(banBase)
-                            .name("&ePunishment ID: " + mutes.getInt("id"))
-                            .lore("&bType: &fMute")
-                            .lore("&bReason: &f" + mutes.getString("reason"))
-                            .lore("&bBanned On: &f" + format.format(new Date(mutes.getLong("time"))))
-                            .lore("&bBanned By: &f" + NSPlayer.get(UUID.fromString(mutes.getString("banned_by_uuid"))).getName())
-                            .lore(mutes.getString("removed_by_name").equalsIgnoreCase("#expired") ? "&cExpired" : "&bExpires: &f" + (mutes.getLong("until") == -1 ? "Never" : format.format(new Date(mutes.getLong("until")))))
-                            .make()
-                    );
-                }
+            String uuid = target.getUniqueId().toString();
+            String query = "SELECT * FROM {bans} WHERE uuid=?";
+            try (PreparedStatement st = Database.get().prepareStatement(query)) {
+                st.setString(1, uuid);
+                try (ResultSet rs = st.executeQuery()) {
+                    while (rs.next()) {
+                        String reason = rs.getString("reason");
+                        String bannedByUuid = rs.getString("banned_by_uuid");
+                        long time = rs.getLong("time");
+                        long until = rs.getLong("until");
+                        long id = rs.getLong("id");
+                        boolean active = rs.getBoolean("active");
+                        boolean perm = until == -1L;
 
-                while (warnings.next()) {
-                    warningItems.add(new ItemBuilder(banBase)
-                            .name("&ePunishment ID: " + warnings.getInt("id"))
-                            .lore("&bType: &fWarning")
-                            .lore("&bReason: &f" + warnings.getString("reason"))
-                            .lore("&bBanned On: &f" + format.format(new Date(warnings.getLong("time"))))
-                            .lore("&bBanned By: &f" + NSPlayer.get(UUID.fromString(warnings.getString("banned_by_uuid"))).getName())
-                            .lore(warnings.getString("removed_by_name").equalsIgnoreCase("#expired") ? "&cExpired" : "&bExpires: &f" + (warnings.getLong("until") == -1 ? "Never" : format.format(new Date(warnings.getLong("until")))))
-                            .make()
-                    );
-                }
+                        ItemBuilder b = new ItemBuilder(banBase)
+                                .name("&bPunishment ID: &f" + id)
+                                .lore("&bPunishment Type: &fBan")
+                                .lore("&bReason: &f" + reason)
+                                .lore("&bStaff Member: &f" + NSPlayer.get(UUID.fromString(bannedByUuid)).getName())
+                                .lore("&bIssued: &f" + format.format(new Date(time)));
+                        if(active){
+                            if(perm){
+                                b.lore("&bExpires: &fNever");
+                            }else{
+                                b.lore("&bExpires: &f" + format.format(new Date(until)));
+                            }
+                        }else{
+                            b.lore("&bExpired: &f" + format.format(new Date(until)));
+                        }
 
-                //Create the gui
+                        banItems.add(b.make());
+
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            query = "SELECT * FROM {mutes} WHERE uuid=?";
+            try (PreparedStatement st = Database.get().prepareStatement(query)) {
+                st.setString(1, uuid);
+                try (ResultSet rs = st.executeQuery()) {
+                    while (rs.next()) {
+                        String reason = rs.getString("reason");
+                        String bannedByUuid = rs.getString("banned_by_uuid");
+                        long time = rs.getLong("time");
+                        long until = rs.getLong("until");
+                        long id = rs.getLong("id");
+                        boolean active = rs.getBoolean("active");
+                        boolean perm = until == -1L;
+
+                        ItemBuilder b = new ItemBuilder(banBase)
+                                .name("&bPunishment ID: &f" + id)
+                                .lore("&bPunishment Type: &fMute")
+                                .lore("&bReason: &f" + reason)
+                                .lore("&bStaff Member: &f" + NSPlayer.get(UUID.fromString(bannedByUuid)).getName())
+                                .lore("&bIssued: &f" + format.format(new Date(time)));
+                        if(active){
+                            if(perm){
+                                b.lore("&bExpires: &fNever");
+                            }else{
+                                b.lore("&bExpires: &f" + format.format(new Date(until)));
+                            }
+                        }else{
+                            b.lore("&bExpired: &f" + format.format(new Date(until)));
+                        }
+
+                        muteItems.add(b.make());
+
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            query = "SELECT * FROM {warnings} WHERE uuid=?";
+            try (PreparedStatement st = Database.get().prepareStatement(query)) {
+                st.setString(1, uuid);
+                try (ResultSet rs = st.executeQuery()) {
+                    while (rs.next()) {
+                        String reason = rs.getString("reason");
+                        String bannedByUuid = rs.getString("banned_by_uuid");
+                        long time = rs.getLong("time");
+                        long until = rs.getLong("until");
+                        long id = rs.getLong("id");
+                        boolean active = rs.getBoolean("active");
+                        boolean perm = until == -1L;
+
+                        ItemBuilder b = new ItemBuilder(banBase)
+                                .name("&bPunishment ID: &f" + id)
+                                .lore("&bPunishment Type: &fWarning")
+                                .lore("&bReason: &f" + reason)
+                                .lore("&bStaff Member: &f" + NSPlayer.get(UUID.fromString(bannedByUuid)).getName())
+                                .lore("&bIssued: &f" + format.format(new Date(time)));
+                        if(active){
+                            if(perm){
+                                b.lore("&bExpires: &fNever");
+                            }else{
+                                b.lore("&bExpires: &f" + format.format(new Date(until)));
+                            }
+                        }else{
+                            b.lore("&bExpired: &f" + format.format(new Date(until)));
+                        }
+
+                        banItems.add(b.make());
+
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            //Create the gui
                 plugin.getServer().getScheduler().runTask(plugin, () -> {
                     int banIndex = 0;
                     int muteIndex = 18;
@@ -101,23 +171,7 @@ public class PunishHistoryGUI {
                     }
 
                     player.openInventory(historyGUI.make());
-
-                    try {
-                        bans.close();
-                        mutes.close();
-                        warnings.close();
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
-
                 });
-
-
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-                plugin.getLogManager().log(Logger.LogType.SEVERE, "There was an error accessing ban database!");
-            }
-
         });
 
     }
