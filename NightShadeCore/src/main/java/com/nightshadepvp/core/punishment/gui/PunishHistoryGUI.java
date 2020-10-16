@@ -30,7 +30,6 @@ public class PunishHistoryGUI {
         GuiBuilder historyGUI = new GuiBuilder();
         historyGUI.name("Punishment History for: " + target.getName()).rows(6);
 
-        ItemStack banBase = new ItemStack(Material.WOOL, 1, DyeColor.PURPLE.getWoolData());
         ArrayList<ItemStack> banItems = Lists.newArrayList();
         ArrayList<ItemStack> muteItems = Lists.newArrayList();
         ArrayList<ItemStack> warningItems = Lists.newArrayList();
@@ -51,7 +50,7 @@ public class PunishHistoryGUI {
                         boolean active = rs.getBoolean("active");
                         boolean perm = until == -1L;
 
-                        ItemBuilder b = new ItemBuilder(banBase)
+                        ItemBuilder b = new ItemBuilder(new ItemStack(Material.WOOL, 1, DyeColor.PURPLE.getWoolData()))
                                 .name("&bPunishment ID: &f" + id)
                                 .lore("&bPunishment Type: &fBan")
                                 .lore("&bReason: &f" + reason)
@@ -64,7 +63,7 @@ public class PunishHistoryGUI {
                                 b.lore("&bExpires: &f" + format.format(new Date(until)));
                             }
                         }else{
-                            b.lore("&bExpired: &f" + format.format(new Date(until)));
+                            b.lore("&cExpired: " + format.format(new Date(until)));
                         }
 
                         banItems.add(b.make());
@@ -88,7 +87,7 @@ public class PunishHistoryGUI {
                         boolean active = rs.getBoolean("active");
                         boolean perm = until == -1L;
 
-                        ItemBuilder b = new ItemBuilder(banBase)
+                        ItemBuilder b = new ItemBuilder(new ItemStack(Material.WOOL, 1, DyeColor.PURPLE.getWoolData()))
                                 .name("&bPunishment ID: &f" + id)
                                 .lore("&bPunishment Type: &fMute")
                                 .lore("&bReason: &f" + reason)
@@ -101,7 +100,7 @@ public class PunishHistoryGUI {
                                 b.lore("&bExpires: &f" + format.format(new Date(until)));
                             }
                         }else{
-                            b.lore("&bExpired: &f" + format.format(new Date(until)));
+                            b.lore("&cExpired: " + format.format(new Date(until)));
                         }
 
                         muteItems.add(b.make());
@@ -125,7 +124,7 @@ public class PunishHistoryGUI {
                         boolean active = rs.getBoolean("active");
                         boolean perm = until == -1L;
 
-                        ItemBuilder b = new ItemBuilder(banBase)
+                        ItemBuilder b = new ItemBuilder(new ItemStack(Material.WOOL, 1, DyeColor.PURPLE.getWoolData()))
                                 .name("&bPunishment ID: &f" + id)
                                 .lore("&bPunishment Type: &fWarning")
                                 .lore("&bReason: &f" + reason)
@@ -138,10 +137,10 @@ public class PunishHistoryGUI {
                                 b.lore("&bExpires: &f" + format.format(new Date(until)));
                             }
                         }else{
-                            b.lore("&bExpired: &f" + format.format(new Date(until)));
+                            b.lore("&cExpired: " + format.format(new Date(until)));
                         }
 
-                        banItems.add(b.make());
+                        warningItems.add(b.make());
 
                     }
                 }
