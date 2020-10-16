@@ -18,7 +18,7 @@ import org.bukkit.entity.Player;
 /**
  * Created by Blok on 9/24/2017.
  */
-public class TeamsCommand implements UHCCommand{
+public class TeamsCommand implements UHCCommand {
 
     private ScenarioManager scenarioManager;
     private GameManager gameManager;
@@ -39,16 +39,17 @@ public class TeamsCommand implements UHCCommand{
     public void onCommand(CommandSender s, Command cmd, String l, String[] args) {
         UHCPlayer uhcPlayer = UHCPlayer.get(s);
 
-        if(!gameManager.isIsTeam()){
+        if (!gameManager.isIsTeam()) {
             uhcPlayer.msg(ChatUtils.message("&cIt is not a teams game!"));
             return;
         }
 
         Scenario scenario = scenarioManager.getScen("Secret Teams");
-        if(scenario != null && scenario.isEnabled()){
-            if(!NSPlayer.get(s).hasRank(Rank.TRIAL) && !uhcPlayer.isSpectator())
-            uhcPlayer.msg(ChatUtils.format(scenario.getPrefix() + "&cYou can't view the teams in Secret Teams!"));
-            return;
+        if (scenario != null && scenario.isEnabled()) {
+            if (!NSPlayer.get(s).hasRank(Rank.TRIAL) && !uhcPlayer.isSpectator()) {
+                uhcPlayer.msg(ChatUtils.format(scenario.getPrefix() + "&cYou can't view the teams in Secret Teams!"));
+                return;
+            }
         }
 
         if (TeamManager.getInstance().getTeams().size() == 0) {
@@ -58,13 +59,13 @@ public class TeamsCommand implements UHCCommand{
 
         uhcPlayer.msg(ChatUtils.format("&5&m-----------------------------------"));
         StringBuilder stringBuilder;
-        for (Team team : TeamManager.getInstance().getTeams()){
+        for (Team team : TeamManager.getInstance().getTeams()) {
             stringBuilder = new StringBuilder();
-            for (String string : team.getMembers()){
+            for (String string : team.getMembers()) {
                 Player member = Bukkit.getPlayer(string);
-                if(member == null){
+                if (member == null) {
                     stringBuilder.append("&7" + string);
-                }else{
+                } else {
                     stringBuilder.append("&a" + string);
                 }
 
@@ -72,7 +73,7 @@ public class TeamsCommand implements UHCCommand{
             }
 
             String f = stringBuilder.toString().trim();
-            uhcPlayer.msg(ChatUtils.format("&e" + team.getName() + "&8: &5" + f.substring(0, stringBuilder.toString().length()-1)));
+            uhcPlayer.msg(ChatUtils.format("&e" + team.getName() + "&8: &5" + f.substring(0, stringBuilder.toString().length() - 1)));
         }
         uhcPlayer.msg(ChatUtils.format("&5&m-----------------------------------"));
 

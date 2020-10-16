@@ -15,6 +15,7 @@ import me.blok601.nightshadeuhc.listener.gui.ScenarioClick;
 import me.blok601.nightshadeuhc.listener.misc.SpectatorListener;
 import me.blok601.nightshadeuhc.listener.misc.StaffListener;
 import me.blok601.nightshadeuhc.scenario.ScenarioManager;
+import me.blok601.nightshadeuhc.scenario.cmd.DonateHealthCommand;
 import me.blok601.nightshadeuhc.stat.listener.JoinListener;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -59,6 +60,7 @@ public class ListenerHandler {
 
         addListener(new GameListener(uhc, gameManager, scenarioManager, componentHandler));
         addListener(new WorldBorderListener(gameManager));
+        addListener(new DonateHealthCommand(scenarioManager));
     }
 
 

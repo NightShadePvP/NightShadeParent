@@ -34,7 +34,7 @@ public class RiskyRetrievalScenario extends Scenario {
             e.setCancelled(true);
             e.getBlock().setType(Material.AIR);
             p.setExp(p.getExp() + e.getExpToDrop());
-            p.getEnderChest().addItem(new ItemStack(Material.GOLD_INGOT));
+            p.getEnderChest().addItem(new ItemStack(Material.DIAMOND));
             return;
         }
     }

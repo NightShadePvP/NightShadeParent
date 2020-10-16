@@ -44,7 +44,13 @@ public class PlayerSwapScenario extends Scenario{
                 if(counter == 0){
                     //Find two players
                     List<UHCPlayer> coll = UHCPlayerColl.get().getAllPlaying();
+                    if(coll.size() == 1){
+                        broadcast("&cThere were not enough players to do swaps! Trying again in 30 seconds!");
+                        counter=30;
+                        return;
+                    }
                     UHCPlayer uhcPlayer1 = coll.get(random.nextInt(coll.size()));
+                    coll.remove(uhcPlayer1);
                     UHCPlayer uhcPlayer2 = coll.get(random.nextInt(coll.size()));
 
                     //Grab locations

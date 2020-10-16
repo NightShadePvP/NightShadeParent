@@ -158,7 +158,10 @@ public class TeamBaseCommand implements UHCCommand{
                     }
                 }else if(args[0].equalsIgnoreCase("color")){
                     if(user.hasRank(Rank.TRIAL)){
-
+                        if(scenarioManager.getScen("Secret Teams").isEnabled()){
+                            p.sendMessage(ChatUtils.message("&cYou can't color teams in Secret Teams!"));
+                            return;
+                        }
                         ChatUtils.sendAll("&bRecoloring all teams...");
                         //colors.clear();
                         ScoreboardHandler scoreboardManager = UHC.getScoreboardManager();

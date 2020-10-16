@@ -1,5 +1,6 @@
 package me.blok601.nightshadeuhc.scenario;
 
+import com.google.common.collect.ImmutableList;
 import com.nightshadepvp.core.utils.ChatUtils;
 import me.blok601.nightshadeuhc.util.ItemBuilder;
 import org.bukkit.Material;
@@ -15,15 +16,13 @@ import java.util.List;
 
 public class FeistyBoysScenario extends Scenario {
 
-
+    private List<Material> types;
+    private List<Material> nocraft;
     public FeistyBoysScenario() {
         super("FeistyBoys", "Pickaxes are enchanted with Sharpness 3 and Swords and Axes are uncraftable", new ItemBuilder(Material.IRON_PICKAXE).name(ChatUtils.format("FeistyBoys")).make());
+        types = ImmutableList.of(Material.WOOD_PICKAXE, Material.STONE_PICKAXE, Material.IRON_PICKAXE, Material.GOLD_PICKAXE, Material.DIAMOND_PICKAXE);
+        nocraft = ImmutableList.of(Material.WOOD_AXE, Material.STONE_AXE, Material.IRON_AXE, Material.GOLD_AXE, Material.DIAMOND_AXE, Material.DIAMOND_SWORD, Material.IRON_SWORD, Material.GOLD_SWORD, Material.WOOD_SWORD, Material.STONE_SWORD);
     }
-
-
-    List<Material> types = new ArrayList<>(Arrays.asList(Material.WOOD_PICKAXE, Material.STONE_PICKAXE, Material.IRON_PICKAXE, Material.GOLD_PICKAXE, Material.DIAMOND_PICKAXE));
-    List<Material> nocraft = new ArrayList<>(Arrays.asList(Material.WOOD_AXE, Material.STONE_AXE, Material.IRON_AXE, Material.GOLD_AXE, Material.DIAMOND_AXE, Material.DIAMOND_SWORD, Material.IRON_SWORD, Material.GOLD_SWORD, Material.WOOD_SWORD, Material.STONE_SWORD));
-
 
 
     @EventHandler
@@ -50,7 +49,7 @@ public class FeistyBoysScenario extends Scenario {
         if (nocraft.contains(e.getRecipe().getResult().getType())) {
             e.setCancelled(true);
             p.closeInventory();
-            p.sendMessage(ChatUtils.format(getPrefix() + "&fYou cannot craft &cSwords or Axes&f, did you read the matchpost?"));
+            sendMessage(p, "&cYou cannot craft &cSwords or Axes&f, did you read the matchpost?");
         }
     }
 }

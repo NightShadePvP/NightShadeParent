@@ -79,7 +79,7 @@ public class JoinListener implements Listener {
             }
 
             Scenario scen = scenarioManager.getScen("Secret Teams");
-            if(scen != null && !scen.isEnabled()){
+            if(!scen.isEnabled()){
                 new BukkitRunnable(){ //Recolor teams for the player when he joins
                     @Override
                     public void run() {

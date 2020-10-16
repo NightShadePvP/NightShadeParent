@@ -34,7 +34,7 @@ public class TrainingRabbitsScenario extends Scenario {
                 }
             }
         }else{
-            nextLevel = 0;
+            nextLevel++;
         }
 
         killer.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, nextLevel, false, true));
