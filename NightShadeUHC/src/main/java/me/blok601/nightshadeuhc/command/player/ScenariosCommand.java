@@ -1,7 +1,7 @@
 package me.blok601.nightshadeuhc.command.player;
 
 import com.nightshadepvp.core.Rank;
-import com.nightshadepvp.core.fanciful.FancyMessage;
+import com.nightshadepvp.core.utils.fanciful.FancyMessage;
 import me.blok601.nightshadeuhc.command.UHCCommand;
 import me.blok601.nightshadeuhc.scenario.Scenario;
 import me.blok601.nightshadeuhc.scenario.ScenarioManager;

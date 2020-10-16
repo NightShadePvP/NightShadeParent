@@ -1,6 +1,6 @@
 package com.nightshadepvp.tournament.entity.objects.game;
 
-import com.nightshadepvp.core.fanciful.FancyMessage;
+import com.nightshadepvp.core.utils.fanciful.FancyMessage;
 import com.nightshadepvp.tournament.entity.TPlayer;
 import com.nightshadepvp.tournament.entity.enums.MatchState;
 import com.nightshadepvp.tournament.entity.handler.GameHandler;

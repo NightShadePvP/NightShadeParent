@@ -4,6 +4,7 @@ import com.nightshadepvp.core.Rank;
 import com.nightshadepvp.core.entity.NSPlayer;
 import me.blok601.nightshadeuhc.command.UHCCommand;
 import me.blok601.nightshadeuhc.entity.MConf;
+import me.blok601.nightshadeuhc.manager.GameManager;
 import me.blok601.nightshadeuhc.util.ChatUtils;
 import me.blok601.nightshadeuhc.util.MathUtils;
 import org.bukkit.Bukkit;
@@ -16,6 +17,13 @@ import org.bukkit.entity.Player;
  * Created by Blok on 12/20/2018.
  */
 public class SetBorderCommand implements UHCCommand {
+
+    private GameManager gameManager;
+
+    public SetBorderCommand(GameManager gameManager) {
+        this.gameManager = gameManager;
+    }
+
     @Override
     public String[] getNames() {
         return new String[]{
@@ -49,6 +57,7 @@ public class SetBorderCommand implements UHCCommand {
 
 
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "wb " + world.getName() + " set " + radius + " " + radius + " 0 0");
+            gameManager.genWalls(radius, gameManager.getWorld());
             p.sendMessage(ChatUtils.message("&eThe border for &b" + world.getName() + " &eis now &b" + radius + " &ex&b " + radius));
 
         } else if (args.length == 2) {
@@ -67,6 +76,7 @@ public class SetBorderCommand implements UHCCommand {
             }
 
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "wb " + world.getName() + " set " + radius + " " + radius + " 0 0");
+            gameManager.genWalls(radius, world);
             p.sendMessage(ChatUtils.message("&eThe border for &b" + world.getName() + " &eis now &b" + radius + " &ex&b " + radius));
         } else {
             p.sendMessage(ChatUtils.message("&cUsage: /setborder <radius> [world]"));

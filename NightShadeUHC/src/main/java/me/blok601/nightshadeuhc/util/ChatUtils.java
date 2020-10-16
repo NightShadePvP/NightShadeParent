@@ -1,6 +1,6 @@
 package me.blok601.nightshadeuhc.util;
 
-import com.nightshadepvp.core.fanciful.FancyMessage;
+import com.nightshadepvp.core.utils.fanciful.FancyMessage;
 import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.entity.UHCPlayer;
 import me.blok601.nightshadeuhc.entity.UHCPlayerColl;

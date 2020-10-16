@@ -221,8 +221,9 @@ public class EngineInventory extends Engine {
                     return;
                 } else if (e.getSlot() == 5) {
                     //Freeze
-                    p.closeInventory();
-                    p.chat("/freeze " + PunishmentHandler.getInstance().getPunishing().get(p));
+                    p.sendMessage(ChatUtils.message("Froze the player."));
+                    Core.get().getServer().dispatchCommand(Bukkit.getConsoleSender(), "freeze " + PunishmentHandler.getInstance().getPunishing().get(p));
+                    return;
                 }
                 p.closeInventory();
 

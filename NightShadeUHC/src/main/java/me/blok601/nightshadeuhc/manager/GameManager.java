@@ -298,8 +298,7 @@ public class GameManager {
             w.getWorldBorder().setDamageBuffer(6969);
             w.getWorldBorder().setSize(size * 2);
 
-        }
-        else {
+        } else {
             int i = 4;
             while (i < 4 + 4) {
                 for (int x = loc.getBlockX() - size; x <= loc.getBlockX() + size; x++) {

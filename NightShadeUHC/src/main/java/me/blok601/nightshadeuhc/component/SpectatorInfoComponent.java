@@ -1,12 +1,11 @@
 package me.blok601.nightshadeuhc.component;
 
-import com.nightshadepvp.core.fanciful.FancyMessage;
+import com.nightshadepvp.core.utils.fanciful.FancyMessage;
 import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.entity.UHCPlayer;
 import me.blok601.nightshadeuhc.entity.UHCPlayerColl;
 import me.blok601.nightshadeuhc.entity.object.GameState;
 import me.blok601.nightshadeuhc.entity.object.SpecInfoData;
-import me.blok601.nightshadeuhc.scenario.ScenarioManager;
 import me.blok601.nightshadeuhc.util.ChatUtils;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

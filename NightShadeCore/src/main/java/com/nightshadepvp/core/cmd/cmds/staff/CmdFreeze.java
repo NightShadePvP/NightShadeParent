@@ -25,9 +25,9 @@ public class CmdFreeze extends NightShadeCoreCommand{
     @Override
     public void perform() throws MassiveException {
         NSPlayer targetNSPlayer = this.readArg();
-
+        NSPlayer nsPlayer = NSPlayer.get(sender);
         if(!targetNSPlayer.isOnline()){
-            sender.sendMessage(ChatUtils.message("&cThat player is offline!"));
+            nsPlayer.msg(ChatUtils.message("&cThat player is offline!"));
             return;
         }
 
@@ -35,14 +35,14 @@ public class CmdFreeze extends NightShadeCoreCommand{
             //toggle player freeze off
             targetNSPlayer.setFrozen(false);
             targetNSPlayer.msg(ChatUtils.format("&eYou have been unfrozen!"));
-            sender.sendMessage(ChatUtils.message("&aYou have unfroze &6" + targetNSPlayer.getName()));
+            nsPlayer.msg(ChatUtils.message("&aYou have unfroze &6" + targetNSPlayer.getName()));
         } else {
             //Freeze them
             targetNSPlayer.setFrozen(true);
             targetNSPlayer.msg(ChatUtils.format("&a&lYou have been frozen!"));
             targetNSPlayer.msg(ChatUtils.format("&a&lPlease don't logout!"));
 
-            sender.sendMessage(ChatUtils.format("&aYou have frozen &6" + targetNSPlayer.getName()));
+            nsPlayer.msg(ChatUtils.format("&aYou have frozen &6" + targetNSPlayer.getName()));
         }
     }
 }

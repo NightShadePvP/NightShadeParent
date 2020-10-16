@@ -2,7 +2,7 @@ package me.blok601.nightshadeuhc.command.staff;
 
 import com.google.common.collect.Sets;
 import com.nightshadepvp.core.Rank;
-import com.nightshadepvp.core.fanciful.FancyMessage;
+import com.nightshadepvp.core.utils.fanciful.FancyMessage;
 import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.command.UHCCommand;
 import me.blok601.nightshadeuhc.entity.UHCPlayer;

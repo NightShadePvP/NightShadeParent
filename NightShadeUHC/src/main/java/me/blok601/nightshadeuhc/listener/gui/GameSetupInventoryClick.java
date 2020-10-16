@@ -4,7 +4,7 @@ import com.google.common.base.Joiner;
 import com.google.gson.JsonObject;
 import com.nightshadepvp.core.Core;
 import com.nightshadepvp.core.entity.NSPlayer;
-import com.nightshadepvp.core.fanciful.FancyMessage;
+import com.nightshadepvp.core.utils.fanciful.FancyMessage;
 import com.onarandombox.MultiverseCore.api.MVWorldManager;
 import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.component.ComponentHandler;

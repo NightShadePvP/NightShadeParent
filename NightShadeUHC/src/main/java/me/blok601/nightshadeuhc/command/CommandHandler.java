@@ -108,7 +108,6 @@ public class CommandHandler  {
         registerCommand(new SetSpawnCommand());
         registerCommand(new SetArenaSpawnCommand());
         registerCommand(new ArenaCommand(gameManager));
-        registerCommand(new WallsCommand());
         registerCommand(new DonateHealthCommand(scenarioManager));
         registerCommand(new CancelPregenCommand());
         registerCommand(new PowerCommand(scenarioManager));
@@ -147,7 +146,7 @@ public class CommandHandler  {
 
         registerCommand(new HostCommand(gameManager, scenarioManager));
         registerCommand(new ConfirmCommand());
-        registerCommand(new SetBorderCommand());
+        registerCommand(new SetBorderCommand(gameManager));
         registerCommand(new DoubleDatesCommand(gameManager, scenarioManager));
         registerCommand(new CheckTeamCommand(scenarioManager));
         registerCommand(new TeamChatCommand());

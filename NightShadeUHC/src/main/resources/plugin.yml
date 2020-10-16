@@ -126,9 +126,6 @@ commands:
     aliases: [a]
   chatstop:
     aliases: [togglechatmute, gmute, globalmute, chattoggle, ozzyisgay]
-  walls:
-    aliases: [shrink, setwalls]
-    description: Set and generate the border for the given radius
   cancelpregen:
   power:
     aliases: [superpower]
@@ -192,6 +189,7 @@ commands:
     description: Hosting command
   setborder:
     description: Set the world border for a command
+    aliases: [walls, setwalls, shrink]
   doubledates:
     description: Double dates scenario command
     aliases: [doubledate, dd, 2xdate]

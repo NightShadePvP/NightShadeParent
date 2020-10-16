@@ -23,7 +23,7 @@ import java.util.UUID;
 
 public class PunishHistoryGUI {
 
-    private final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+    private final SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 
     public PunishHistoryGUI(Player player, OfflinePlayer target, Core plugin) {
 
