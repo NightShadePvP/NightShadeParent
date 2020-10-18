@@ -48,14 +48,15 @@ public abstract class Quest implements Listener {
 
 
     public void complete(NSPlayer nsPlayer){
-        nsPlayer.alterCoins(coinReward);
-        if(nsPlayer.getPlayer().isOnline()){
-           nsPlayer.msg(ChatUtils.format("&f&m-----------------------------------------------"));
-           nsPlayer.msg(ChatUtils.format("&bYou have completed the quest: " + this.name));
-           nsPlayer.msg(ChatUtils.format("&a+" + this.coinReward + " coins"));
-           nsPlayer.msg(ChatUtils.format("&f&m-----------------------------------------------"));
-           nsPlayer.getPlayer().playSound(nsPlayer.getPlayer().getLocation(), Sound.LEVEL_UP, 5, 5);
-        }
+        return;
+//        nsPlayer.alterCoins(coinReward);
+//        if(nsPlayer.getPlayer().isOnline()){
+//           nsPlayer.msg(ChatUtils.format("&f&m-----------------------------------------------"));
+//           nsPlayer.msg(ChatUtils.format("&bYou have completed the quest: " + this.name));
+//           nsPlayer.msg(ChatUtils.format("&a+" + this.coinReward + " coins"));
+//           nsPlayer.msg(ChatUtils.format("&f&m-----------------------------------------------"));
+//           nsPlayer.getPlayer().playSound(nsPlayer.getPlayer().getLocation(), Sound.LEVEL_UP, 5, 5);
+//        }
     }
 
     public String getDescription() {
