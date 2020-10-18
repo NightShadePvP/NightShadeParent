@@ -56,6 +56,7 @@ public class ComponentHandler {
         addComponent(new SplitEnchantsComponent());
         addComponent(new SpectatorInfoComponent(plugin));
         addComponent(new GoldenHeadConsume());
+        addComponent(new FriendlyFireComponent());
 
         this.components.sort(Comparator.comparing(Component::getName));
     }

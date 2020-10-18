@@ -23,6 +23,7 @@ import com.nightshadepvp.core.lunar.module.border.BorderManagerImplementation;
 import com.nightshadepvp.core.lunar.module.hologram.HologramManagerImplementation;
 import com.nightshadepvp.core.lunar.module.waypoint.WaypointManagerImplementation;
 import com.nightshadepvp.core.punishment.PunishmentHandler;
+import com.nightshadepvp.core.quest.QuestHandler;
 import com.nightshadepvp.core.store.NSStore;
 import com.nightshadepvp.core.store.NSStoreConf;
 import com.nightshadepvp.core.ubl.UBLHandler;
@@ -60,7 +61,8 @@ public class Core extends MassivePlugin implements PluginMessageListener {
         Core.i = this;
     }
 
-    private UBLHandler ublHandler = new UBLHandler(this);
+    private UBLHandler ublHandler;
+    private QuestHandler questHandler;
 
     private Logger logger;
     private Jedis jedis;
@@ -87,6 +89,8 @@ public class Core extends MassivePlugin implements PluginMessageListener {
 
         logger = new Logger();
         this.loginTasks = new HashMap<>();
+        ublHandler = new UBLHandler(this);
+        questHandler = new QuestHandler(this);
 
         //LUNAR
         api = new LunarClientImplementation(this);
@@ -173,6 +177,7 @@ public class Core extends MassivePlugin implements PluginMessageListener {
 
         getLogManager().log(Logger.LogType.INFO, "Starting UBL Tasks...");
         ublHandler.setup();
+        questHandler.setup();
         this.announcer = new Announcer(this);
         Bukkit.getConsoleSender().sendMessage(ChatUtils.message("&eLoading NightShadeCore version: " + getDescription().getVersion() + ". Server Type: " + ServerType.getType().toString()));
     }
@@ -298,6 +303,10 @@ public class Core extends MassivePlugin implements PluginMessageListener {
 
     public Location getSpawn() {
         return spawn;
+    }
+
+    public QuestHandler getQuestHandler() {
+        return questHandler;
     }
 
     public void setSpawn(Location spawn) {

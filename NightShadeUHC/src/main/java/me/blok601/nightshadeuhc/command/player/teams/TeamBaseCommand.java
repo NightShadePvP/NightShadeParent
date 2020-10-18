@@ -8,6 +8,8 @@ import com.nightshadepvp.core.entity.NSPlayer;
 import com.nightshadepvp.core.utils.fanciful.FancyMessage;
 import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.command.UHCCommand;
+import me.blok601.nightshadeuhc.component.ComponentHandler;
+import me.blok601.nightshadeuhc.component.FriendlyFireComponent;
 import me.blok601.nightshadeuhc.entity.UHCPlayer;
 import me.blok601.nightshadeuhc.entity.UHCPlayerColl;
 import me.blok601.nightshadeuhc.entity.object.Team;
@@ -31,9 +33,10 @@ import java.util.*;
 public class TeamBaseCommand implements UHCCommand{
 
     private ScenarioManager scenarioManager;
-
-    public TeamBaseCommand(ScenarioManager scenarioManager) {
+    private ComponentHandler componentHandler;
+    public TeamBaseCommand(ScenarioManager scenarioManager, ComponentHandler componentHandler) {
         this.scenarioManager = scenarioManager;
+        this.componentHandler = componentHandler;
     }
 
     private HashMap<String, String> invites = new HashMap<>();
@@ -371,11 +374,15 @@ public class TeamBaseCommand implements UHCCommand{
                         return;
                     }else{
                         if(args[1].equalsIgnoreCase("on")){
-                            TeamManager.getInstance().setTeamFriendlyFire(true);
+                            //TeamManager.getInstance().setTeamFriendlyFire(true);
+
+                            componentHandler.getComponent("Friendly Fire").setEnabled(true);
                             p.sendMessage(ChatUtils.message("&eTeam friendly fire has been enabled!"));
                             return;
                         }else if(args[1].equalsIgnoreCase("off")){
-                            TeamManager.getInstance().setTeamFriendlyFire(false);
+                            //TeamManager.getInstance().setTeamFriendlyFire(false);
+
+                            componentHandler.getComponent("Friendly Fire").setEnabled(false);
                             p.sendMessage(ChatUtils.message("&eTeam friendly fire has been disabled!"));
                             return;
                         }else{

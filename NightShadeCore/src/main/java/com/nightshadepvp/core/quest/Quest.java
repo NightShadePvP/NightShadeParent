@@ -27,6 +27,13 @@ public abstract class Quest implements Listener {
         this.coinReward = coinReward;
     }
 
+    public Quest(String name, String description, Material material, int coinReward) {
+        this.name = name;
+        this.material = material;
+        this.description = description;
+        this.coinReward = coinReward;
+    }
+
     public String getName() {
         return name;
     }
@@ -41,7 +48,7 @@ public abstract class Quest implements Listener {
 
 
     public void complete(NSPlayer nsPlayer){
-        nsPlayer.alterCoins(100);
+        nsPlayer.alterCoins(coinReward);
         if(nsPlayer.getPlayer().isOnline()){
            nsPlayer.msg(ChatUtils.format("&f&m-----------------------------------------------"));
            nsPlayer.msg(ChatUtils.format("&bYou have completed the quest: " + this.name));
@@ -61,6 +68,10 @@ public abstract class Quest implements Listener {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getCoinReward() {

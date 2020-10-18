@@ -3,6 +3,7 @@ package me.blok601.nightshadeuhc.manager;
 import com.google.common.collect.Sets;
 import com.nightshadepvp.core.Core;
 import com.nightshadepvp.core.Logger;
+import com.nightshadepvp.core.quest.QuestHandler;
 import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.command.player.disguise.Undisguise;
 import me.blok601.nightshadeuhc.command.staff.RatesCommand;
@@ -30,21 +31,15 @@ public class ListenerHandler {
     private UHC uhc;
     private HashSet<Listener> listeners;
     private Core core;
-    private GameManager gameManager;
-    private ScenarioManager scenarioManager;
-    private ComponentHandler componentHandler;
 
     public ListenerHandler(UHC uhc, Core core, ScenarioManager scenarioManager, GameManager gameManager, ComponentHandler componentHandler) {
         this.uhc = uhc;
         this.core = core;
-        this.gameManager = gameManager;
-        this.scenarioManager = scenarioManager;
-        this.componentHandler = componentHandler;
         listeners = Sets.newHashSet();
 
         addListener(new GameDeathListener());
         addListener(new GoldenHeadConsume());
-        addListener(new PlayerListener(gameManager, scenarioManager));
+        addListener(new PlayerListener(gameManager, scenarioManager, core.getQuestHandler()));
         addListener(new ArenaListener());
         addListener(new RatesCommand(gameManager, scenarioManager));
         addListener(new Undisguise());

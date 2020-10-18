@@ -4,6 +4,9 @@ import com.nightshadepvp.core.Core;
 import com.nightshadepvp.core.Rank;
 import com.nightshadepvp.core.entity.NSPlayer;
 import com.nightshadepvp.core.entity.objects.PlayerTag;
+import com.nightshadepvp.core.quest.LoserDeluxeQuest;
+import com.nightshadepvp.core.quest.LoserQuest;
+import com.nightshadepvp.core.quest.QuestHandler;
 import me.blok601.nightshadeuhc.command.player.SpectatorChatCommand;
 import me.blok601.nightshadeuhc.entity.MConf;
 import me.blok601.nightshadeuhc.entity.UHCPlayer;
@@ -43,12 +46,14 @@ import org.bukkit.event.player.PlayerMoveEvent;
  */
 public class PlayerListener implements Listener {
 
-    GameManager gameManager;
-    ScenarioManager scenarioManager;
+    private GameManager gameManager;
+    private ScenarioManager scenarioManager;
+    private QuestHandler questHandler;
 
-    public PlayerListener(GameManager gameManager, ScenarioManager scenarioManager) {
+    public PlayerListener(GameManager gameManager, ScenarioManager scenarioManager, QuestHandler questHandler) {
         this.gameManager = gameManager;
         this.scenarioManager = scenarioManager;
+        this.questHandler = questHandler;
     }
 
     @EventHandler
@@ -60,7 +65,7 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler (priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onBreak(BlockBreakEvent e) {
         Player p = e.getPlayer();
         NSPlayer user = NSPlayer.get(p.getUniqueId());
@@ -72,7 +77,7 @@ public class PlayerListener implements Listener {
             }
         }
 
-        if(e.getBlock().getWorld().getName().equalsIgnoreCase(MConf.get().getArenaLocation().getWorld(true))){
+        if (e.getBlock().getWorld().getName().equalsIgnoreCase(MConf.get().getArenaLocation().getWorld(true))) {
             e.setCancelled(true);
             return;
         }
@@ -115,6 +120,16 @@ public class PlayerListener implements Listener {
                 e.setCancelled(true);
             }
 
+            if (GameState.gameHasStarted()) {
+                if (gameManager.isFiirstDamage()) return;
+                if(e.isCancelled()) return;
+                if(!(damage > 0)) return;
+                NSPlayer nsPlayer = NSPlayer.get(p);
+                if (nsPlayer.getCompletedQuests().add(questHandler.getQuest(LoserQuest.class).getId())) {
+                    questHandler.getQuest(LoserDeluxeQuest.class).complete(nsPlayer);
+                }
+            }
+
             if (gamePlayer.isInArena()) {
                 if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
                     e.setDamage(0);
@@ -130,6 +145,7 @@ public class PlayerListener implements Listener {
             if (!GameState.gameHasStarted()) {
                 e.setCancelled(true);
                 p.setHealth(p.getMaxHealth());
+                return;
             }
 
             if (damage > 0 || e.getCause() == EntityDamageEvent.DamageCause.PROJECTILE && !e.isCancelled()) {
@@ -172,18 +188,18 @@ public class PlayerListener implements Listener {
         Player p = e.getPlayer();
         NSPlayer nsPlayer = NSPlayer.get(p);
         UHCPlayer uhcPlayer = UHCPlayer.get(p);
-        
+
         String message = e.getMessage();
-        if(!ChatColor.stripColor(message).equalsIgnoreCase(message)){ //Check if its colored
-            if(!nsPlayer.hasRank(Rank.TRIAL)){
+        if (!ChatColor.stripColor(message).equalsIgnoreCase(message)) { //Check if its colored
+            if (!nsPlayer.hasRank(Rank.TRIAL)) {
                 e.setCancelled(true);
                 p.sendMessage(ChatUtils.message("&cOnly staff can send colored messages, but you can purchase chat colors in our store!"));
                 return;
             }
         }
-        
-        if(message.contains("&k") || message.contains("&m")){
-            if(nsPlayer.hasRank(Rank.TRIAL)){
+
+        if (message.contains("&k") || message.contains("&m")) {
+            if (nsPlayer.hasRank(Rank.TRIAL)) {
                 e.setCancelled(true);
                 p.sendMessage(ChatUtils.message("&cNormal players can't use those characters!"));
                 return;
@@ -255,7 +271,7 @@ public class PlayerListener implements Listener {
             }
         }
 
-        if(uhcPlayer.getPlayerStatus() == PlayerStatus.LOBBY && GameState.gameHasStarted()){
+        if (uhcPlayer.getPlayerStatus() == PlayerStatus.LOBBY && GameState.gameHasStarted()) {
             //They are booted and at the lobby
         }
 
@@ -280,8 +296,8 @@ public class PlayerListener implements Listener {
 
 
                 //Only a prefix here
-                for (Player rec : e.getRecipients()){
-                    rec.sendMessage(ChatUtils.format(nsPlayer.getPrefix() + nsPlayer.getRank().getNameColor() + " " + p.getName() +  ": " + nsPlayer.getColor().getColor() + ChatColor.stripColor(message)));
+                for (Player rec : e.getRecipients()) {
+                    rec.sendMessage(ChatUtils.format(nsPlayer.getPrefix() + nsPlayer.getRank().getNameColor() + " " + p.getName() + ": " + nsPlayer.getColor().getColor() + ChatColor.stripColor(message)));
                 }
                 return;
 
@@ -290,7 +306,7 @@ public class PlayerListener implements Listener {
             //Just a rank here
             if (nsPlayer.getCurrentTag() != PlayerTag.DEFAULT) {
                 for (Player rec : e.getRecipients()) {
-                    rec.sendMessage(ChatUtils.format(nsPlayer.getRank().getPrefix() + nsPlayer.getRank().getNameColor() + p.getName() + " " + nsPlayer.getCurrentTag().getFormatted() + ": " + nsPlayer.getColor().getColor() +ChatColor.stripColor(message)));
+                    rec.sendMessage(ChatUtils.format(nsPlayer.getRank().getPrefix() + nsPlayer.getRank().getNameColor() + p.getName() + " " + nsPlayer.getCurrentTag().getFormatted() + ": " + nsPlayer.getColor().getColor() + ChatColor.stripColor(message)));
                 }
             } else {
                 for (Player rec : e.getRecipients()) {
@@ -309,15 +325,15 @@ public class PlayerListener implements Listener {
                     continue;
                 }
                 //Just prefix
-                rec.sendMessage(ChatUtils.format(nsPlayer.getPrefix() + nsPlayer.getRank().getNameColor() + " " + p.getName() +  ": " + nsPlayer.getColor().getColor() + message));
+                rec.sendMessage(ChatUtils.format(nsPlayer.getPrefix() + nsPlayer.getRank().getNameColor() + " " + p.getName() + ": " + nsPlayer.getColor().getColor() + message));
             }
             return; //Cool
         }
 
         e.setCancelled(true);
-        for (Player rec : e.getRecipients()){ //Possibly just tag
+        for (Player rec : e.getRecipients()) { //Possibly just tag
             if (nsPlayer.getCurrentTag() != PlayerTag.DEFAULT) {
-                rec.sendMessage(ChatUtils.format(nsPlayer.getCurrentTag().getFormatted() + nsPlayer.getRank().getNameColor() + " " + p.getName()  + ": " + nsPlayer.getColor().getColor() + message));
+                rec.sendMessage(ChatUtils.format(nsPlayer.getCurrentTag().getFormatted() + nsPlayer.getRank().getNameColor() + " " + p.getName() + ": " + nsPlayer.getColor().getColor() + message));
                 continue;
             }
 
@@ -350,53 +366,25 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent e){
-        if(e.getAction() == Action.RIGHT_CLICK_BLOCK){
+    public void onInteract(PlayerInteractEvent e) {
+        if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Block b = e.getClickedBlock();
             Player p = e.getPlayer();
-            if(b.getType() == Material.AIR) return;
-
+            if (b.getType() == Material.AIR) return;
 
 
             BlockState state = b.getState();
             if (state instanceof org.bukkit.material.Skull) { //this test if b is a skull
-                if (p.getItemInHand().getType() == Material.AIR){
+                if (p.getItemInHand().getType() == Material.AIR) {
                     Skull s = (Skull) b;
                     String owner = s.getOwner();
-                    if(owner != null){
+                    if (owner != null) {
                         p.sendMessage(ChatUtils.message("&eThis is the head of&8: &b" + owner));
-                        if(NSPlayer.get(owner) != null){
+                        if (NSPlayer.get(owner) != null) {
                             p.sendMessage(ChatUtils.message("&eThey are a " + NSPlayer.get(owner).getRank().getPrefix()));
                         }
                         e.setCancelled(true);
                     }
-                }
-            }
-        }
-    }
-
-    @EventHandler
-    public void onPlayerDamage(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Player) {
-            Player damaged = (Player) e.getEntity(), damager = null;
-
-            if (e.getDamager() instanceof Player) {
-                damager = (Player) e.getDamager();
-            } else if (e.getDamager() instanceof Projectile) {
-                if (((Projectile) e.getDamager()).getShooter() instanceof Player) {
-                    damager = (Player) ((Projectile) e.getDamager()).getShooter();
-                }
-            }
-
-            if(TeamManager.getInstance().getTeam(damaged) == null || TeamManager.getInstance().getTeam(damaged) == null){
-                return;
-            }
-
-            if (damager != null) {
-                Team a = TeamManager.getInstance().getTeam(damaged), b = TeamManager.getInstance().getTeam(damager);
-
-                if (a.equals(b)) {
-                    if(!TeamManager.getInstance().isTeamFriendlyFire()) e.setCancelled(true);
                 }
             }
         }

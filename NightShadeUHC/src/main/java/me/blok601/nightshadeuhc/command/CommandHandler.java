@@ -51,6 +51,7 @@ public class CommandHandler  {
         this.scenarioManager = scenarioManager;
         this.componentHandler = componentHandler;
         this.commands = Sets.newHashSet();
+        this.core = Core.get();
         registerCommand(new FeedAll());
         registerCommand(new FreezeAll());
         registerCommand(new HealthCommand());
@@ -62,7 +63,7 @@ public class CommandHandler  {
         registerCommand(new BackpackCommand(scenarioManager));
         registerCommand(new CancelGameCommand(gameManager));
         registerCommand(new RandomDisguiseCommand());
-        registerCommand(new EndGameCommand(scenarioManager));
+        registerCommand(new EndGameCommand(scenarioManager, core.getQuestHandler()));
         registerCommand(new SpectatorChatCommand());
         registerCommand(new AlertsCommand());
         registerCommand(new CommandSpyCmd());
@@ -74,7 +75,7 @@ public class CommandHandler  {
         registerCommand(new SitCommand());
         registerCommand(new ScenarioManager(uhc, gameManager, componentHandler));
         registerCommand(new TeamsCommand(scenarioManager, gameManager));
-        registerCommand(new TeamBaseCommand(scenarioManager));
+        registerCommand(new TeamBaseCommand(scenarioManager, componentHandler));
         registerCommand(new MaxplayersCommand());
         registerCommand(new TimerCommand());
         registerCommand(new ConfigCommand(gameManager, componentHandler));

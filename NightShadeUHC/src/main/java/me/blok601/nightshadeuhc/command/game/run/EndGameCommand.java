@@ -3,6 +3,8 @@ package me.blok601.nightshadeuhc.command.game.run;
 import com.nightshadepvp.core.Core;
 import com.nightshadepvp.core.Rank;
 import com.nightshadepvp.core.entity.NSPlayer;
+import com.nightshadepvp.core.quest.HalfHeartQuest;
+import com.nightshadepvp.core.quest.QuestHandler;
 import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.command.UHCCommand;
 import me.blok601.nightshadeuhc.entity.MConf;
@@ -16,10 +18,12 @@ import me.blok601.nightshadeuhc.manager.TeamManager;
 import me.blok601.nightshadeuhc.scenario.MolesScenario;
 import me.blok601.nightshadeuhc.scenario.ScenarioManager;
 import me.blok601.nightshadeuhc.util.ChatUtils;
+import me.blok601.nightshadeuhc.util.PlayerUtils;
 import me.blok601.nightshadeuhc.util.Util;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -38,8 +42,11 @@ import java.util.function.Consumer;
 public class EndGameCommand implements UHCCommand {
 
     private ScenarioManager scenarioManager;
-    public EndGameCommand(ScenarioManager scenarioManager){
+    private QuestHandler questHandler;
+
+    public EndGameCommand(ScenarioManager scenarioManager, QuestHandler questHandler) {
         this.scenarioManager = scenarioManager;
+        this.questHandler = questHandler;
     }
 
     @Override
@@ -140,11 +147,16 @@ public class EndGameCommand implements UHCCommand {
                     gamePlayer = UHCPlayer.get(pl);
                     if (gamePlayer.getPlayerStatus() != PlayerStatus.PLAYING) continue;
                     winners.add(pl.getUniqueId());
+                    if (pl.getHealth() == 1) {
+                        if (user.getCompletedQuests().add(questHandler.getQuest(HalfHeartQuest.class).getId())) {
+                            questHandler.getQuest(HalfHeartQuest.class).complete(user);
+                        }
+                    }
 
 //                user.setPrefix(ChatColor.RED + "[Winner] ");
                     UHCStatUpdateEvent updateEvent = new UHCStatUpdateEvent(gamePlayer);
                     Bukkit.getPluginManager().callEvent(updateEvent);
-                    if(!updateEvent.isCancelled()){
+                    if (!updateEvent.isCancelled()) {
                         double toAdd = 0;
                         gamePlayer.setGamesWon(gamePlayer.getGamesWon() + 1);
                         gamePlayer.setGamesPlayed(gamePlayer.getGamesPlayed() + 1);
@@ -206,7 +218,7 @@ public class EndGameCommand implements UHCCommand {
             UHCPlayer gamePlayer = UHCPlayer.get(target.getUniqueId());
             UHCStatUpdateEvent updateEvent = new UHCStatUpdateEvent(gamePlayer);
             Bukkit.getPluginManager().callEvent(updateEvent);
-            if(!updateEvent.isCancelled()){
+            if (!updateEvent.isCancelled()) {
 
                 double points = 0;
                 gamePlayer.setGamesWon(gamePlayer.getGamesWon() + 1);
@@ -215,6 +227,11 @@ public class EndGameCommand implements UHCCommand {
                     points += GameManager.get().getKills().get(p.getUniqueId());
                 }
                 gamePlayer.addPoints(10 + points);
+                if (target.getHealth() == 1) {
+                    if (user.getCompletedQuests().add(questHandler.getQuest(HalfHeartQuest.class).getId())) {
+                        questHandler.getQuest(HalfHeartQuest.class).complete(user);
+                    }
+                }
 //            double curr = GameManager.get().getPointChanges().get(gamePlayer.getUuid());
 //            GameManager.get().getPointChanges().put(gamePlayer.getUuid(), curr + 10);
                 if (user.getRank() == Rank.PLAYER) {

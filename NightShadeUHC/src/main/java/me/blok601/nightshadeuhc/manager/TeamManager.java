@@ -24,7 +24,6 @@ public class TeamManager {
 
     private boolean teamManagement = false;
     private int teamSize = 2;
-    private boolean teamFriendlyFire = true;
     private boolean rvb = false;
     private int rvbScatterType = 1; //1 - Teams, 0 is solo
     private boolean randomTeams = false;
@@ -45,7 +44,6 @@ public class TeamManager {
         colors = Sets.newHashSet();
         this.teamManagement = false;
         this.teamSize = 2;
-        this.teamFriendlyFire = true;
         this.rvb = false;
         this.rvbScatterType = 1;
         this.randomTeams = false;
@@ -140,14 +138,6 @@ public class TeamManager {
 
     public void setTeamSize(int teamSize) {
         this.teamSize = teamSize;
-    }
-
-    public boolean isTeamFriendlyFire() {
-        return teamFriendlyFire;
-    }
-
-    public void setTeamFriendlyFire(boolean teamFriendlyFire) {
-        this.teamFriendlyFire = teamFriendlyFire;
     }
 
     public boolean isRvB() {

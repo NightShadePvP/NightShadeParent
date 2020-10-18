@@ -42,6 +42,7 @@ public class GameManager {
         return i;
     }
 
+    private boolean fiirstDamage = false;
     private  HashMap<UUID, PlayerRespawn> invs = new HashMap<>();
     private  ArrayList<UUID> deathBans = new ArrayList<>();
     private  ArrayList<String> whitelist = new ArrayList<>();
@@ -335,5 +336,13 @@ public class GameManager {
 
     public void setRrEpisodeLength(int rrEpisodeLength) {
         this.rrEpisodeLength = rrEpisodeLength;
+    }
+
+    public boolean isFiirstDamage() {
+        return fiirstDamage;
+    }
+
+    public void setFiirstDamage(boolean fiirstDamage) {
+        this.fiirstDamage = fiirstDamage;
     }
 }
