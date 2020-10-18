@@ -6,8 +6,10 @@ import com.massivecraft.massivecore.Engine;
 import com.nightshadepvp.core.Core;
 import com.nightshadepvp.core.Rank;
 import com.nightshadepvp.core.entity.NSPlayer;
+import com.nightshadepvp.core.entity.NSPlayerColl;
 import com.nightshadepvp.core.events.RankChangeEvent;
 import com.nightshadepvp.core.utils.ChatUtils;
+import com.nightshadepvp.core.utils.PlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
@@ -147,7 +149,7 @@ public class EnginePlayer extends Engine {
         new BukkitRunnable(){
             @Override
             public void run() {
-                player.playSound(player.getLocation(), Sound.NOTE_BASS, 5, 5);
+                PlayerUtils.playSound(Sound.NOTE_BASS, player);
             }
         }.runTaskLater(Core.get(), 2L);
         e.setJoinMessage(ChatUtils.format("&a&l+ " + player.getName()));
@@ -159,6 +161,20 @@ public class EnginePlayer extends Engine {
 
         Core.get().getLoginTasks().get(player.getUniqueId()).forEach(uuidConsumer -> uuidConsumer.accept(player.getUniqueId()));
         Core.get().getLoginTasks().remove(player.getUniqueId());
+
+        NSPlayer user = NSPlayer.get(player);
+        if(user.getNotes().size() > 0){
+            NSPlayerColl.get().getAllPlayerStaffOnline().forEach(nsPlayer -> {
+                nsPlayer.msg(ChatUtils.message("&f" + user.getName() + "'s &bnotes:"));
+                nsPlayer.msg(ChatUtils.format("&b&m----------------------------------"));
+                int i = 1;
+                for (String note : user.getNotes()){
+                    nsPlayer.msg(ChatUtils.format("&f" + i + ". " + note));
+                    i++;
+                }
+                nsPlayer.msg(ChatUtils.format("&b&m----------------------------------"));
+            });
+        }
 
     }
 

@@ -137,7 +137,12 @@ public class JoinListener implements Listener {
                 gamePlayer.setPlayerStatus(PlayerStatus.PLAYING);
             } else {
                 //They randomly joined while whitelist was off but game was going
-                gameManager.getLateScatter().add(player.getName().toLowerCase());
+                if(NSPlayer.get(player).hasRank(Rank.TRIAL)){
+                    gamePlayer.spec();
+                }else{
+                    gameManager.getLateScatter().add(player.getName().toLowerCase());
+                }
+
             }
             if (gameManager.getLateScatter().contains(player.getName().toLowerCase())) {
                 //Late scatter them
