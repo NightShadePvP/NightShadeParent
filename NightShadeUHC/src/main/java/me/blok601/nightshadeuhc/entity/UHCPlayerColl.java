@@ -1,5 +1,6 @@
 package me.blok601.nightshadeuhc.entity;
 
+import com.google.common.collect.Lists;
 import com.massivecraft.massivecore.store.SenderColl;
 import com.massivecraft.massivecore.store.SenderEntity;
 import com.nightshadepvp.core.entity.MConf;
@@ -47,16 +48,20 @@ public class UHCPlayerColl extends SenderColl<UHCPlayer> {
     }
 
     public List<UHCPlayer> getAllPlaying() {
-        return getAllOnlinePlayers().stream().filter(SenderEntity::isPlayer)
-                .filter(uhcPlayer -> !uhcPlayer.isSpectator())
-                .filter(uhcPlayer -> uhcPlayer.getPlayer().getGameMode() == GameMode.SURVIVAL)
-                .filter(uhcPlayer -> uhcPlayer.getPlayerStatus() == PlayerStatus.PLAYING).collect(Collectors.toList());
+        List<UHCPlayer> p = Lists.newArrayList();
+        for (UHCPlayer uhcPlayer : getAllOnlinePlayers()) {
+            if (uhcPlayer.isSpectator()) continue;
+            if (uhcPlayer.getPlayer().getGameMode() != GameMode.SURVIVAL) continue;
+            if (uhcPlayer.getPlayerStatus() != PlayerStatus.PLAYING) continue;
+
+            p.add(uhcPlayer);
+        }
+
+        return p;
     }
 
     public Collection<UHCPlayer> getSpectators() {
-        ArrayList<UHCPlayer> list = new ArrayList<>();
-        getAllOnline().stream().filter(UHCPlayer::isSpectator).forEach(list::add);
-        return list;
+        return getAllOnlinePlayers().stream().filter(UHCPlayer::isSpectator).collect(Collectors.toList());
     }
 
     public Collection<UHCPlayer> getAllOnlinePlayers() {

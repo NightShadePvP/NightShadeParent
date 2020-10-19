@@ -25,10 +25,7 @@ public class FinalHealTask extends BukkitRunnable {
     public void run() {
 
         if (counter <= -1) {
-            Bukkit.getServer().getPluginManager().callEvent(new FinalHealEvent());
             return;
-
-
         }
 
 
@@ -55,11 +52,11 @@ public class FinalHealTask extends BukkitRunnable {
                     ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Final Heal Has Been Given!",
                     ChatColor.DARK_RED + "Don't ask for another!"));
 
-
+            Bukkit.getServer().getPluginManager().callEvent(new FinalHealEvent());
             counter = -1;
             cancel();
+            return;
         }
-
         counter--;
 
     }
