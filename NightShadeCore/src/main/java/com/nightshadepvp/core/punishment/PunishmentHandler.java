@@ -63,6 +63,7 @@ public class PunishmentHandler {
         this.punishments.add(new ToggleSneakPunishment());
         this.punishments.add(new RandomTeamRulesPunishment());
         this.punishments.add(new PunishmentEvadingPunishment());
+        this.punishments.add(new HelpOPAbusePunishment());
     }
 
     public ItemBuilder getChildStack() {

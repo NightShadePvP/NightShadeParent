@@ -18,7 +18,6 @@ public class Punishment extends AbstractPunishment {
     private AbstractPunishment parent;
     private PunishmentType type;
     private Rank neededRank;
-
     private ItemStack childStack;
 
     public Punishment(String name, ItemStack itemStack, AbstractPunishment parent, List<String> commands, PunishmentType type, OffenseType offenseType, Rank neededRank) {
@@ -51,6 +50,11 @@ public class Punishment extends AbstractPunishment {
         String name = PunishmentHandler.getInstance().getPunishing().get(staff);
         Player target = Bukkit.getPlayer(name);
         if(target == null){
+            if(type == PunishmentType.DQ){
+                staff.sendMessage(ChatUtils.message("&cCould not disqualify an offline player!"));
+                return;
+            }
+
             staff.sendMessage(ChatUtils.message("&eSuccessfully executed punishment."));
             for (String cmd : this.commands) {
                 staff.chat("/" + cmd.replaceAll("%player%", name));
@@ -67,6 +71,7 @@ public class Punishment extends AbstractPunishment {
             }
 
             for (String cmd : this.commands) {
+                if(cmd.equalsIgnoreCase("")) continue;
                 staff.chat("/" + cmd.replaceAll("%player%", name));
                 staff.closeInventory();
 

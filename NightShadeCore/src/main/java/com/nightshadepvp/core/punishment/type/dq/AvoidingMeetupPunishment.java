@@ -13,7 +13,7 @@ public class AvoidingMeetupPunishment extends AbstractPunishment {
         this.addChild(new Punishment("Avoiding Meetup (1st Offense)", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
                 .name("&5Avoiding Meetup &8(&51st Offense&8)")
                 .loreWithNuke("&eClick to warn the player for Avoiding Meetup 1st offense").make(),
-                this, Collections.singletonList("warn %player% Avoiding Meetup 1/2"), PunishmentType.WARNING, this.getOffenseType()
+                this, Collections.singletonList("warn %player% Avoiding Meetup (1st Offense)"), PunishmentType.WARNING, this.getOffenseType()
         ), 20);
 
         this.addChild(new Punishment("Avoiding Meetup (2nd Offense)", new ItemBuilder(PunishmentHandler.getInstance().getChildStack())
