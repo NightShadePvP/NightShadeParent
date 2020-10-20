@@ -162,6 +162,7 @@ public class CommandHandler  {
         registerCommand(new XrayCommand());
         registerCommand(new SplitEnchantsComponent());
         registerCommand(new OresCommand());
+        registerCommand(new OPsVsWorldCommand(scenarioManager));
     }
 
 

@@ -161,6 +161,7 @@ public class ScenarioManager implements UHCCommand {
         addScen(new DoubleOrNothingScenario());
         addScen(new SickToMyStomachScenario());
         addScen(new PermaNightScenario(gameManager));
+        addScen(new OPsVsWorldScenario());
 
         sortScenarios();
     }
@@ -186,6 +187,10 @@ public class ScenarioManager implements UHCCommand {
 
     public Scenario getScen(String name) {
         return scenarios.stream().filter(scem -> scem.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
+    }
+
+    public boolean isCutClean(){
+        return getScen("CutClean").isEnabled();
     }
 
     private void openScenarioGUI(Player player) {

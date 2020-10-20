@@ -227,4 +227,7 @@ commands:
   ores:
     aliases: [oreleaderboard]
     description: Command for staff to see the top mined ores
+  opsvsworld:
+    aliases: [opvsworld, opvw, opvworld]
+    description: OPs vs World scenario command
 
