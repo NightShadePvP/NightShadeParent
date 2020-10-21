@@ -25,6 +25,7 @@ public class OPsVsWorldScenario extends Scenario{
 
     @EventHandler
     public void onStart(GameStartEvent event){
+        if(!isEnabled()) return;
         for (UUID uuid : ops){
             Player op = Bukkit.getPlayer(uuid);
             if(op == null) continue;

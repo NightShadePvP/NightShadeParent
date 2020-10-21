@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -21,7 +22,7 @@ public class AurophobiaScenario extends Scenario{
     }
 
     @EventHandler
-    public void onBreak(org.bukkit.event.block.BlockBreakEvent e){
+    public void onBreak(BlockBreakEvent e){
         if(!isEnabled()) return;
 
         Player p = e.getPlayer();

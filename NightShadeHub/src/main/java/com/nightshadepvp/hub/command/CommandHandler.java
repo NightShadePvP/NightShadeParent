@@ -39,8 +39,8 @@ public class CommandHandler {
     }
 
     public void register(HubCommand hubCommand) {
-        commands.add(hubCommand);
         hubCommand.setup(plugin);
+        commands.add(hubCommand);
     }
 
     public void setup(){
