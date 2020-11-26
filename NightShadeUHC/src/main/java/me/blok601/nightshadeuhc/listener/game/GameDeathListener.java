@@ -35,6 +35,11 @@ import java.util.ArrayList;
  * Created by Blok on 7/15/2018.
  */
 public class GameDeathListener implements Listener {
+    
+    private GameManager gameManager;
+    public GameDeathListener(GameManager gameManager) {
+        this.gameManager = gameManager;
+    }
 
     @EventHandler
     public void onPvPDeath(EntityDamageByEntityEvent e) {
@@ -92,7 +97,7 @@ public class GameDeathListener implements Listener {
             inv.setArmor(p.getInventory().getArmorContents());
             inv.setItems(p.getInventory().getContents());
             inv.setLocation(p.getLocation());
-            GameManager.get().getInvs().put(p.getUniqueId(), inv);
+            gameManager.getInvs().put(p.getUniqueId(), inv);
 
             if (shot) {
                 if (projectile != null) {
@@ -146,13 +151,13 @@ public class GameDeathListener implements Listener {
                     gamePlayer1.addPoints(1);
                 }
 
-//                double curr = GameManager.get().getPointChanges().get(gamePlayer1.getUuid());
-//                GameManager.get().getPointChanges().put(gamePlayer1.getUuid(), curr + 1);
+//                double curr = gameManager.getPointChanges().get(gamePlayer1.getUuid());
+//                gameManager.getPointChanges().put(gamePlayer1.getUuid(), curr + 1);
 
-                if (GameManager.get().getKills().containsKey(damager.getUniqueId())) {
-                    GameManager.get().getKills().replace(damager.getUniqueId(), GameManager.get().getKills().get(damager.getUniqueId()) + 1);
+                if (gameManager.getKills().containsKey(damager.getUniqueId())) {
+                    gameManager.getKills().replace(damager.getUniqueId(), gameManager.getKills().get(damager.getUniqueId()) + 1);
                 } else {
-                    GameManager.get().getKills().put(damager.getUniqueId(), 1);
+                    gameManager.getKills().put(damager.getUniqueId(), 1);
                 }
 
             }
@@ -163,14 +168,14 @@ public class GameDeathListener implements Listener {
                 uhcPlayer.setDeaths(uhcPlayer.getDeaths() + 1);
                 uhcPlayer.setGamesPlayed(uhcPlayer.getGamesPlayed() + 1);
                 double points = -0.25;
-                //if(GameManager.get().getPointChanges().containsKey(p.getUniqueId())){
-                if (GameManager.get().getKills().containsKey(p.getUniqueId())) {
-                    points += GameManager.get().getKills().get(p.getUniqueId());
+                //if(gameManager.getPointChanges().containsKey(p.getUniqueId())){
+                if (gameManager.getKills().containsKey(p.getUniqueId())) {
+                    points += gameManager.getKills().get(p.getUniqueId());
                 }
                 //points += uhcPlayer.getChangedLevel();
 
-//                double curr = GameManager.get().getPointChanges().get(uhcPlayer.getUuid());
-//                GameManager.get().getPointChanges().put(uhcPlayer.getUuid(), curr + points);
+//                double curr = gameManager.getPointChanges().get(uhcPlayer.getUuid());
+//                gameManager.getPointChanges().put(uhcPlayer.getUuid(), curr + points);
                 uhcPlayer.addPoints(points);
                 uhcPlayer.changed();
             }
@@ -184,9 +189,9 @@ public class GameDeathListener implements Listener {
                 p.sendMessage(ChatUtils.message("&bYour Game Stats:"));
             p.sendMessage(ChatUtils.format("      " + (uhcPlayer.getChangedLevel() >= 0 ? "&a&o+" + changed + " points" : "&c&o-" + changed + " points")));
                 p.sendMessage(ChatUtils.format("      &bCurrent Points: &f" + decimalFormat.format(uhcPlayer.getPoints())));
-                p.sendMessage(ChatUtils.format("      &bKills: " + GameManager.get().getKills().getOrDefault(uhcPlayer.getUuid(), 0)));
+                p.sendMessage(ChatUtils.format("      &bKills: " + gameManager.getKills().getOrDefault(uhcPlayer.getUuid(), 0)));
                 p.sendMessage(ChatUtils.format("&f&m----------------------------"));
-            //GameManager.get().getPointChanges().remove(p.getUniqueId());
+            //gameManager.getPointChanges().remove(p.getUniqueId());
             //}
 
             if (user.hasRank(Rank.TRIAL)) { //Dragon and above can spectate the games, otherwise kick
@@ -197,10 +202,14 @@ public class GameDeathListener implements Listener {
             } else {
                 p.spigot().respawn();
                 p.teleport(MConf.get().getSpawnLocation().asBukkitLocation(true));
-                GameManager.get().getWhitelist().remove(p.getName().toLowerCase());
+                gameManager.getWhitelist().remove(p.getName().toLowerCase());
                 new BukkitRunnable() {
                     @Override
                     public void run() {
+                        if(uhcPlayer.getPlayerStatus() == PlayerStatus.PLAYING){
+                            cancel();
+                            return;
+                        }
                         if (p.isOnline()) {
                             p.kickPlayer("You have died! Follow us on twitter @NightShadePvPMC for more!");
                         }
@@ -247,7 +256,7 @@ public class GameDeathListener implements Listener {
         inv.setArmor(p.getInventory().getArmorContents());
         inv.setItems(p.getInventory().getContents());
         inv.setLocation(p.getLocation());
-        GameManager.get().getInvs().put(p.getUniqueId(), inv);
+        gameManager.getInvs().put(p.getUniqueId(), inv);
 
         ArrayList<ItemStack> items = new ArrayList<>(); //Get their loot
         for (ItemStack i : p.getInventory().getContents()) {
@@ -295,28 +304,28 @@ public class GameDeathListener implements Listener {
         if (damager != null) {
             gamePlayer1.addKill(1);
             gamePlayer1.addPoints(1);
-//            double curr = GameManager.get().getPointChanges().get(gamePlayer1.getUuid());
-//            GameManager.get().getPointChanges().put(gamePlayer1.getUuid(), curr + 1);
+//            double curr = gameManager.getPointChanges().get(gamePlayer1.getUuid());
+//            gameManager.getPointChanges().put(gamePlayer1.getUuid(), curr + 1);
 
-            if (GameManager.get().getKills().containsKey(damager.getUniqueId())) {
-                GameManager.get().getKills().replace(damager.getUniqueId(), GameManager.get().getKills().get(damager.getUniqueId()) + 1);
+            if (gameManager.getKills().containsKey(damager.getUniqueId())) {
+                gameManager.getKills().replace(damager.getUniqueId(), gameManager.getKills().get(damager.getUniqueId()) + 1);
             } else {
-                GameManager.get().getKills().put(damager.getUniqueId(), 1);
+                gameManager.getKills().put(damager.getUniqueId(), 1);
             }
         }
 
         uhcPlayer.setDeaths(uhcPlayer.getDeaths() + 1);
         uhcPlayer.setGamesPlayed(uhcPlayer.getGamesPlayed() + 1);
         double points = -0.25;
-        if (GameManager.get().getKills().containsKey(p.getUniqueId())) {
-            points += GameManager.get().getKills().get(p.getUniqueId());
+        if (gameManager.getKills().containsKey(p.getUniqueId())) {
+            points += gameManager.getKills().get(p.getUniqueId());
         }
         //points += uhcPlayer.getChangedLevel();
 
-        //if(GameManager.get().getPointChanges().containsKey(p.getUniqueId())){
+        //if(gameManager.getPointChanges().containsKey(p.getUniqueId())){
             DecimalFormat decimalFormat = new DecimalFormat("##.##");
-//            double curr = GameManager.get().getPointChanges().get(uhcPlayer.getUuid());
-//            GameManager.get().getPointChanges().put(uhcPlayer.getUuid(), curr + points);
+//            double curr = gameManager.getPointChanges().get(uhcPlayer.getUuid());
+//            gameManager.getPointChanges().put(uhcPlayer.getUuid(), curr + points);
             uhcPlayer.addPoints(points);
         String changed = decimalFormat.format(uhcPlayer.getChangedLevel());
             uhcPlayer.changed();
@@ -328,9 +337,9 @@ public class GameDeathListener implements Listener {
             p.sendMessage(ChatUtils.message("&bYour Game Stats:"));
         //p.sendMessage(ChatUtils.format("      " + (uhcPlayer.getChangedLevel() >= 0 ? "&a&o+" + changed + " points" : "&c&o-" + changed + " points")));
         // p.sendMessage(ChatUtils.format("      &bCurrent Points: &f" + decimalFormat.format(uhcPlayer.getPoints())));
-        p.sendMessage(ChatUtils.format("      &bKills: " + GameManager.get().getKills().getOrDefault(uhcPlayer.getUuid(), 0)));
+        p.sendMessage(ChatUtils.format("      &bKills: " + gameManager.getKills().getOrDefault(uhcPlayer.getUuid(), 0)));
             p.sendMessage(ChatUtils.format("&f&m----------------------------"));
-            //GameManager.get().getPointChanges().remove(p.getUniqueId());
+            //gameManager.getPointChanges().remove(p.getUniqueId());
         //}
 
 
@@ -342,7 +351,7 @@ public class GameDeathListener implements Listener {
         } else {
             p.spigot().respawn();
             p.teleport(MConf.get().getSpawnLocation().asBukkitLocation(true));
-            GameManager.get().getWhitelist().remove(p.getName().toLowerCase());
+            gameManager.getWhitelist().remove(p.getName().toLowerCase());
             new BukkitRunnable() {
                 @Override
                 public void run() {

@@ -37,7 +37,7 @@ public class ListenerHandler {
         this.core = core;
         listeners = Sets.newHashSet();
 
-        addListener(new GameDeathListener());
+        addListener(new GameDeathListener(gameManager));
         addListener(new GoldenHeadConsume());
         addListener(new PlayerListener(gameManager, scenarioManager, core.getQuestHandler()));
         addListener(new ArenaListener());

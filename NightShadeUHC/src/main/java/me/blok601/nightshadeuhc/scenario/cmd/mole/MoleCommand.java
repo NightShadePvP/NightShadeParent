@@ -25,6 +25,7 @@ public class MoleCommand implements UHCCommand {
         p.sendMessage(ChatUtils.format("&e- &b/mcc - Send a message to the moles"));
         p.sendMessage(ChatUtils.format("&e- &b/mcl - Send your location to the moles"));
         p.sendMessage(ChatUtils.format("&e- &b/molekit - Redeem your molekit"));
+        p.sendMessage(ChatUtils.format("&e- &b/moles - View the moles"));
     }
 
     @Override

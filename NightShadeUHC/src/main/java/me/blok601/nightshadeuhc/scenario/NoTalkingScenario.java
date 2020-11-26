@@ -24,6 +24,11 @@ public class NoTalkingScenario extends Scenario {
 
         Player p = e.getPlayer();
 
+        if(ChatUtils.isChatFrozen()){
+            e.setCancelled(true);
+            return;
+        }
+
         if (UHCPlayer.get(p).getPlayerStatus() == PlayerStatus.PLAYING && !NSPlayer.get(p).isInStaffChat()) {
             Location loc = e.getPlayer().getLocation();
             Bukkit.broadcastMessage(ChatUtils.format(getPrefix() + "&e" + e.getPlayer().getName() + " &7is located at &8(&e" + loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ() + "&8)"));
