@@ -59,6 +59,7 @@ public class TeamsCommand implements UHCCommand {
 
         uhcPlayer.msg(ChatUtils.format("&5&m-----------------------------------"));
         StringBuilder stringBuilder;
+        int i = 1;
         for (Team team : TeamManager.getInstance().getTeams()) {
             stringBuilder = new StringBuilder();
             for (String string : team.getMembers()) {
@@ -73,7 +74,8 @@ public class TeamsCommand implements UHCCommand {
             }
 
             String f = stringBuilder.toString().trim();
-            uhcPlayer.msg(ChatUtils.format("&e" + team.getName() + "&8: &5" + f.substring(0, stringBuilder.toString().length() - 1)));
+            uhcPlayer.msg(ChatUtils.format("&e" + i + " &8- &5" + f.substring(0, stringBuilder.toString().length() - 1)));
+            i++;
         }
         uhcPlayer.msg(ChatUtils.format("&5&m-----------------------------------"));
 
