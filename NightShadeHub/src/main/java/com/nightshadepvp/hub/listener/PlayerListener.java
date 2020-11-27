@@ -15,9 +15,7 @@ public class PlayerListener implements Listener {
         Player p = e.getPlayer();
         p.getInventory().clear();
         p.getInventory().setArmorContents(null);
-
         //Setup items
-
     }
 
 }

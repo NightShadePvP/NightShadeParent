@@ -2,6 +2,7 @@ package com.nightshadepvp.core;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
+import com.google.gson.JsonObject;
 import com.massivecraft.massivecore.MassivePlugin;
 import com.massivecraft.massivecore.store.DriverFlatfile;
 import com.massivecraft.massivecore.store.DriverMongo;
@@ -150,7 +151,7 @@ public class Core extends MassivePlugin implements PluginMessageListener {
         setupTwitter();
         PunishmentHandler.getInstance().setup();
         ServerType.setType(MConf.get().getServerType());
-        if(ServerType.getType() == ServerType.UHC){
+        if (ServerType.getType() == ServerType.UHC) {
             this.spawn = new Location(Bukkit.getWorld("spawntest"), 0, 11, 0);
         }
 
@@ -178,6 +179,7 @@ public class Core extends MassivePlugin implements PluginMessageListener {
         getLogManager().log(Logger.LogType.INFO, "Starting UBL Tasks...");
         ublHandler.setup();
         questHandler.setup();
+        this.setupUpdater();
         this.announcer = new Announcer(this);
         Bukkit.getConsoleSender().sendMessage(ChatUtils.message("&eLoading NightShadeCore version: " + getDescription().getVersion() + ". Server Type: " + ServerType.getType().toString()));
     }
@@ -187,6 +189,16 @@ public class Core extends MassivePlugin implements PluginMessageListener {
     public void onDisable() {
         i = null;
         MConf.get().setAnnouncerMessages(this.announcer.getMessages());
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                JsonObject object = new JsonObject();
+                object.addProperty("serverName", MConf.get().getServerName());
+                object.addProperty("online", false);
+                object.addProperty("playerCount", 0);
+                jedis.publish("serverData", object.toString());
+            }
+        }.runTaskAsynchronously(this);
         //this.saveSpawn()
     }
 
@@ -343,8 +355,8 @@ public class Core extends MassivePlugin implements PluginMessageListener {
         this.saveConfig();
     }
 
-    private void setupTwitter(){
-        new BukkitRunnable(){
+    private void setupTwitter() {
+        new BukkitRunnable() {
             @Override
             public void run() {
                 ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -360,7 +372,19 @@ public class Core extends MassivePlugin implements PluginMessageListener {
         }.runTaskAsynchronously(this);
     }
 
+    private void setupUpdater() {
+        getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
+            JsonObject object = new JsonObject();
+            object.addProperty("serverName", MConf.get().getServerName());
+            object.addProperty("online", true);
+            object.addProperty("playerCount", Bukkit.getOnlinePlayers().size());
+
+            this.jedis.publish("serverData", object.toString());
+        }, 0, 1200);
+    }
+
     public Twitter getTwitter() {
         return twitter;
     }
+
 }
