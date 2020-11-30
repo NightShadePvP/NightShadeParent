@@ -189,16 +189,16 @@ public class Core extends MassivePlugin implements PluginMessageListener {
     public void onDisable() {
         i = null;
         MConf.get().setAnnouncerMessages(this.announcer.getMessages());
-        new BukkitRunnable(){
-            @Override
-            public void run() {
-                JsonObject object = new JsonObject();
-                object.addProperty("serverName", MConf.get().getServerName());
-                object.addProperty("online", false);
-                object.addProperty("playerCount", 0);
-                jedis.publish("serverData", object.toString());
-            }
-        }.runTaskAsynchronously(this);
+//        new BukkitRunnable(){
+//            @Override
+//            public void run() {
+//                JsonObject object = new JsonObject();
+//                object.addProperty("serverName", MConf.get().getServerName());
+//                object.addProperty("online", false);
+//                object.addProperty("playerCount", 0);
+//                jedis.publish("serverData", object.toString());
+//            }
+//        }.runTaskAsynchronously(this);
         //this.saveSpawn()
     }
 

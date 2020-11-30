@@ -341,7 +341,7 @@ public class StaffListener implements Listener {
         if (uhcPlayer.isStaffMode()) {
             uhcPlayer.unspec();
             Bukkit.getOnlinePlayers().forEach(o -> o.showPlayer(p));
-            p.chat("/rea");
+            p.performCommand("rea");
             p.getActivePotionEffects().forEach(potionEffect -> p.removePotionEffect(potionEffect.getType()));
             uhcPlayer.setStaffMode(false);
             p.getInventory().clear();
