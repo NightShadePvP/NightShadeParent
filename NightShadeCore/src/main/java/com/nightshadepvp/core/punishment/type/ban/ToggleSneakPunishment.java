@@ -21,7 +21,7 @@ public class ToggleSneakPunishment extends AbstractPunishment {
                         .name("&5ToggleSneak (2nd Offense)")
                         .amount(2)
                         .loreWithNuke("&eClick to ban the player for 30d for ToggleSneak (2nd Offense)").make(), this,
-                        Collections.singletonList("warn %player% ToggleSneak (2nd Offense)"), PunishmentType.BAN, this.getOffenseType()),
+                        Collections.singletonList("ban %player% 30d ToggleSneak"), PunishmentType.BAN, this.getOffenseType()),
                 21);
     }
 }

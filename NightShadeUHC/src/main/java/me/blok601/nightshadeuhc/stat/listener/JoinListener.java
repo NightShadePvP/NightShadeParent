@@ -74,9 +74,7 @@ public class JoinListener implements Listener {
 
 
         if (GameState.gameHasStarted()) {
-            if (LoggerManager.getInstance().hasLogger(player.getUniqueId())) {
-                LoggerManager.getInstance().getLogger(player.getUniqueId()).remove(false);
-            }
+            LoggerManager.getInstance().removeLogger(player.getUniqueId());
 
             Scenario scen = scenarioManager.getScen("Secret Teams");
             if(!scen.isEnabled()){

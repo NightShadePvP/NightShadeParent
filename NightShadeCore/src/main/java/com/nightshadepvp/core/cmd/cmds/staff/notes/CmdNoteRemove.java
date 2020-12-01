@@ -15,12 +15,15 @@ public class CmdNoteRemove extends NightShadeCoreCommand {
         this.addAliases("remove");
         this.addParameter(TypeNSPlayer.get(), "player");
         this.addParameter(TypeInteger.get(), "number");
-        this.addRequirements(ReqRankHasAtLeast.get(Rank.TRIAL));
     }
 
     @Override
     public void perform() throws MassiveException {
         NSPlayer nsPlayer = NSPlayer.get(sender);
+        if(!nsPlayer.hasRank(Rank.TRIAL)){
+            nsPlayer.msg(ChatUtils.message("&cYou require the " + Rank.TRIAL.getPrefix() + "&crank to do this command"));
+            return;
+        }
         NSPlayer target = this.readArg();
         if(target == null){
             nsPlayer.msg(ChatUtils.message("&cThat player couldn't be found!"));

@@ -38,22 +38,21 @@ public class SpectatorInfoComponent extends Component {
         if (!(e.getEntity() instanceof Player)) return;
         Player p = (Player) e.getEntity();
 
-        if (e.getFinalDamage() == 0) return;
-        if (e.isCancelled()) return;
+        if (e.getFinalDamage() == 0 || e.getDamage() == 0 || e.isCancelled()) return;
         if (p.getHealth() - e.getFinalDamage() <= 0) return; //They died
 
         FancyMessage fancyMessage = new FancyMessage();
         fancyMessage.command("/tp " + p.getName());
         if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
-            UHCPlayerColl.get().getAllOnline().stream().filter(UHCPlayer::isSpectator).forEach(uhcPlayer -> fancyMessage.text(SpecInfoData.translate(p, p.getHealth(), null, SpecInfoData.DAMAGE_FALL)).send(uhcPlayer.getPlayer()));
+            UHCPlayerColl.get().getAllOnline().stream().filter(UHCPlayer::isReceivingSpectatorInfo).forEach(uhcPlayer -> fancyMessage.text(SpecInfoData.translate(p, p.getHealth(), null, SpecInfoData.DAMAGE_FALL)).send(uhcPlayer.getPlayer()));
         } else if (e.getCause() == EntityDamageEvent.DamageCause.FIRE || e.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK || e.getCause() == EntityDamageEvent.DamageCause.LAVA || e.getCause() == EntityDamageEvent.DamageCause.MELTING) {
             if (!plugin.getScenarioManager().getScen("Fireless").isEnabled()) {
-                UHCPlayerColl.get().getAllOnline().stream().filter(UHCPlayer::isSpectator).forEach(uhcPlayer -> fancyMessage.text(SpecInfoData.translate(p, p.getHealth(), null, SpecInfoData.DAMAGE_BURN)).send(uhcPlayer.getPlayer()));
+                UHCPlayerColl.get().getAllOnline().stream().filter(UHCPlayer::isReceivingSpectatorInfo).forEach(uhcPlayer -> fancyMessage.text(SpecInfoData.translate(p, p.getHealth(), null, SpecInfoData.DAMAGE_BURN)).send(uhcPlayer.getPlayer()));
             }
         } else if (e.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK || e.getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
             return;
         } else {
-            UHCPlayerColl.get().getAllOnline().stream().filter(UHCPlayer::isSpectator).forEach(uhcPlayer -> fancyMessage.text(SpecInfoData.translate(p, p.getHealth(), null, SpecInfoData.DAMAGE_OTHER)).send(uhcPlayer.getPlayer()));
+            UHCPlayerColl.get().getAllOnline().stream().filter(UHCPlayer::isReceivingSpectatorInfo).forEach(uhcPlayer -> fancyMessage.text(SpecInfoData.translate(p, p.getHealth(), null, SpecInfoData.DAMAGE_OTHER)).send(uhcPlayer.getPlayer()));
         }
 
     }
@@ -65,7 +64,7 @@ public class SpectatorInfoComponent extends Component {
         if (!(e.getEntity() instanceof Player)) return;
 
         Player p = (Player) e.getEntity();
-        if (e.getFinalDamage() == 0) return;
+        if (e.getFinalDamage() == 0 || e.getDamage() == 0 || e.isCancelled()) return;
         if (p.getHealth() - e.getFinalDamage() <= 0) return; //They died
 
         FancyMessage fancyMessage = new FancyMessage();

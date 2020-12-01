@@ -19,12 +19,15 @@ public class CmdNoteAdd extends NightShadeCoreCommand {
         this.addAliases("add");
         this.addParameter(TypeNSPlayer.get(), "player");
         this.addParameter(TypeString.get(), "note", true);
-        this.addRequirements(ReqRankHasAtLeast.get(Rank.TRIAL));
     }
 
     @Override
     public void perform() throws MassiveException {
         NSPlayer nsPlayer = NSPlayer.get(sender);
+        if(!nsPlayer.hasRank(Rank.TRIAL)){
+            nsPlayer.msg(ChatUtils.message("&cYou require the " + Rank.TRIAL.getPrefix() + "&crank to do this command"));
+            return;
+        }
         NSPlayer target = this.readArg();
         if(target == null){
             nsPlayer.msg(ChatUtils.message("&cThat player couldn't be found!"));

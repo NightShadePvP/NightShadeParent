@@ -204,12 +204,22 @@ public class GameListener implements Listener {
     @EventHandler
     public void onMatchpostUpdate(MatchpostUpdateEvent event) {
         String post = event.getNewMatchPost();
-        if (!post.contains("https://c.uhc.gg/")) {
+//        if (!post.contains("https://c.uhc.gg/")) {
+//            return;
+//        }
+
+        String id;
+        String[] s;
+        if(post.contains("https://hosts.uhc.gg/")){
+            s = post.split("https://hosts.uhc.gg/m/");
+            id = s[1];
+        }else if(post.contains("https://c.uhc.gg/")){
+            s = post.split("https://c.uhc.gg/#/post/");
+            id = s[1];
+        }else{
             return;
         }
 
-        String[] s = post.split("https://c.uhc.gg/#/post/");
-        String id = s[1];
         new BukkitRunnable() {
             @Override
             public void run() {

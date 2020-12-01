@@ -1,6 +1,7 @@
 package me.blok601.nightshadeuhc.manager;
 
 import com.google.common.collect.Sets;
+import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.entity.object.LoggedOutPlayer;
 
 import java.util.HashSet;
@@ -36,6 +37,15 @@ public class LoggerManager {
             }
         }
         return null;
+    }
+
+    public void removeLogger(UUID uuid){
+        LoggedOutPlayer loggedOutPlayer = getLogger(uuid);
+        if(loggedOutPlayer == null) return;
+        if(deadLoggers.contains(loggedOutPlayer)) return;
+
+        UHC.get().getServer().getScheduler().cancelTask(loggedOutPlayer.getTaskID());
+        this.loggedOutPlayers.remove(loggedOutPlayer);
     }
 
     public LoggedOutPlayer getDeadLogger(UUID uuid) {

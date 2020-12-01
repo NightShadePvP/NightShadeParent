@@ -116,7 +116,7 @@ public class SpectatorListener implements Listener {
 		if (gamePlayer.isSpectator()) {
 			e.setCancelled(true);
 			Random r = ThreadLocalRandom.current();
-			ArrayList<Player> players = UHCPlayerColl.get().getAllPlaying().stream().map(SenderEntity::getPlayer).collect(Collectors.toCollection(ArrayList::new));
+			ArrayList<Player> players = UHCPlayerColl.get().getAllPlaying().stream().filter(uhcPlayer -> !uhcPlayer.getName().equalsIgnoreCase(p.getName())).map(SenderEntity::getPlayer).collect(Collectors.toCollection(ArrayList::new));
 //			UHC.players.stream().filter(uuid -> Bukkit.getPlayer(uuid) != null).forEach(uuid -> players.add(Bukkit.getPlayer(uuid)));
 			if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
                 if (p.getItemInHand() == null || p.getItemInHand().getType() == Material.AIR) {

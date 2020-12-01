@@ -219,6 +219,7 @@ commands:
     aliases: [badd, bestbtcadd]
     description: Add players to the best btc list
   border:
+    aliases: [nextshrink]
     description: View the current and next border shrinks
   xray:
     description: Toggle xray
