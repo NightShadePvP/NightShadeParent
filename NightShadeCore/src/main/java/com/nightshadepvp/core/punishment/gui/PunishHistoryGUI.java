@@ -56,13 +56,13 @@ public class PunishHistoryGUI {
                                 .lore("&bReason: &f" + reason)
                                 .lore("&bStaff Member: &f" + NSPlayer.get(UUID.fromString(bannedByUuid)).getName())
                                 .lore("&bIssued: &f" + format.format(new Date(time)));
-                        if(active){
-                            if(perm){
+                        if (active) {
+                            if (perm) {
                                 b.lore("&bExpires: &fNever");
-                            }else{
+                            } else {
                                 b.lore("&bExpires: &f" + format.format(new Date(until)));
                             }
-                        }else{
+                        } else {
                             b.lore("&cExpired: " + format.format(new Date(until)));
                         }
 
@@ -93,13 +93,13 @@ public class PunishHistoryGUI {
                                 .lore("&bReason: &f" + reason)
                                 .lore("&bStaff Member: &f" + NSPlayer.get(UUID.fromString(bannedByUuid)).getName())
                                 .lore("&bIssued: &f" + format.format(new Date(time)));
-                        if(active){
-                            if(perm){
+                        if (active) {
+                            if (perm) {
                                 b.lore("&bExpires: &fNever");
-                            }else{
+                            } else {
                                 b.lore("&bExpires: &f" + format.format(new Date(until)));
                             }
-                        }else{
+                        } else {
                             b.lore("&cExpired: " + format.format(new Date(until)));
                         }
 
@@ -130,13 +130,13 @@ public class PunishHistoryGUI {
                                 .lore("&bReason: &f" + reason)
                                 .lore("&bStaff Member: &f" + NSPlayer.get(UUID.fromString(bannedByUuid)).getName())
                                 .lore("&bIssued: &f" + format.format(new Date(time)));
-                        if(active){
-                            if(perm){
+                        if (active) {
+                            if (perm) {
                                 b.lore("&bExpires: &fNever");
-                            }else{
+                            } else {
                                 b.lore("&bExpires: &f" + format.format(new Date(until)));
                             }
-                        }else{
+                        } else {
                             b.lore("&cExpired: " + format.format(new Date(until)));
                         }
 
@@ -148,29 +148,31 @@ public class PunishHistoryGUI {
                 e.printStackTrace();
             }
 
+
+            if (banItems.size() == 0 && muteItems.size() == 0 && warningItems.size() == 0) return;
             //Create the gui
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    int banIndex = 0;
-                    int muteIndex = 18;
-                    int warningIndex = 36;
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                int banIndex = 0;
+                int muteIndex = 18;
+                int warningIndex = 36;
 
-                    for (ItemStack stack : banItems) {
-                        historyGUI.item(banIndex, stack);
-                        banIndex++;
-                    }
+                for (ItemStack stack : banItems) {
+                    historyGUI.item(banIndex, stack);
+                    banIndex++;
+                }
 
-                    for (ItemStack stack : muteItems) {
-                        historyGUI.item(muteIndex, stack);
-                        muteIndex++;
-                    }
+                for (ItemStack stack : muteItems) {
+                    historyGUI.item(muteIndex, stack);
+                    muteIndex++;
+                }
 
-                    for (ItemStack stack : warningItems) {
-                        historyGUI.item(warningIndex, stack);
-                        warningIndex++;
-                    }
+                for (ItemStack stack : warningItems) {
+                    historyGUI.item(warningIndex, stack);
+                    warningIndex++;
+                }
 
-                    player.openInventory(historyGUI.make());
-                });
+                player.openInventory(historyGUI.make());
+            });
         });
 
     }

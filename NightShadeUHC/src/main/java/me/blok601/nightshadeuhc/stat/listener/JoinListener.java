@@ -19,10 +19,7 @@ import me.blok601.nightshadeuhc.util.ChatUtils;
 import me.blok601.nightshadeuhc.util.ItemBuilder;
 import me.blok601.nightshadeuhc.util.PlayerUtils;
 import me.blok601.nightshadeuhc.util.ScatterUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
@@ -191,7 +188,10 @@ public class JoinListener implements Listener {
         }else{
             player.getEnderChest().clear();
             gamePlayer.setPlayerStatus(PlayerStatus.LOBBY);
-            player.teleport(MConf.get().getSpawnLocation().asBukkitLocation());
+            Location spawn = MConf.get().getSpawnLocation().asBukkitLocation();
+            spawn.setPitch(0);
+            spawn.setYaw(0);
+            player.teleport(spawn);
             com.nightshadepvp.core.utils.PlayerUtils.clearPlayer(player, true);
         }
         UHC.getScoreboardManager().applyBoard(player);

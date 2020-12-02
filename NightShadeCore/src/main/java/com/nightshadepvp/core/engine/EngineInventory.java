@@ -213,9 +213,10 @@ public class EngineInventory extends Engine {
 
                 if (e.getSlot() == 3) {
                     //History
-                    p.closeInventory();
-                    p.sendMessage(ChatUtils.message("&bOpening punishment history for &f" + punishing));
+                   // p.closeInventory();
+
                     new PunishHistoryGUI(p, Bukkit.getOfflinePlayer(punishing), Core.get());
+                    p.sendMessage(ChatUtils.message("&bOpening punishment history for &f" + punishing));
                     return;
                 } else if (e.getSlot() == 4) {
                     return;
