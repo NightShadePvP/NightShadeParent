@@ -47,4 +47,9 @@ public class SoupPlusScenario extends Scenario implements StarterItems {
     public List<ItemStack> getStarterItems() {
         return MUtil.list(new ItemStack(Material.RED_MUSHROOM, 64), new ItemStack(Material.BROWN_MUSHROOM, 64), new ItemStack(Material.BOWL, 64));
     }
+
+    @Override
+    public int getStartingLevels() {
+        return 0;
+    }
 }

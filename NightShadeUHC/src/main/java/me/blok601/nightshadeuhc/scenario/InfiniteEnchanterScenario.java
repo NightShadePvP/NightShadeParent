@@ -21,13 +21,13 @@ public class InfiniteEnchanterScenario extends Scenario implements StarterItems 
         super("Infinite Enchanter", "All players start with 128 Bookshelves, Infinite XP Levels, 64 Anvils and 64 Enchantment Tables", new ItemBuilder(Material.ENCHANTMENT_TABLE).name("Infinite Enchanter").make());
     }
 
-    @EventHandler
-    public void onStart(GameStartEvent e){
-        if(!isEnabled()){
-            return;
-        }
-        UHCPlayerColl.get().getAllPlaying().forEach(uhcPlayer -> uhcPlayer.getPlayer().setLevel(27000));
-    }
+//    @EventHandler
+//    public void onStart(GameStartEvent e){
+//        if(!isEnabled()){
+//            return;
+//        }
+//        //UHCPlayerColl.get().getAllPlaying().forEach(uhcPlayer -> uhcPlayer.getPlayer().setLevel(27000));
+//    }
 
     @Override
     public List<ItemStack> getStarterItems() {
@@ -39,5 +39,10 @@ public class InfiniteEnchanterScenario extends Scenario implements StarterItems 
             itemStacks.add(new ItemBuilder(Material.ANVIL).amount(64).make());
         }
         return itemStacks;
+    }
+
+    @Override
+    public int getStartingLevels() {
+        return 27000;
     }
 }

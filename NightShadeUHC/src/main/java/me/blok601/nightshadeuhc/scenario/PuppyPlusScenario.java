@@ -22,4 +22,9 @@ public class PuppyPlusScenario extends Scenario implements StarterItems {
                 new ItemStack(Material.ROTTEN_FLESH, 192),
                 new ItemStack(Material.MONSTER_EGG, 192, (short) 95));
     }
+
+    @Override
+    public int getStartingLevels() {
+        return 0;
+    }
 }

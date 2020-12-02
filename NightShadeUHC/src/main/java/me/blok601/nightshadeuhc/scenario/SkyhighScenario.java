@@ -71,4 +71,9 @@ public class SkyhighScenario extends Scenario implements StarterItems {
                 new ItemStack(Material.STRING, 2),
                 new ItemStack(Material.FEATHER, 16));
     }
+
+    @Override
+    public int getStartingLevels() {
+        return 0;
+    }
 }

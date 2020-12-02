@@ -36,26 +36,21 @@ public class GiveItemsCommand implements UHCCommand {
             return;
         }
         else {
-            Player player = target;
-            p.sendMessage(ChatUtils.message("&eSuccesfully administered starter items to target player!"));
             for (Scenario scenario : scenarioManager.getEnabledScenarios()) {
                 if (scenario instanceof StarterItems) {
 
                     StarterItems starterItems = (StarterItems) scenario;
-                    if (scenario.getName().equalsIgnoreCase("Infinite Enchanter") ||scenario.getName().equalsIgnoreCase("GoneFishin") ) {
-                        player.setLevel(27000);
-                    }
 
                     //UHCPlayerColl.get().getAllPlaying().forEach(uhcPlayer -> PlayerUtils.giveBulkItems(uhcPlayer.getPlayer(), starterItems.getStarterItems
                     for (ItemStack stack : starterItems.getStarterItems()) {
-                        PlayerUtils.giveItem(stack, player);
+                        PlayerUtils.giveItem(stack, target);
                     }
+
+                    target.setLevel(target.getLevel() + starterItems.getStartingLevels());
                 }
             }
-
+            p.sendMessage(ChatUtils.message("&eSuccesfully administered starter items to target player!"));
         }
-
-
     }
 
 

@@ -39,4 +39,9 @@ public class ChickenScenario extends Scenario implements StarterItems {
   public List<ItemStack> getStarterItems() {
     return MUtil.list(new ItemStack(Material.GOLDEN_APPLE, 1, (short) 1));
   }
+
+  @Override
+  public int getStartingLevels() {
+    return 0;
+  }
 }

@@ -138,7 +138,10 @@ public class JoinListener implements Listener {
                 if(NSPlayer.get(player).hasRank(Rank.TRIAL)){
                     gamePlayer.spec();
                 }else{
-                    gameManager.getLateScatter().add(player.getName().toLowerCase());
+                    if(!gameManager.getPvpTask().isPvpEnabled()){
+                        gameManager.getLateScatter().add(player.getName().toLowerCase());
+                    }
+
                 }
 
             }

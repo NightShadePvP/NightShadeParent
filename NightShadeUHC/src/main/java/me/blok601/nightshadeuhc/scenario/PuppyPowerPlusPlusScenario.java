@@ -23,4 +23,9 @@ public class PuppyPowerPlusPlusScenario extends Scenario implements StarterItems
     toReturn.add(new ItemStack(Material.MONSTER_EGG, 320, (short) 95));
     return toReturn;
   }
+
+  @Override
+  public int getStartingLevels() {
+    return 0;
+  }
 }

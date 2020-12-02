@@ -109,6 +109,7 @@ commands:
   cleararmor:
   createworlds:
   tpworld:
+    aliases: [world]
   worlds:
   deleteworld:
   giveitems:

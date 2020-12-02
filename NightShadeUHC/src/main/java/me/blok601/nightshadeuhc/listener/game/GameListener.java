@@ -185,7 +185,7 @@ public class GameListener implements Listener {
         Player player = e.getPlayer();
         UHCPlayer uhcPlayer = UHCPlayer.get(player);
         uhcPlayer.setChangedLevel(0);
-        if(!gameManager.getWhitelist().contains(player.getName().toLowerCase())){
+        if (!gameManager.getWhitelist().contains(player.getName().toLowerCase())) {
             gameManager.getWhitelist().add(player.getName().toLowerCase());
         }
         for (Scenario scenario : scenarioManager.getEnabledScenarios()) {
@@ -197,6 +197,7 @@ public class GameListener implements Listener {
                 for (ItemStack stack : starterItems.getStarterItems()) {
                     com.nightshadepvp.core.utils.PlayerUtils.giveItem(stack, player);
                 }
+                player.setLevel(starterItems.getStartingLevels() + player.getLevel());
             }
         }
     }
@@ -210,13 +211,13 @@ public class GameListener implements Listener {
 
         String id;
         String[] s;
-        if(post.contains("https://hosts.uhc.gg/")){
+        if (post.contains("https://hosts.uhc.gg/")) {
             s = post.split("https://hosts.uhc.gg/m/");
             id = s[1];
-        }else if(post.contains("https://c.uhc.gg/")){
+        } else if (post.contains("https://c.uhc.gg/")) {
             s = post.split("https://c.uhc.gg/#/post/");
             id = s[1];
-        }else{
+        } else {
             return;
         }
 

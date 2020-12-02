@@ -25,14 +25,14 @@ public class GoneFishinScenario extends Scenario implements StarterItems {
         super("GoneFishin'", "Each player starts with an Unbreaking 100 and Luck of the Sea 250 fishing rod along with 20 anvils.", new ItemBuilder(Material.FISHING_ROD).name("GoneFishin'").make());
     }
 
-    @EventHandler
-    public void on(GameStartEvent e){
-        if(!isEnabled()){
-            return;
-        }
-
-        UHCPlayerColl.get().getAllPlaying().forEach(uhcPlayer -> uhcPlayer.getPlayer().setLevel(20000));
-    }
+//    @EventHandler
+//    public void on(GameStartEvent e){
+//        if(!isEnabled()){
+//            return;
+//        }
+//
+//        //UHCPlayerColl.get().getAllPlaying().forEach(uhcPlayer -> uhcPlayer.getPlayer().setLevel(20000));
+//    }
 
     @EventHandler
     public void onCraft(CraftItemEvent e){
@@ -56,5 +56,10 @@ public class GoneFishinScenario extends Scenario implements StarterItems {
     public List<ItemStack> getStarterItems() {
         return MUtil.list(new ItemStack(Material.ANVIL, 20),
                 new ItemBuilder(Material.FISHING_ROD).enchantment(Enchantment.DURABILITY, 100).enchantment(Enchantment.LUCK, 250).enchantment(Enchantment.LURE, 3).make());
+    }
+
+    @Override
+    public int getStartingLevels() {
+        return 20000;
     }
 }

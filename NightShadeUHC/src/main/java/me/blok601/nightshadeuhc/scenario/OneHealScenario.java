@@ -45,4 +45,9 @@ public class OneHealScenario extends Scenario implements StarterItems {
     public List<ItemStack> getStarterItems() {
         return MUtil.list(new ItemBuilder(Material.GOLD_HOE).name("&eMagical Tool").lore("&6Right click to receive a full heal! Only works once in the game").make());
     }
+
+    @Override
+    public int getStartingLevels() {
+        return 0;
+    }
 }

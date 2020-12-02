@@ -41,4 +41,9 @@ public class HobbitScenario extends Scenario implements StarterItems {
   public List<ItemStack> getStarterItems() {
     return MUtil.list(new ItemBuilder(Material.GOLD_NUGGET).name(ChatColor.YELLOW + "The Ring").lore("This is the Hobbit Ring! Rick click it to become invisible for 30 seconds!").make());
   }
+
+  @Override
+  public int getStartingLevels() {
+    return 0;
+  }
 }

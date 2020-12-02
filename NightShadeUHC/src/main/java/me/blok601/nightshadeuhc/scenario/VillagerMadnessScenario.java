@@ -22,4 +22,9 @@ public class VillagerMadnessScenario extends Scenario implements StarterItems {
     public List<ItemStack> getStarterItems() {
         return MUtil.list(new ItemStack(Material.EMERALD_BLOCK, 64), new ItemStack(Material.MONSTER_EGG, 64, (short) 120));
     }
+
+    @Override
+    public int getStartingLevels() {
+        return 0;
+    }
 }

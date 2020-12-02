@@ -24,11 +24,14 @@ public class PvPTask extends BukkitRunnable {
     public static int counter;
     private World w;
 
+    private boolean pvpEnabled;
+
     private GameManager gameManager;
     public PvPTask(int counter, World w, GameManager gameManager) {
         PvPTask.counter = counter;
         this.w = w;
         this.gameManager = gameManager;
+        pvpEnabled = false;
     }
 
     @Override
@@ -56,7 +59,7 @@ public class PvPTask extends BukkitRunnable {
 
             counter = -1;
             this.cancel();
-
+            pvpEnabled = true;
             return;
         }
 
@@ -68,6 +71,10 @@ public class PvPTask extends BukkitRunnable {
         counter--;
 
 
+    }
+
+    public boolean isPvpEnabled() {
+        return pvpEnabled;
     }
 
     private String formatTime(int i) {

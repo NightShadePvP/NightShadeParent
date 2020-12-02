@@ -24,4 +24,9 @@ public class StickyAndAfraidScenario extends Scenario implements StarterItems {
         return Lists.newArrayList(new ItemBuilder(Material.SHEARS).enchantment(Enchantment.SILK_TOUCH).make(),
                 new ItemStack(Material.WEB, 64), new ItemStack(Material.MONSTER_EGG, 3, (short) 59));
     }
+
+    @Override
+    public int getStartingLevels() {
+        return 0;
+    }
 }

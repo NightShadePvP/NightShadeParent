@@ -75,5 +75,10 @@
         public List<ItemStack> getStarterItems() {
             return MUtil.list(new ItemBuilder(Material.EGG).amount(16).make());
         }
+
+        @Override
+        public int getStartingLevels() {
+            return 0;
+        }
     }
 

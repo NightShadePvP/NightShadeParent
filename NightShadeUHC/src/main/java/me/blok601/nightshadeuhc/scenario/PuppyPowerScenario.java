@@ -19,4 +19,9 @@ public class PuppyPowerScenario extends Scenario implements StarterItems {
     public List<ItemStack> getStarterItems() {
         return MUtil.list(new ItemStack(Material.BONE, 64), new ItemStack(Material.ROTTEN_FLESH, 64), new ItemStack(Material.MONSTER_EGG, 64, (short) 95));
     }
+
+    @Override
+    public int getStartingLevels() {
+        return 0;
+    }
 }

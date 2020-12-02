@@ -66,4 +66,9 @@ public class BomberScenario extends Scenario implements StarterItems {
 
     return ImmutableList.of(new ItemStack(Material.FLINT_AND_STEEL));
   }
+
+  @Override
+  public int getStartingLevels() {
+    return 0;
+  }
 }

@@ -110,6 +110,7 @@ public class GameStartTask extends BukkitRunnable {
 
                         StarterItems starterItems = (StarterItems) scenario;
                         UHCPlayerColl.get().getAllPlaying().forEach(uP -> PlayerUtils.giveBulkItems(uP.getPlayer(), starterItems.getStarterItems()));
+                        UHCPlayerColl.get().getAllPlaying().forEach(uP -> uP.getPlayer().setLevel(uP.getPlayer().getLevel() + starterItems.getStartingLevels()));
                     }
 
                     Bukkit.getOnlinePlayers().forEach(p -> {

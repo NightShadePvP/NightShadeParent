@@ -18,4 +18,9 @@ public class EveryRoseScenario extends Scenario implements StarterItems {
   public List<ItemStack> getStarterItems() {
     return MUtil.list(new ItemBuilder(Material.GOLD_CHESTPLATE).enchantment(Enchantment.THORNS, 3).make());
   }
+
+  @Override
+  public int getStartingLevels() {
+    return 0;
+  }
 }

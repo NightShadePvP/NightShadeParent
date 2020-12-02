@@ -19,4 +19,9 @@ public class CreeperPongScenario extends Scenario implements StarterItems {
   public List<ItemStack> getStarterItems() {
     return MUtil.list(new ItemBuilder(Material.STICK).enchantment(Enchantment.KNOCKBACK, 10).make(), new ItemStack(Material.MONSTER_EGG, 20, (short) 50));
   }
+
+  @Override
+  public int getStartingLevels() {
+    return 0;
+  }
 }
