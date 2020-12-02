@@ -12,7 +12,7 @@ public class SpecInfoData {
 
     public static String translate(Player player, double health, Player damager, String string){
         if(damager!= null){
-            return ChatUtils.format(string.replaceAll("%player%", player.getName()).replaceAll("%health%", format.format(health/2).replaceAll("%damager%", damager.getName())));
+            return ChatUtils.format(string.replaceAll("%player%", player.getName()).replaceAll("%health%", format.format(health/2)).replaceAll("%damager%", damager.getName()));
         }else{
             return ChatUtils.format(string.replaceAll("%player%", player.getName()).replaceAll("%health%", format.format(health/2)).replaceAll("%damager%", ""));
         }

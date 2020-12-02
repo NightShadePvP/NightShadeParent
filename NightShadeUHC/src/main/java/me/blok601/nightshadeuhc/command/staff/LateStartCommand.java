@@ -72,6 +72,7 @@ public class LateStartCommand implements UHCCommand{
         target.playSound(target.getLocation(), Sound.CHICKEN_EGG_POP, 5, 5);
         p.sendMessage(ChatUtils.message("&aYou have scattered &e" + target.getName()));
         target.sendMessage(ChatUtils.message("&eYou were scattered!"));
+        ChatUtils.sendAll("&f" + target.getName() + " &bhas been late scattered!");
         Bukkit.getPluginManager().callEvent(new PlayerJoinGameLateEvent(target));
 
     }

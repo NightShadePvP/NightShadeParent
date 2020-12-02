@@ -185,6 +185,7 @@ public class GameListener implements Listener {
         Player player = e.getPlayer();
         UHCPlayer uhcPlayer = UHCPlayer.get(player);
         uhcPlayer.setChangedLevel(0);
+        player.setHealth(player.getMaxHealth());
         if (!gameManager.getWhitelist().contains(player.getName().toLowerCase())) {
             gameManager.getWhitelist().add(player.getName().toLowerCase());
         }

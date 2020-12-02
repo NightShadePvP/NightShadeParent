@@ -13,12 +13,16 @@ import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+
+import java.util.List;
 
 /**
  * Created by Blok on 12/2/2017.
  */
-public class RespawnCommand implements UHCCommand{
+public class RespawnCommand implements UHCCommand {
     @Override
     public String[] getNames() {
         return new String[]{
@@ -29,13 +33,13 @@ public class RespawnCommand implements UHCCommand{
     @Override
     public void onCommand(CommandSender s, Command cmd, String l, String[] args) {
         Player p = (Player) s;
-        if(args.length != 1){
+        if (args.length != 1) {
             p.sendMessage(ChatUtils.message("&cUsage: /respawn <player>"));
             return;
         }
 
         Player target = Bukkit.getPlayer(args[0]);
-        if(target == null){
+        if (target == null) {
             String id = args[0].toLowerCase();
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(id);
 //            if (UHC.players.contains(offlinePlayer.getUniqueId())) {
@@ -43,7 +47,7 @@ public class RespawnCommand implements UHCCommand{
 //                return;
 //            }
 
-            if(UHC.loggedOutPlayers.contains(offlinePlayer.getUniqueId())){
+            if (UHC.loggedOutPlayers.contains(offlinePlayer.getUniqueId())) {
                 //They are offline but not dead
                 p.sendMessage(ChatUtils.message("&cThat player hasn't died!"));
                 return;
@@ -66,12 +70,12 @@ public class RespawnCommand implements UHCCommand{
         }
 
         UHCPlayer targetUHCPlayer = UHCPlayer.get(target);
-        if(targetUHCPlayer.getPlayerStatus() == PlayerStatus.PLAYING){
+        if (targetUHCPlayer.getPlayerStatus() == PlayerStatus.PLAYING) {
             p.sendMessage(ChatUtils.message("&cThat player hasn't died!"));
             return;
         }
 
-        if(!GameManager.get().getInvs().containsKey(target.getUniqueId())){
+        if (!GameManager.get().getInvs().containsKey(target.getUniqueId())) {
             p.sendMessage(ChatUtils.message("&cThat player hasn't died yet!"));
             return;
         }
@@ -79,8 +83,8 @@ public class RespawnCommand implements UHCCommand{
         PlayerRespawn obj = GameManager.get().getInvs().get(target.getUniqueId());
 
 
-        if(targetUHCPlayer.isVanished()) targetUHCPlayer.unVanish();
-        if(targetUHCPlayer.isStaffMode()){
+        if (targetUHCPlayer.isVanished()) targetUHCPlayer.unVanish();
+        if (targetUHCPlayer.isStaffMode()) {
             Bukkit.getOnlinePlayers().forEach(o -> o.showPlayer(p));
             target.getActivePotionEffects().forEach(potionEffect -> p.removePotionEffect(potionEffect.getType()));
             targetUHCPlayer.setStaffMode(false);
@@ -90,7 +94,17 @@ public class RespawnCommand implements UHCCommand{
         }
 
         target.setGameMode(GameMode.SURVIVAL);
+        target.setCanPickupItems(false);
         target.teleport(obj.getLocation());
+        List<Entity> nearby = target.getNearbyEntities(3, 3, 3);
+        for (Entity entity : nearby){
+            if(!(entity instanceof Item)){
+                continue;
+            }
+
+            entity.remove(); //clear items in a 3 block radius
+        }
+        target.setCanPickupItems(true);
         if (targetUHCPlayer.isSpectator()) {
             targetUHCPlayer.unspec();
         }
