@@ -232,4 +232,7 @@ commands:
   opsvsworld:
     aliases: [opvsworld, opvw, opvworld]
     description: OPs vs World scenario command
+  helpopreply:
+    aliases: [hr, hreply]
+    description: Command for staff to reply to helpops
 

@@ -163,6 +163,7 @@ public class CommandHandler  {
         registerCommand(new SplitEnchantsComponent());
         registerCommand(new OresCommand());
         registerCommand(new OPsVsWorldCommand(scenarioManager));
+        registerCommand(new HelpOPReplyCommand());
     }
 
 

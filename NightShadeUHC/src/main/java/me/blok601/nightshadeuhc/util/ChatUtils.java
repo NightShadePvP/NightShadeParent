@@ -1,9 +1,12 @@
 package me.blok601.nightshadeuhc.util;
 
+import com.nightshadepvp.core.Rank;
+import com.nightshadepvp.core.entity.NSPlayer;
 import com.nightshadepvp.core.utils.fanciful.FancyMessage;
 import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.entity.UHCPlayer;
 import me.blok601.nightshadeuhc.entity.UHCPlayerColl;
+import me.blok601.nightshadeuhc.entity.object.HelpOP;
 import me.blok601.nightshadeuhc.manager.TeamManager;
 import me.blok601.nightshadeuhc.scenario.Scenario;
 import org.bukkit.Bukkit;
@@ -13,6 +16,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 
 /**
@@ -124,6 +129,14 @@ public class ChatUtils {
 
     public static void sendAllScenarioMessage(String message, Scenario scenario) {
         Bukkit.getOnlinePlayers().forEach(o -> scenario.sendMessage(o, message));
+    }
+
+    public static void sendHelpOPMessage(Player p, String message, HelpOP helpOP){
+        Stream<? extends Player> players = Bukkit.getOnlinePlayers().stream().filter(o -> NSPlayer.get(o.getUniqueId()).hasRank(Rank.TRIAL)).filter(o -> UHCPlayer.get(o.getUniqueId()).isReceiveHelpop());
+        FancyMessage fancyMessage = new FancyMessage(format( "&8[&cHelpOP&8] &c"+  p.getName() + ": "+ ChatColor.YELLOW + message));
+        fancyMessage.suggest("/hr " + helpOP.getId() + " ");
+        fancyMessage.tooltip(format("&eClick to respond to this HelpOP"));
+        players.forEach(fancyMessage::send);
     }
 
 }
