@@ -60,7 +60,7 @@ public class HelpOPReplyCommand implements UHCCommand {
             stringBuilder.append(args[i]);
         }
 
-        String response = stringBuilder.toString().trim();
+        String response = stringBuilder.toString();
 
         player.sendMessage(ChatUtils.format("&8[&cHelpOP Reply&8] &b" + response));
         PlayerUtils.playSound(Sound.NOTE_BASS, player);
