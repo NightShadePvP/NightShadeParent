@@ -57,7 +57,7 @@ public class HelpOPReplyCommand implements UHCCommand {
 
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 1; i < args.length; i++) {
-            stringBuilder.append(args[i]);
+            stringBuilder.append(args[i]).append(" ");
         }
 
         String response = stringBuilder.toString();
