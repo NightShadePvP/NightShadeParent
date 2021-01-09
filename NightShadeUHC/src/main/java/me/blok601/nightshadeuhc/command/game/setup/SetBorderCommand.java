@@ -2,6 +2,7 @@ package me.blok601.nightshadeuhc.command.game.setup;
 
 import com.nightshadepvp.core.Rank;
 import com.nightshadepvp.core.entity.NSPlayer;
+import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.command.UHCCommand;
 import me.blok601.nightshadeuhc.entity.MConf;
 import me.blok601.nightshadeuhc.manager.GameManager;
@@ -12,6 +13,7 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Created by Blok on 12/20/2018.
@@ -57,7 +59,12 @@ public class SetBorderCommand implements UHCCommand {
 
 
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "wb " + world.getName() + " set " + radius + " " + radius + " 0 0");
-            gameManager.genWalls(radius, gameManager.getWorld());
+            new BukkitRunnable(){
+                @Override
+                public void run() {
+                    gameManager.genWalls(radius, gameManager.getWorld());
+                }
+            }.runTaskLater(UHC.get(), 2);
             p.sendMessage(ChatUtils.message("&eThe border for &b" + world.getName() + " &eis now &b" + radius + " &ex&b " + radius));
 
         } else if (args.length == 2) {

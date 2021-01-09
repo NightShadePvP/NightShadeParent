@@ -49,8 +49,13 @@ public class WorldBorderTask extends BukkitRunnable {
             }
         } else if (counter == 0) {
             bd.setRadius(first);
-            gameManager.genWalls(first, gameManager.getWorld());
-            gameManager.setBorderID(gameManager.getBorderID() + 1);
+            new BukkitRunnable(){
+                @Override
+                public void run() {
+                    gameManager.genWalls(first, gameManager.getWorld());
+                    gameManager.setBorderID(gameManager.getBorderID() + 1);
+                }
+            }.runTaskLater(UHC.get(), 2);
             for (Player pls : Bukkit.getOnlinePlayers()) {
                 pls.playSound(pls.getLocation(), Sound.BAT_DEATH, 5, 1);
             }

@@ -37,8 +37,13 @@ public class ShrinkTask extends BukkitRunnable {
                 } else if (counter == 0) {
                     BorderData bd = com.wimbli.WorldBorder.WorldBorder.plugin.getWorldBorder(world.getName());
                     bd.setRadius(GameManager.get().getShrinks()[GameManager.get().getBorderID()]);
-                    GameManager.get().genWalls(GameManager.get().getShrinks()[GameManager.get().getBorderID()], GameManager.get().getWorld());
-                    GameManager.get().setBorderID(GameManager.get().getBorderID() + 1);
+                    new BukkitRunnable(){
+                        @Override
+                        public void run() {
+                            GameManager.get().genWalls(GameManager.get().getShrinks()[GameManager.get().getBorderID()], GameManager.get().getWorld());
+                            GameManager.get().setBorderID(GameManager.get().getBorderID() + 1);
+                        }
+                    }.runTaskLater(UHC.get(), 2);
                     //this.counter = 300;
 
 
