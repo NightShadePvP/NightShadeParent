@@ -66,7 +66,7 @@
         </repository>
         <repository>
             <id>enginehub-maven</id>
-            <url>http://maven.enginehub.org/repo/</url>
+            <url>https://maven.enginehub.org/repo/</url>
         </repository>
     </repositories>
 
@@ -110,9 +110,9 @@
         </dependency>
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
-            <artifactId>worldedit-bukkit</artifactId>
+            <artifactId>worldedit-core</artifactId>
             <scope>provided</scope>
-            <version>6.0.0-SNAPSHOT</version>
+            <version>6.1.4-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.bukkit</groupId>
