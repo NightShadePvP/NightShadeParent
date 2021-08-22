@@ -125,7 +125,7 @@ public class ScenarioManager implements UHCCommand {
         //addScen(new VengefulSpiritsScenario(), "VS");
         addScen(new MolesScenario());
         addScen(new GoldenRetrieverScenario());
-        addScen(new AnonymousScenario(), "Anon"); //Put this at bottom to test alphabetical order
+       // addScen(new AnonymousScenario(), "Anon"); //Put this at bottom to test alphabetical order
         addScen(new DoubleDatesScenario());
         addScen(new SecretTeamsScenario());
         addScen(new StickyAndAfraidScenario());

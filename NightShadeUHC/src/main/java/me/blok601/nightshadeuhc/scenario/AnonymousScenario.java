@@ -48,7 +48,7 @@ public class AnonymousScenario extends Scenario {
     }
 
     public void assign(UHCPlayer uhcPlayer){
-        UHC.getApi().disguise(uhcPlayer.getPlayer(), new PlayerDisguise(disuigse));
+//        UHC.getApi().disguise(uhcPlayer.getPlayer(), new PlayerDisguise(disuigse));
         uhcPlayer.msg(ChatUtils.format( "&4Anonymous&8» &eYou are now disguised as" + disuigse));
         uhcPlayer.setDisguised(true);
         uhcPlayer.setDisguisedName(disuigse);
