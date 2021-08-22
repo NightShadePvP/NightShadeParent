@@ -25,7 +25,7 @@ import com.nightshadepvp.tournament.scoreboard.ScoreboardLib;
 import com.nightshadepvp.tournament.task.WeatherTask;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
-import com.sk89q.worldedit.bukkit.selections.Selection;
+import com.sk89q.worldedit.regions.CuboidRegion;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -38,7 +38,11 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.Plugin;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public final class Tournament extends MassivePlugin {
@@ -52,7 +56,7 @@ public final class Tournament extends MassivePlugin {
     private Location spawnLocation;
     private Location editLocation;
     private Challonge challonge;
-    private Selection editLocationSelection;
+    private CuboidSelection editLocationSelection;
     private CachedGame cachedGame;
     private MongoCollection<Document> tourneyCollection;
     private ArrayList<ItemStack> hofInventoryItems;
@@ -211,11 +215,11 @@ public final class Tournament extends MassivePlugin {
         this.challonge = challonge;
     }
 
-    public Selection getEditLocationSelection() {
+    public CuboidSelection getEditLocationSelection() {
         return editLocationSelection;
     }
 
-    public void setEditLocationSelection(Selection editLocationSelection) {
+    public void setEditLocationSelection(CuboidSelection editLocationSelection) {
         this.editLocationSelection = editLocationSelection;
     }
 

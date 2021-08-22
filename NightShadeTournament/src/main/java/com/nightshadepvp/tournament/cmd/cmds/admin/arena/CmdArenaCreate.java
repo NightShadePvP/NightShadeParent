@@ -12,6 +12,7 @@ import com.nightshadepvp.tournament.entity.TPlayer;
 import com.nightshadepvp.tournament.entity.handler.ArenaHandler;
 import com.nightshadepvp.tournament.entity.objects.data.Arena;
 import com.nightshadepvp.tournament.utils.ChatUtils;
+import com.sk89q.worldedit.LocalSession;
 import org.bukkit.entity.Player;
 
 /**
@@ -38,6 +39,7 @@ public class CmdArenaCreate extends NightShadeTournamentCommand  {
             p.sendMessage(ChatUtils.message("&cThat arena has already been created! Make sure it is set up properly!"));
             return;
         }
+
 
         if(Tournament.get().getWorldEdit().getSelection(p) == null){
             p.sendMessage(ChatUtils.message("&cYou must have a valid World Edit selection!"));
