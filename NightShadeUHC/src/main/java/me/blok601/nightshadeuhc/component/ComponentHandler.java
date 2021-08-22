@@ -57,6 +57,7 @@ public class ComponentHandler {
         addComponent(new SpectatorInfoComponent(plugin));
         addComponent(new GoldenHeadConsume());
         addComponent(new FriendlyFireComponent());
+        addComponent(new CrossTeamingComponent());
 
         this.components.sort(Comparator.comparing(Component::getName));
     }

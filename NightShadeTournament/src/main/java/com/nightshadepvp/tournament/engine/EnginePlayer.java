@@ -16,7 +16,6 @@ import com.nightshadepvp.tournament.entity.handler.GameHandler;
 import com.nightshadepvp.tournament.entity.handler.KitHandler;
 import com.nightshadepvp.tournament.entity.handler.MatchHandler;
 import com.nightshadepvp.tournament.entity.objects.data.Kit;
-import com.nightshadepvp.tournament.entity.objects.game.SoloMatch;
 import com.nightshadepvp.tournament.entity.objects.game.iMatch;
 import com.nightshadepvp.tournament.entity.objects.player.PlayerInv;
 import com.nightshadepvp.tournament.utils.ChatUtils;
@@ -40,7 +39,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.*;
-import us.myles.ViaVersion.api.ViaVersion;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,11 +59,7 @@ public class EnginePlayer extends Engine {
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
         TPlayer tPlayer = TPlayer.get(player);
-        if (ViaVersion.getInstance().getPlayerVersion(player) == 47) {
-            tPlayer.setUsingOldVersion(false);
-        } else {
-            tPlayer.setUsingOldVersion(true);
-        }
+        tPlayer.setUsingOldVersion(false);
         FileConfiguration config;
         File file;
         if (Settings.getSettings().playerFileExists(player, Tournament.get())) {

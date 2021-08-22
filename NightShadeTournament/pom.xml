@@ -97,13 +97,6 @@
             <systemPath>${project.basedir}/src/main/resources/libs/MassiveCore.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>us.myles</groupId>
-            <artifactId>viaversion</artifactId>
-            <version>LATEST</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/src/main/resources/libs/ViaVersion-1.4.1.jar</systemPath>
-        </dependency>
-        <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>craftbukkit</artifactId>
             <version>LATEST</version>
