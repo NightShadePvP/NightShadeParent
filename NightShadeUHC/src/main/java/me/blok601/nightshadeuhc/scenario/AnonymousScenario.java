@@ -1,7 +1,5 @@
 package me.blok601.nightshadeuhc.scenario;
 
-import de.robingrether.idisguise.disguise.PlayerDisguise;
-import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.entity.UHCPlayer;
 import me.blok601.nightshadeuhc.entity.UHCPlayerColl;
 import me.blok601.nightshadeuhc.event.GameStartEvent;
