@@ -3,14 +3,12 @@ version: 4.0
 main: me.blok601.nightshadeuhc.UHC
 prefix: UHC
 authors: [blok601, Database]
-depend: [Core, WorldBorder, Multiverse-Core, iDisguise]
+depend: [Core, WorldBorder, Multiverse-Core]
 description: NightShadePvP UHC Plugin that runs on the UHC Servers
 website: www.nightshadepvp.com
 commands:
   spec:
     description: Spectator Command
-  helpop:
-    description: HelpopCommand Command
   team:
     description: Team Base command
   pm:
@@ -19,8 +17,6 @@ commands:
   pmcoords:
     description: Send your coords to your team
     aliases: [pmc, sendcoords]
-  pvp:
-    description: PvP toggler
   whitelist:
     description: Whitelist command
     aliases: [wl, wlist]
@@ -92,8 +88,6 @@ commands:
   ewl:
   latestart:
     aliases: [latescatter]
-  killtop:
-    aliases: [kt]
   explain:
     description: View scenario descriptions
   rates:

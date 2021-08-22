@@ -10,7 +10,6 @@ import com.nightshadepvp.core.Core;
 import com.nightshadepvp.core.Logger;
 import com.nightshadepvp.core.entity.NSPlayer;
 import com.onarandombox.MultiverseCore.MultiverseCore;
-import de.robingrether.idisguise.api.DisguiseAPI;
 import me.blok601.nightshadeuhc.command.CommandHandler;
 import me.blok601.nightshadeuhc.command.UHCCommand;
 import me.blok601.nightshadeuhc.command.staff.PvPCommand;
@@ -49,7 +48,6 @@ public class UHC extends MassivePlugin implements PluginMessageListener {
         return i;
     }
 
-    private DisguiseAPI api;
     private MultiverseCore multiverseCore;
 
     private ScenarioManager scenarioManager;
@@ -92,7 +90,7 @@ public class UHC extends MassivePlugin implements PluginMessageListener {
 
         }
 
-        api = getServer().getServicesManager().getRegistration(DisguiseAPI.class).getProvider();
+
         setupExtraDatabase().thenAcceptAsync(aBoolean -> StatsHandler.getInstance().setup());
 
 
@@ -234,16 +232,9 @@ public class UHC extends MassivePlugin implements PluginMessageListener {
     }
 
 
-    public static DisguiseAPI getApi() {
-        return get().getDisguiseAPI();
-    }
 
     public static MultiverseCore getMultiverseCore() {
         return get().getMultiverseCorePlugin();
-    }
-
-    public DisguiseAPI getDisguiseAPI() {
-        return api;
     }
 
     public MultiverseCore getMultiverseCorePlugin() {

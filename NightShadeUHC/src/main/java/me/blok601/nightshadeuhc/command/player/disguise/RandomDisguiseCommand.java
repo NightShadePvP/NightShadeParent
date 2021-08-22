@@ -2,7 +2,6 @@ package me.blok601.nightshadeuhc.command.player.disguise;
 
 import com.nightshadepvp.core.Rank;
 import com.nightshadepvp.core.entity.NSPlayer;
-import de.robingrether.idisguise.disguise.PlayerDisguise;
 import me.blok601.nightshadeuhc.UHC;
 import me.blok601.nightshadeuhc.command.UHCCommand;
 import me.blok601.nightshadeuhc.entity.UHCPlayer;
@@ -19,7 +18,7 @@ import java.util.UUID;
 /**
  * Created by Blok on 7/20/2017.
  */
-public class RandomDisguiseCommand implements UHCCommand{
+public class RandomDisguiseCommand implements UHCCommand {
 
 
     private static HashMap<UUID, DisguiseObject> dis = new HashMap<>();
@@ -51,23 +50,21 @@ public class RandomDisguiseCommand implements UHCCommand{
         String name = getFullName();
 
 
-             gamePlayer.setDisguised(true);
+        gamePlayer.setDisguised(true);
         gamePlayer.setDisguisedName(name);
 
-            object.setDisguisedName(gamePlayer.getDisguisedName());
+        object.setDisguisedName(gamePlayer.getDisguisedName());
 
-        UHC.getApi().disguise(p, new PlayerDisguise(name));
+//        UHC.getApi().disguise(p, new PlayerDisguise(name));
         p.sendMessage(ChatUtils.message("&6Disguised as: " + name));
-            u.setRank(Rank.PLAYER);
-            if(p.isOp()){
-                p.setOp(false);
-                p.sendMessage(ChatUtils.message("&bYou have been de-opped because you disguised!"));
-                object.setOp(true);
-            }
+        u.setRank(Rank.PLAYER);
+        if (p.isOp()) {
+            p.setOp(false);
+            p.sendMessage(ChatUtils.message("&bYou have been de-opped because you disguised!"));
+            object.setOp(true);
+        }
 
-            dis.put(p.getUniqueId(), object);
-
-
+        dis.put(p.getUniqueId(), object);
     }
 
     @Override
@@ -85,18 +82,19 @@ public class RandomDisguiseCommand implements UHCCommand{
         return true;
     }
 
-    private  String getName1(){
+    private String getName1() {
         return l1.get(r1.nextInt(l1.size()));
     }
-    private  String getName2(){
+
+    private String getName2() {
         return l2.get(r2.nextInt(l2.size()));
     }
 
-    private   String getName3(){
+    private String getName3() {
         return l3.get(r3.nextInt(l3.size()));
     }
 
-    public String getFullName(){
+    public String getFullName() {
         StringBuilder sb = new StringBuilder();
         sb.append(getName1());
         sb.append(getName2());
